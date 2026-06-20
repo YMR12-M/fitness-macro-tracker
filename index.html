@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTrack Pro — Nutrition & Workout Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════
+       SIDEBAR
+  ════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#00E5A0"/>
+        <path d="M8 18h4m0 0V11m0 7v7m8-14v14m0-7h4m4-4v8" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">FitTrack Pro</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="sidebar-section-label">Home</span>
+      <a href="#" class="nav-item active" data-page="dashboard">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="log">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Food Logging</span>
+      </a>
+      <a href="#" class="nav-item" data-page="workout">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4v16M18 4v16M4 8h4M16 8h4M4 16h4M16 16h4"/></svg>
+        <span>Workouts</span>
+      </a>
+
+      <span class="sidebar-section-label">Analytics</span>
+      <a href="#" class="nav-item" data-page="progress">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 3 5-6 4 4"/><path d="M3 3v18h18"/></svg>
+        <span>Progress</span>
+      </a>
+      <a href="#" class="nav-item" data-page="goals">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+        <span>Goals</span>
+      </a>
+      <a href="#" class="nav-item" data-page="calculator">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/></svg>
+        <span>TDEE Calculator</span>
+      </a>
+
+      <span class="sidebar-section-label">Settings</span>
+      <a href="#" class="nav-item" data-page="settings">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">AH</div>
+      <div class="user-info">
+        <span class="user-name">Ahmed Hassan</span>
+        <span class="user-plan">Pro Member ✓</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════ -->
+  <main class="main" id="main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-date" id="todayDate"></div>
+      <div class="topbar-actions">
+        <!-- Notifications -->
+        <div class="notif-wrapper">
+          <button class="btn-icon" id="notifBtn" onclick="toggleNotifications()" aria-label="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notif-badge" id="notifBadge">2</span>
+          </button>
+          <div class="notif-panel" id="notifPanel">
+            <div class="notif-header">
+              <span>Notifications</span>
+              <button class="btn-ghost small-btn" onclick="state.notifications.forEach(n=>n.read=true);renderNotifications()">Mark all read</button>
+            </div>
+            <div class="notif-list" id="notifList"></div>
+          </div>
+        </div>
+        <button class="btn-primary" id="addFoodBtn">+ Add Meal</button>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════
+         DASHBOARD PAGE
+    ══════════════════════════════════════ -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <h1 class="page-title">Hello, Ahmed! 💪</h1>
+        <p class="page-subtitle">Your daily nutrition & fitness summary — <span id="todayDate2"></span></p>
+      </div>
+
+      <!-- Calorie Ring + Macros -->
+      <div class="overview-grid">
+        <div class="calorie-card card">
+          <p class="card-label">Calories Today</p>
+          <div class="calorie-ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="82" fill="none" stroke="#1a1a1a" stroke-width="14"/>
+              <circle cx="100" cy="100" r="82" fill="none" stroke="#00E5A0" stroke-width="14"
+                stroke-dasharray="515" stroke-dashoffset="154" stroke-linecap="round"
+                transform="rotate(-90 100 100)" id="calorieArc"/>
+            </svg>
+            <div class="ring-center">
+              <span class="ring-val" id="caloriesEaten">1,480</span>
+              <span class="ring-label">kcal eaten</span>
+              <span class="ring-sub" id="caloriesLeft">520 remaining</span>
+              <span class="ring-percent" id="ringPercent">74%</span>
+            </div>
+          </div>
+          <div class="calorie-legend">
+            <div class="leg-item">
+              <span class="leg-dot" style="background:var(--green)"></span>
+              <span>Eaten</span>
+              <strong id="legEaten">1,480</strong>
+            </div>
+            <div class="leg-item">
+              <span class="leg-dot" style="background:#222"></span>
+              <span>Goal</span>
+              <strong>2,000</strong>
+            </div>
+            <div class="leg-item">
+              <span class="leg-dot" style="background:var(--orange)"></span>
+              <span>Burned</span>
+              <strong id="legBurned">320</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="macros-col">
+          <!-- Macros -->
+          <div class="macro-card card">
+            <div class="macro-header">
+              <span class="macro-icon">🥩</span>
+              <div>
+                <p class="macro-name">Protein</p>
+                <p class="macro-vals"><span id="proteinVal">98</span>g / 150g</p>
+              </div>
+              <span class="macro-pct" id="proteinPct">65%</span>
+            </div>
+            <div class="macro-bar"><div class="macro-fill protein-fill" id="proteinBar" style="width:65%"></div></div>
+          </div>
+
+          <div class="macro-card card">
+            <div class="macro-header">
+              <span class="macro-icon">🌾</span>
+              <div>
+                <p class="macro-name">Carbs</p>
+                <p class="macro-vals"><span id="carbsVal">180</span>g / 200g</p>
+              </div>
+              <span class="macro-pct" id="carbsPct">90%</span>
+            </div>
+            <div class="macro-bar"><div class="macro-fill carbs-fill" id="carbsBar" style="width:90%"></div></div>
+          </div>
+
+          <div class="macro-card card">
+            <div class="macro-header">
+              <span class="macro-icon">🥑</span>
+              <div>
+                <p class="macro-name">Fat</p>
+                <p class="macro-vals"><span id="fatVal">42</span>g / 65g</p>
+              </div>
+              <span class="macro-pct" id="fatPct">65%</span>
+            </div>
+            <div class="macro-bar"><div class="macro-fill fat-fill" id="fatBar" style="width:65%"></div></div>
+          </div>
+
+          <div class="macro-card card">
+            <div class="macro-header">
+              <span class="macro-icon">💧</span>
+              <div>
+                <p class="macro-name">Water</p>
+                <p class="macro-vals"><span id="waterVal">1.8</span>L / 2.5L</p>
+              </div>
+              <span class="macro-pct" id="waterPct">72%</span>
+            </div>
+            <div class="macro-bar"><div class="macro-fill water-fill" id="waterBar" style="width:72%"></div></div>
+            <div class="water-btns">
+              <button class="water-btn" onclick="addWater(0.25)">+250ml</button>
+              <button class="water-btn" onclick="addWater(0.5)">+500ml</button>
+              <button class="water-btn" onclick="addWater(-0.25)">-250ml</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div>
+            <p class="stat-val" id="netCalStat">1,160</p>
+            <p class="stat-label">Net Calories</p>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>
+          <div>
+            <p class="stat-val" id="workoutMinStat">45 min</p>
+            <p class="stat-label">Workout Time</p>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <div>
+            <p class="stat-val">7,420</p>
+            <p class="stat-label">Steps Today</p>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <div>
+            <p class="stat-val">12 days</p>
+            <p class="stat-label">Current streak 🔥</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Macro Donut -->
+      <div class="chart-card card" style="margin-bottom:1.25rem">
+        <div class="chart-header">
+          <h2 class="section-title" style="margin:0">Macro distribution</h2>
+        </div>
+        <div class="donut-wrap">
+          <div class="donut-canvas-wrap"><canvas id="donutChart"></canvas></div>
+          <div class="donut-legend">
+            <div class="donut-leg-item"><span class="donut-dot" style="background:var(--green)"></span>Protein</div>
+            <div class="donut-leg-item"><span class="donut-dot" style="background:var(--blue)"></span>Carbs</div>
+            <div class="donut-leg-item"><span class="donut-dot" style="background:var(--orange)"></span>Fat</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Meals -->
+      <div class="section-header">
+        <h2 class="section-title">Today's Meals</h2>
+        <button class="btn-ghost" onclick="showPage('log')">Log Meal ←</button>
+      </div>
+      <div id="mealsList"></div>
+
+      <!-- Weekly Chart -->
+      <div class="chart-card card">
+        <div class="chart-header">
+          <h2 class="section-title" style="margin:0">Calories — Last 7 days</h2>
+          <div class="chart-legend">
+            <span><span class="leg-dot" style="background:var(--green);display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:4px"></span>Eaten</span>
+            <span><span class="leg-dot" style="background:var(--orange);display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:4px"></span>Burned</span>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="weeklyChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         LOG FOOD PAGE
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-log">
+      <div class="page-header">
+        <h1 class="page-title">Food Logging</h1>
+        <p class="page-subtitle">Search the food database or add manually</p>
+      </div>
+
+      <div class="search-section card">
+        <div class="search-bar">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="foodSearch" class="search-input" placeholder="Search food... (rice, chicken, bread, protein...)"
+            oninput="searchFood(this.value)" autocomplete="off" />
+        </div>
+        <div class="meal-type-tabs">
+          <button class="tab-btn active" onclick="selectMealType(this,'breakfast')">☀️ Breakfast</button>
+          <button class="tab-btn" onclick="selectMealType(this,'lunch')">🌤️ Lunch</button>
+          <button class="tab-btn" onclick="selectMealType(this,'dinner')">🌙 Dinner</button>
+          <button class="tab-btn" onclick="selectMealType(this,'snack')">⚡ Snack</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">Added Today</h2>
+        <button class="btn-primary" onclick="openModal('foodModal')">+ Manual</button>
+      </div>
+      <div id="loggedFoods"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         WORKOUT PAGE
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-workout">
+      <div class="page-header">
+        <h1 class="page-title">Workouts</h1>
+        <p class="page-subtitle">Workout programs and daily session logs</p>
+      </div>
+
+      <div class="workout-top">
+        <div class="card workout-summary-card">
+          <p class="card-label">Days of the Week</p>
+          <div class="workout-week-bar">
+            <div class="day-pill done">Sunday</div>
+            <div class="day-pill done">Monday</div>
+            <div class="day-pill today">Tuesday</div>
+            <div class="day-pill">Wednesday</div>
+            <div class="day-pill">Thursday</div>
+            <div class="day-pill">Friday</div>
+            <div class="day-pill">Saturday</div>
+          </div>
+        </div>
+        <button class="btn-primary big-btn" onclick="openWorkoutModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-left:6px"><path d="M12 5v14M5 12h14"/></svg>
+          Start a new workout
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">Workout Programs</h2>
+      </div>
+      <div class="workout-programs" id="workoutPrograms"></div>
+
+      <div class="section-header" style="margin-top:2rem">
+        <h2 class="section-title">Today's Workouts</h2>
+        <span style="font-size:12px;color:var(--text3)" id="workoutDate"></span>
+      </div>
+      <div id="todayExercises"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PROGRESS PAGE
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-progress">
+      <div class="page-header">
+        <h1 class="page-title">Progress</h1>
+        <p class="page-subtitle">Track your progress over time</p>
+      </div>
+
+      <div class="progress-stats-grid">
+        <div class="progress-stat card">
+          <p class="card-label">Current Weight</p>
+          <p class="big-num" id="currentWeightStat">82.5 <span class="unit">kg</span></p>
+          <span class="change-badge negative">-4.5 kg ↓</span>
+        </div>
+        <div class="progress-stat card">
+          <p class="card-label">BMI</p>
+          <p class="big-num">26.0</p>
+          <span class="change-badge neutral">Slight gain</span>
+        </div>
+        <div class="progress-stat card">
+          <p class="card-label">Muscle Mass</p>
+          <p class="big-num">68.2 <span class="unit">%</span></p>
+          <span class="change-badge positive">+0.8% ↑</span>
+        </div>
+        <div class="progress-stat card">
+          <p class="card-label">Body Fat</p>
+          <p class="big-num">18.4 <span class="unit">%</span></p>
+          <span class="change-badge positive">-0.6% ↓</span>
+        </div>
+      </div>
+
+      <!-- Weight Chart -->
+      <div class="weight-log-section card">
+        <div class="chart-header">
+          <h2 class="section-title" style="margin:0">Weight Curve</h2>
+          <button class="btn-primary" onclick="openWeightModal()">+ Log Weight</button>
+        </div>
+        <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
+      </div>
+
+      <!-- Macro History Chart -->
+      <div class="chart-card card">
+        <div class="chart-header">
+          <h2 class="section-title" style="margin:0">Macro History (7 days)</h2>
+        </div>
+        <div class="chart-wrap" style="height:220px"><canvas id="macroChart"></canvas></div>
+      </div>
+
+      <!-- Progress Photos -->
+      <h2 class="section-title" style="margin:1.5rem 0 1rem">Progress Photos</h2>
+      <div class="photo-grid">
+        <div class="photo-slot card">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <p>January 2025</p>
+        </div>
+        <div class="photo-slot card">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <p>March 2025</p>
+        </div>
+        <div class="photo-slot card add-photo" onclick="showToast('Photo upload feature coming soon ✨')">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+          <p>Add Photo</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         GOALS PAGE
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-goals">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div>
+          <h1 class="page-title">Goals</h1>
+          <p class="page-subtitle">Set your goals and track progress</p>
+        </div>
+        <button class="btn-primary big-btn" onclick="openGoalModal()">+ New Goal</button>
+      </div>
+      <div class="goals-grid" id="goalsGrid"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TDEE CALCULATOR PAGE
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-calculator">
+      <div class="page-header">
+        <h1 class="page-title">TDEE Calculator</h1>
+        <p class="page-subtitle">Calculate your daily calorie and macro needs</p>
+      </div>
+
+      <div class="calc-grid">
+        <!-- Form -->
+        <div class="calc-form card">
+          <p class="card-label" style="margin-bottom:1.25rem">Your Personal Info</p>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Weight (kg)</label>
+                <input type="number" id="tdeeWeight" class="form-input" value="82" />
+              </div>
+              <div class="form-group">
+                <label>Height (cm)</label>
+                <input type="number" id="tdeeHeight" class="form-input" value="178" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Age</label>
+                <input type="number" id="tdeeAge" class="form-input" value="28" />
+              </div>
+              <div class="form-group">
+                <label>Gender</label>
+                <select id="tdeeGender" class="form-input">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Activity Level</label>
+              <select id="tdeeActivity" class="form-input">
+                <option value="1.2">Sedentary (No exercise)</option>
+                <option value="1.375">Light (1-3 days/week)</option>
+                <option value="1.55" selected>Moderate (3-5 days/week)</option>
+                <option value="1.725">Active (6-7 days/week)</option>
+                <option value="1.9">Athlete</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Goal</label>
+              <select id="tdeeGoal" class="form-input">
+                <option value="cut">Weight loss (cut)</option>
+                <option value="maintain">Maintain weight</option>
+                <option value="bulk">Build muscle</option>
+              </select>
+            </div>
+            <button class="btn-primary big-btn" onclick="calcTDEE()" style="margin-top:0.5rem">Calculate now</button>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="calc-results card" id="tdeeResults">
+          <p class="card-label" style="margin-bottom:1.25rem">Results</p>
+
+          <div class="result-row">
+            <span class="result-label">Basal Metabolic Rate (BMR)</span>
+            <span class="result-val" id="tdeeBMR">—</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Total Daily Energy Expenditure (TDEE)</span>
+            <span class="result-val" id="tdeeTDEE">—</span>
+          </div>
+          <div class="result-row result-highlight">
+            <span class="result-label" style="font-weight:700;color:var(--text)">🎯 Daily calorie goal</span>
+            <span class="result-val" id="tdeeTarget" style="color:var(--green)">—</span>
+          </div>
+
+          <p class="card-label" style="margin:1.25rem 0 0.75rem">Suggested macro split</p>
+          <div class="macro-results">
+            <div class="macro-result-box p">
+              <div class="val" id="tdeeProtein">—</div>
+              <div class="lbl">🥩 Protein</div>
+            </div>
+            <div class="macro-result-box c">
+              <div class="val" id="tdeeCarbs">—</div>
+              <div class="lbl">🌾 Carb</div>
+            </div>
+            <div class="macro-result-box f">
+              <div class="val" id="tdeeFat">—</div>
+              <div class="lbl">🥑 Fat</div>
+            </div>
+          </div>
+
+          <button class="btn-primary big-btn" id="applyTdeeBtn" onclick="applyTDEE()" style="margin-top:1.5rem;width:100%;display:none">
+            ✓ Apply target to app
+          </button>
+
+          <p style="font-size:11px;color:var(--text3);margin-top:1rem;text-align:center">
+            Formula: Mifflin-St Jeor · consult a nutritionist for medical advice
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SETTINGS PAGE
+    ══════════════════════════════════════ -->
+    <div class="page" id="page-settings">
+      <div class="page-header">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Customize the app and your preferences</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:1.25rem;max-width:600px">
+
+        <!-- Profile -->
+        <div class="card" style="padding:1.5rem">
+          <p class="card-label" style="margin-bottom:1.25rem">Profile</p>
+          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem">
+            <div class="user-avatar" style="width:56px;height:56px;font-size:18px">AH</div>
+            <div>
+              <p style="font-weight:700;font-size:16px">Ahmed Hassan</p>
+              <p style="font-size:12px;color:var(--text3)">ahmed@fittrack.com · Pro Member</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="form-row">
+              <div class="form-group"><label>Name</label><input type="text" class="form-input" value="Ahmed Hassan"/></div>
+              <div class="form-group"><label>Age</label><input type="number" class="form-input" value="28"/></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Weight (kg)</label><input type="number" class="form-input" value="82.5" step="0.1"/></div>
+              <div class="form-group"><label>Height (cm)</label><input type="number" class="form-input" value="178"/></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nutrition Goals -->
+        <div class="card" style="padding:1.5rem">
+          <p class="card-label" style="margin-bottom:1.25rem">Nutrition Goals</p>
+          <div style="display:flex;flex-direction:column;gap:1rem">
+            <div class="form-group">
+              <label>Daily calorie goal</label>
+              <div style="display:flex;gap:8px">
+                <input type="number" id="calGoalInput" class="form-input" value="2000" style="flex:1"/>
+                <button class="btn-primary" onclick="updateCalGoal()">Apply</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Daily protein goal (g)</label>
+              <input type="number" class="form-input" value="150"/>
+            </div>
+            <div class="form-group">
+              <label>Daily water goal (L)</label>
+              <input type="number" class="form-input" value="2.5" step="0.5"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Status -->
+        <div class="card" style="padding:1.5rem">
+          <p class="card-label" style="margin-bottom:1rem">Server Connection Status</p>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span id="apiDot" style="width:10px;height:10px;border-radius:50%;background:var(--orange);flex-shrink:0"></span>
+            <span id="apiStatus" style="font-size:13px;color:var(--text2)">Running locally (server disconnected)</span>
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:8px">
+            To enable the server: run FastAPI or PHP API on localhost
+          </p>
+        </div>
+
+        <!-- About -->
+        <div class="card" style="padding:1.5rem">
+          <p class="card-label" style="margin-bottom:0.75rem">About the app</p>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--text2)">
+            <div style="display:flex;justify-content:space-between"><span>Version</span><span style="color:var(--text)">v2.0.0</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Frontend tech</span><span style="color:var(--text)">HTML/CSS/Vanilla JS</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Backend</span><span style="color:var(--text)">FastAPI / PHP / Spring Boot</span></div>
+            <div style="display:flex;justify-content:space-between"><span>Charts</span><span style="color:var(--text)">Chart.js v4</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ════════════════════════════════════════
+       MODALS
+  ════════════════════════════════════════ -->
+
+  <!-- MODAL: Add Food -->
+  <div class="modal-overlay" id="foodModal">
+    <div class="modal card">
+      <div class="modal-header">
+        <h2>Add Food Manually</h2>
+        <button class="btn-icon" onclick="closeModal('foodModal')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Food Name *</label>
+          <input type="text" id="fName" class="form-input" placeholder="Example: Grilled chicken breast" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Calories *</label>
+            <input type="number" id="fCal" class="form-input" placeholder="200" />
+          </div>
+          <div class="form-group">
+            <label>Protein (g)</label>
+            <input type="number" id="fProt" class="form-input" placeholder="25" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Carbs (g)</label>
+            <input type="number" id="fCarbs" class="form-input" placeholder="10" />
+          </div>
+          <div class="form-group">
+            <label>Fat (g)</label>
+            <input type="number" id="fFat" class="form-input" placeholder="5" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Meal Type</label>
+          <select id="fMeal" class="form-input">
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Dinner</option>
+            <option>Snack</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeModal('foodModal')">Cancel</button>
+        <button class="btn-primary" onclick="addFood()">Add ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Weight -->
+  <div class="modal-overlay" id="weightModal">
+    <div class="modal card">
+      <div class="modal-header">
+        <h2>Log Weight</h2>
+        <button class="btn-icon" onclick="closeModal('weightModal')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Weight (kg) *</label>
+          <input type="number" step="0.1" id="wWeight" class="form-input" placeholder="82.5" />
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="wDate" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="wNotes" class="form-input" rows="2" placeholder="Example: right after waking up..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeModal('weightModal')">Cancel</button>
+        <button class="btn-primary" onclick="logWeight()">Save ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Workout -->
+  <div class="modal-overlay" id="workoutModal">
+    <div class="modal card">
+      <div class="modal-header">
+        <h2>Log Workout</h2>
+        <button class="btn-icon" onclick="closeModal('workoutModal')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Workout Type</label>
+          <select id="wType" class="form-input">
+            <option>Chest & Triceps</option>
+            <option>Back & Biceps</option>
+            <option>Legs</option>
+            <option>Shoulders</option>
+            <option>Cardio</option>
+            <option>Full Body</option>
+            <option>HIIT</option>
+            <option>Stretch & Recovery</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Duration (min) *</label>
+            <input type="number" id="wDuration" class="form-input" placeholder="45" min="1" />
+          </div>
+          <div class="form-group">
+            <label>Calories Burned</label>
+            <input type="number" id="wCalBurned" class="form-input" placeholder="300" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Intensity</label>
+          <div class="intensity-btns">
+            <button class="intens-btn active" data-val="light">🟢 Light</button>
+            <button class="intens-btn" data-val="moderate">🟡 Moderate</button>
+            <button class="intens-btn" data-val="intense">🔴 Intense</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeModal('workoutModal')">Cancel</button>
+        <button class="btn-primary" onclick="logWorkout()">Save ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Goal -->
+  <div class="modal-overlay" id="goalModal">
+    <div class="modal card">
+      <div class="modal-header">
+        <h2>New Goal</h2>
+        <button class="btn-icon" onclick="closeModal('goalModal')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Goal Name *</label>
+          <input type="text" id="gName" class="form-input" placeholder="Example: Lose 5 kg" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Current Value</label>
+            <input type="number" id="gCurrent" class="form-input" placeholder="82" step="any" />
+          </div>
+          <div class="form-group">
+            <label>Target Value</label>
+            <input type="number" id="gTarget" class="form-input" placeholder="77" step="any" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Unit</label>
+            <input type="text" id="gUnit" class="form-input" placeholder="kg, min, kcal..." />
+          </div>
+          <div class="form-group">
+            <label>Deadline *</label>
+            <input type="date" id="gDeadline" class="form-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-check">
+            <input type="checkbox" id="gLower" />
+            <span>Lower target value (e.g. weight loss)</span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Icon</label>
+          <div class="icon-picker">
+            <button class="icon-opt active" onclick="selectIcon(this,'🏋️')">🏋️</button>
+            <button class="icon-opt" onclick="selectIcon(this,'🏃')">🏃</button>
+            <button class="icon-opt" onclick="selectIcon(this,'⚖️')">⚖️</button>
+            <button class="icon-opt" onclick="selectIcon(this,'💪')">💪</button>
+            <button class="icon-opt" onclick="selectIcon(this,'🥗')">🥗</button>
+            <button class="icon-opt" onclick="selectIcon(this,'❤️')">❤️</button>
+            <button class="icon-opt" onclick="selectIcon(this,'🔥')">🔥</button>
+            <button class="icon-opt" onclick="selectIcon(this,'🎯')">🎯</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" onclick="closeModal('goalModal')">Cancel</button>
+        <button class="btn-primary" onclick="addGoal()">Add ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="data.js"></script>
+  <script src="charts.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    // Init search results on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const sr = document.getElementById('searchResults');
+      if (sr) sr.innerHTML = renderQuickAdd ? renderQuickAdd() : '';
+      const wd = document.getElementById('workoutDate');
+      if (wd) wd.textContent = new Date().toLocaleDateString('en-US', { weekday:'long', day:'numeric', month:'long' });
+      const todayDate2 = document.getElementById('todayDate2');
+      if (todayDate2) todayDate2.textContent = new Date().toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    });
+  </script>
+</body>
+</html>
