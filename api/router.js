@@ -1,9 +1,14 @@
 // Vercel serverless API for FitTrack Pro (meals, workouts, weight, goals,
 // daily summary, TDEE calculator).
 //
-// Single catch-all function: `/api/<segments>` all route through here, with
-// `req.query.segments` holding the path parts (e.g. ['meals'] or
-// ['goals', '3']). This mirrors the REST shape main.py exposed
+// Single function: every `/api/*` request is rewritten here by
+// vercel.json (`/api/:path* -> /api/router?path=:path*`), with `path`
+// holding the matched segments (e.g. "meals" or "goals/3"). A plain
+// filename + explicit rewrite is used instead of a `[...segments].js`
+// catch-all filename because, on this zero-config (no framework) project,
+// Vercel's automatic dynamic-route detection only reliably matched a
+// single path segment — anything deeper (e.g. /api/goals/3) 404'd before
+// reaching the function. This mirrors the REST shape main.py exposed
 // (GET/POST /meals, DELETE /meals/:id, PATCH /goals/:id, etc.) so app.js
 // only needed API_BASE pointed at '/api'.
 //
@@ -88,11 +93,7 @@ function nextId(rows) {
 module.exports = (req, res) => {
   ensureStore();
 
-  // Vercel's zero-config Node runtime names the catch-all query key with
-  // the literal "..." prefix from the filename (`[...segments].js` ->
-  // `req.query['...segments']`), not the stripped `segments` you'd get
-  // from a framework router — hence the bracket lookup below.
-  const segments = [].concat(req.query['...segments'] || []);
+  const segments = String(req.query.path || '').split('/').filter(Boolean);
   const [resource, resourceId] = segments;
   const method = req.method;
   const body = req.body && typeof req.body === 'object' ? req.body : {};
