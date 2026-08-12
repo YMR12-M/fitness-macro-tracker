@@ -2,7 +2,7 @@
 // FITTRACK PRO — APP LOGIC v2
 // =====================
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = '/api';
 const CURRENT_USER_ID = 1;
 let useBackend = false; // starts local; auto-enables if backend responds
 const LOCAL_DATE = new Date().toISOString().split('T')[0];
@@ -17,7 +17,7 @@ async function apiRequest(path, options = {}) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {
-    if (useBackend) { useBackend = false; showToast('App is running locally'); }
+    if (useBackend) { useBackend = false; showToast('App is running locally'); updateApiStatus(); }
     return null;
   }
 }
@@ -28,6 +28,14 @@ const deleteResource = (path) => apiRequest(path, { method:'DELETE' });
 async function probeBackend() {
   const r = await apiRequest('/summary?user_id=1');
   if (r) { useBackend = true; await loadBackendData(); }
+  updateApiStatus();
+}
+
+function updateApiStatus() {
+  const dot = document.getElementById('apiDot');
+  const label = document.getElementById('apiStatus');
+  if (dot)   dot.style.background = useBackend ? 'var(--green)' : 'var(--orange)';
+  if (label) label.textContent = useBackend ? 'Connected to server' : 'Running locally (server unreachable)';
 }
 
 async function loadBackendData() {
