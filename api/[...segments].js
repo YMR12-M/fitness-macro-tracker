@@ -88,14 +88,14 @@ function nextId(rows) {
 module.exports = (req, res) => {
   ensureStore();
 
-  const segments = [].concat(req.query.segments || []);
+  // Vercel's zero-config Node runtime names the catch-all query key with
+  // the literal "..." prefix from the filename (`[...segments].js` ->
+  // `req.query['...segments']`), not the stripped `segments` you'd get
+  // from a framework router — hence the bracket lookup below.
+  const segments = [].concat(req.query['...segments'] || []);
   const [resource, resourceId] = segments;
   const method = req.method;
   const body = req.body && typeof req.body === 'object' ? req.body : {};
-
-  if (req.query.__debug) {
-    return res.status(200).json({ url: req.url, query: req.query, segments });
-  }
 
   // ── MEALS ──────────────────────────────────────
   if (resource === 'meals') {
