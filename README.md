@@ -1,6 +1,6 @@
 # FitTrack Pro — Fitness & Macro Tracker
 
-A full-stack web application for tracking daily nutrition, workouts, weight progress, and fitness goals — HTML/CSS/vanilla JS frontend backed by a Node.js serverless API deployed on Vercel.
+A full-stack web application for tracking daily nutrition, workouts, weight progress, and fitness goals — HTML/CSS/vanilla JS frontend backed by a plain Node.js serverless API.
 
 ---
 
@@ -22,14 +22,23 @@ The app works fully offline on local demo data (`data.js`) and transparently swi
 
 ```
 Fitness Macro Tracker/
-├── index.html                 # Single-page frontend (all views)
-├── style.css                  # Dark-theme UI styles
-├── app.js                     # Frontend logic & API calls
-├── charts.js                  # Chart rendering (progress graphs)
-├── data.js                    # Local demo/fallback data (food DB, workout programs, seed state)
+├── index.html          # Single-page frontend (all views)
+├── style.css           # Dark-theme UI styles
+├── app.js              # Frontend logic & API calls
+├── charts.js           # Chart rendering (progress graphs)
+├── data.js             # Local demo/fallback data (food DB, workout programs, seed state)
+├── lib/
+│   └── store.js        # Shared JSON file storage used by the api/ routes
 └── api/
-    └── [...segments].js       # Node.js serverless API (meals, workouts, weight, goals, summary, TDEE)
+    ├── meals.js         # GET/POST /api/meals, DELETE /api/meals?id=
+    ├── workouts.js      # GET/POST /api/workouts, DELETE /api/workouts?id=
+    ├── weight.js        # GET/POST /api/weight
+    ├── goals.js         # GET/POST/PATCH/DELETE /api/goals
+    ├── summary.js        # GET /api/summary
+    └── tdee.js           # GET /api/tdee
 ```
+
+Each file under `api/` is a plain, independent Node.js function (`module.exports = (req, res) => {...}`) — no framework, no routing config, no platform-specific config file (e.g. no `vercel.json`). Deploying it just means pointing a host that runs one Node.js function per file in an `api/` folder at this repo.
 
 ---
 
@@ -41,20 +50,20 @@ Fitness Macro Tracker/
 | Styles | CSS3 (custom dark theme, CSS variables) |
 | Logic | Vanilla JavaScript (ES2022) |
 | Charts | Chart.js v4 |
-| Backend | Node.js serverless function (Vercel) |
+| Backend | Node.js serverless functions (plain, host-agnostic) |
 | Fonts | IBM Plex Arabic, Barlow Condensed (Google Fonts) |
 
 ---
 
 ## Live demo
 
-https://fitness-macro-tracker.vercel.app
+https://fitness-macro-tracker.vercel.app (currently hosted on Vercel; the code itself has no Vercel-specific config)
 
-> **Storage note:** the API writes to `/tmp` on Vercel's serverless filesystem, which is not durable — data can reset on cold starts or redeploys. Fine for demo purposes; swap in a real database (Vercel Postgres, Supabase, etc.) before relying on this for real user data.
+> **Storage note:** the API writes to `/tmp`, which on most serverless hosts is not durable — data can reset on cold starts or redeploys. Fine for demo purposes; swap in a real database (Postgres, Supabase, etc.) before relying on this for real user data.
 
 ## Run locally
 
-Install the [Vercel CLI](https://vercel.com/docs/cli) (`npm i -g vercel`) and run `vercel dev` from the project root. Open the URL it prints.
+Any static-file + Node-serverless-function host works. With the [Vercel CLI](https://vercel.com/docs/cli) (`npm i -g vercel`), run `vercel dev` from the project root and open the URL it prints.
 
 ---
 
@@ -67,14 +76,14 @@ All routes live under `/api`:
 |--------|------|-------------|
 | GET | `/api/meals?user_id=1&log_date=2026-01-15` | List meals for a date |
 | POST | `/api/meals` | Log a new meal |
-| DELETE | `/api/meals/{id}` | Remove a meal |
+| DELETE | `/api/meals?id=1` | Remove a meal |
 
 ### Workouts
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/workouts?user_id=1` | List recent workouts |
 | POST | `/api/workouts` | Log a workout |
-| DELETE | `/api/workouts/{id}` | Remove a workout |
+| DELETE | `/api/workouts?id=1` | Remove a workout |
 
 ### Weight
 | Method | Path | Description |
@@ -87,14 +96,14 @@ All routes live under `/api`:
 |--------|------|-------------|
 | GET | `/api/goals?user_id=1` | List goals |
 | POST | `/api/goals` | Create a goal |
-| PATCH | `/api/goals/{id}?current_value=75` | Update progress |
-| DELETE | `/api/goals/{id}` | Delete a goal |
+| PATCH | `/api/goals?id=1&current_value=75` | Update progress |
+| DELETE | `/api/goals?id=1` | Delete a goal |
 
 ### Utilities
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/summary?user_id=1&log_date=2026-01-15` | Daily nutrition + workout totals |
-| GET | `/api/calc/tdee?weight_kg=80&height_cm=178&age=28&gender=male&activity=moderate&goal=cut` | TDEE & macro targets |
+| GET | `/api/tdee?weight_kg=80&height_cm=178&age=28&gender=male&activity=moderate&goal=cut` | TDEE & macro targets |
 
 ---
 

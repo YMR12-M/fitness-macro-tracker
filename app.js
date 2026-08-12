@@ -195,7 +195,7 @@ function renderMeals() {
 }
 
 async function deleteMeal(id) {
-  if (useBackend) await deleteResource(`/meals/${id}`);
+  if (useBackend) await deleteResource(`/meals?id=${id}`);
   state.meals = state.meals.filter(m => m.id !== id);
   renderMeals(); updateRing();
   showToast('Meal deleted successfully');
@@ -447,7 +447,7 @@ function openGoalModal()  { openModal('goalModal'); }
 function deleteGoal(id)   {
   state.goals = state.goals.filter(g => g.id !== id);
   renderGoals();
-  if (useBackend) deleteResource(`/goals/${id}`);
+  if (useBackend) deleteResource(`/goals?id=${id}`);
   showToast('Goal deleted successfully');
 }
 
