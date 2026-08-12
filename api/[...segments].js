@@ -93,6 +93,10 @@ module.exports = (req, res) => {
   const method = req.method;
   const body = req.body && typeof req.body === 'object' ? req.body : {};
 
+  if (req.query.__debug) {
+    return res.status(200).json({ url: req.url, query: req.query, segments });
+  }
+
   // ── MEALS ──────────────────────────────────────
   if (resource === 'meals') {
     let meals = readJSON(FILES.meals);
