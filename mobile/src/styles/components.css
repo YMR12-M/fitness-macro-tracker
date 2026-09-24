@@ -1,0 +1,1232 @@
+/* Touch-first components. Every interactive element clears --tap (44px) and
+ * answers a press with a transform, because on a phone there is no hover to
+ * confirm that the finger landed on the right thing. */
+
+/* ─── Card ────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  min-width: 0;
+}
+
+.card-flush {
+  padding: 14px 0 0;
+  background: none;
+  border: none;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card-heading {
+  min-width: 0;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.card-subtitle {
+  font-size: var(--fs-label);
+  color: var(--text2);
+  line-height: 1.45;
+}
+
+/* A card that is itself a link or a button. */
+.card-tappable {
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: scale 0.14s var(--spring), border-color var(--transition);
+}
+
+.card-tappable:active {
+  scale: 0.985;
+  border-color: var(--card-border-hover);
+}
+
+/* ─── Stat ────────────────────────────────────────────────────────────────── */
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-unit {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 600;
+}
+
+.stat-delta {
+  font-size: 12px;
+  font-weight: 600;
+}
+.stat-delta.up { color: var(--green); }
+.stat-delta.down { color: var(--orange); }
+.stat-delta.flat { color: var(--text2); }
+
+/* ─── Layout helpers ──────────────────────────────────────────────────────── */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Self-sufficient rather than modifiers on .stack: used alone they would
+   otherwise be a bare `gap` on a block container, which does nothing and lets
+   shrink-to-fit children (buttons especially) collapse to their content. */
+.stack-sm,
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack-sm { gap: 8px; }
+.stack-lg { gap: 18px; }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* Stat tiles that scroll sideways under the thumb instead of wrapping into a
+   grid that pushes everything below the fold. Snap keeps them aligned. */
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(140px, 46%);
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  /* Bleed to the screen edges so the row reads as scrollable. */
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.rail > * {
+  scroll-snap-align: start;
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--tap);
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: scale 0.14s var(--spring), background var(--transition),
+    border-color var(--transition);
+}
+
+.btn:active:not(:disabled) {
+  scale: 0.96;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: #062018;
+}
+
+.btn-ghost {
+  background: var(--card2);
+  border-color: var(--card-border);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: var(--red);
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: 0 13px;
+  font-size: var(--fs-label);
+  border-radius: var(--radius-xs);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Icon-only control. Padding rather than a fixed box so the hit area reaches
+   44px while the glyph itself stays small. */
+.btn-icon {
+  width: var(--tap);
+  height: var(--tap);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  flex-shrink: 0;
+  transition: background var(--transition), scale 0.14s var(--spring);
+}
+
+.btn-icon:active {
+  background: var(--card2);
+  scale: 0.9;
+}
+
+/* ─── Fields ──────────────────────────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.field-label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.input,
+.select {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 11px 14px;
+  background: var(--bg3);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  /* Safari renders date and search inputs at a different intrinsic height
+     unless the platform appearance is dropped first. */
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.select {
+  /* Chevron drawn in CSS so the control matches the theme in both schemes. */
+  background-image: linear-gradient(45deg, transparent 50%, var(--text2) 50%),
+    linear-gradient(135deg, var(--text2) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 50%, calc(100% - 14px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 38px;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-glow);
+}
+
+.input[aria-invalid='true'],
+.select[aria-invalid='true'] {
+  border-color: var(--red);
+}
+
+.input::placeholder {
+  color: var(--text3);
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--red);
+}
+
+.field-hint {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.45;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* ─── Stepper ─────────────────────────────────────────────────────────────── */
+.stepper {
+  display: flex;
+  align-items: center;
+  background: var(--bg3);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.stepper:focus-within {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-glow);
+}
+
+.stepper-btn {
+  width: var(--tap);
+  height: var(--tap);
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--green);
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+
+.stepper-btn:active:not(:disabled) {
+  background: var(--green-glow);
+}
+
+.stepper-input {
+  flex: 1;
+  min-width: 0;
+  height: var(--tap);
+  border: none;
+  background: none;
+  text-align: center;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.stepper-input:focus {
+  outline: none;
+}
+
+.stepper-suffix {
+  padding-right: 12px;
+  font-size: var(--fs-label);
+  color: var(--text2);
+}
+
+/* ─── Segmented control ───────────────────────────────────────────────────── */
+.segmented {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg3);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.segmented::-webkit-scrollbar {
+  display: none;
+}
+
+.segmented-option {
+  flex: 1 0 auto;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 9px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--text2);
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition),
+    scale 0.14s var(--spring);
+}
+
+.segmented-option[aria-pressed='true'] {
+  background: var(--green-glow);
+  color: var(--green);
+  box-shadow: inset 0 0 0 1px var(--green);
+}
+
+.segmented-option:active {
+  scale: 0.95;
+}
+
+/* Free-flowing variant for emoji pickers and other wrapping option sets. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip {
+  min-height: 40px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  background: var(--bg3);
+  border: 1px solid var(--card-border);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--text2);
+  transition: scale 0.14s var(--spring), background var(--transition);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--green-glow);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.chip:active {
+  scale: 0.94;
+}
+
+/* ─── Progress ────────────────────────────────────────────────────────────── */
+.progress {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg3);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--green);
+  transition: width 0.55s var(--spring);
+}
+
+/* ─── Badges ──────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  background: var(--bg3);
+  color: var(--text2);
+  white-space: nowrap;
+}
+
+.badge-green { background: var(--green-glow); color: var(--green); }
+.badge-orange { background: rgba(255, 107, 53, 0.14); color: var(--orange); }
+.badge-blue { background: rgba(74, 158, 255, 0.14); color: var(--blue); }
+.badge-red { background: rgba(239, 68, 68, 0.14); color: var(--red); }
+
+/* ─── Lists ───────────────────────────────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 11px 13px;
+  background: var(--card2);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  width: 100%;
+  text-align: left;
+  /* Rows are also rendered as <a> (the More screen's navigation), where the
+     global link colour would otherwise turn every title brand-green and
+     underline it on tap. */
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* When the whole row is the tap target (navigation, food results). */
+.list-row-tappable {
+  transition: scale 0.14s var(--spring), background var(--transition);
+}
+
+.list-row-tappable:active {
+  scale: 0.985;
+  background: var(--bg3);
+}
+
+.list-row-emoji {
+  font-size: 21px;
+  width: 30px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.list-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Both are rendered as <span> in some rows and <div> in others; blockifying
+   here is what stops a title and its hint running together on one line. */
+.list-row-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-row-meta {
+  display: block;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.45;
+}
+
+.list-row-chevron {
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+/* ─── Swipe to delete ─────────────────────────────────────────────────────── */
+/* The row slides left under the finger to reveal a delete action behind it —
+   the gesture a phone user already expects for "remove this". A visible
+   trash button stays in the row as well, so the gesture is never the only
+   way to delete anything. */
+.swipe {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+/* Hidden until a drag actually starts. Painted full-bleed behind a row that
+   is not moving, the red antialiases against the composited surface above it
+   and leaves a hairline fringe down both edges of every row in the list. */
+.swipe-action {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 22px;
+  background: var(--red);
+  color: #fff;
+  font-size: 19px;
+  opacity: 0;
+}
+
+.swipe.is-active .swipe-action {
+  opacity: 1;
+}
+
+.swipe-surface {
+  position: relative;
+  background: var(--bg);
+  border-radius: 12px;
+  will-change: transform;
+}
+
+.swipe-surface.is-settling {
+  transition: translate 0.26s var(--spring);
+}
+
+/* ─── Date strip ──────────────────────────────────────────────────────────── */
+/* Tapping a day beats typing into a date input on a phone; the native picker
+   stays available behind the calendar button for dates further back. */
+.datestrip {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  margin-inline: calc(var(--gutter) * -1);
+  padding: 2px var(--gutter);
+  scrollbar-width: none;
+}
+
+.datestrip::-webkit-scrollbar {
+  display: none;
+}
+
+.datestrip-day {
+  flex: 0 0 auto;
+  width: 52px;
+  padding: 8px 0 9px;
+  border-radius: 13px;
+  background: var(--card2);
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  scroll-snap-align: center;
+  transition: scale 0.14s var(--spring), background var(--transition);
+}
+
+.datestrip-day:active {
+  scale: 0.93;
+}
+
+.datestrip-day[aria-pressed='true'] {
+  background: var(--green-glow);
+  border-color: var(--green);
+}
+
+.datestrip-weekday {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.datestrip-date {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.datestrip-day[aria-pressed='true'] .datestrip-weekday,
+.datestrip-day[aria-pressed='true'] .datestrip-date {
+  color: var(--green);
+}
+
+/* A filled dot under a day that already has entries. */
+.datestrip-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text3);
+}
+
+.datestrip-dot.is-logged {
+  background: var(--green);
+}
+
+/* ─── Bottom sheet ────────────────────────────────────────────────────────── */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: sheet-fade 0.2s ease both;
+}
+
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+  max-width: 560px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  /* Never taller than the visible viewport, and never so tall that the sheet
+     covers the whole screen with no backdrop left to tap. */
+  max-height: 92dvh;
+  background: var(--bg2);
+  border: 1px solid var(--card-border);
+  border-bottom: none;
+  border-radius: var(--sheet-radius) var(--sheet-radius) 0 0;
+  box-shadow: var(--shadow-md);
+  animation: sheet-rise 0.32s var(--spring) both;
+  will-change: transform;
+}
+
+.sheet.is-dragging {
+  animation: none;
+}
+
+.sheet.is-settling {
+  animation: none;
+  transition: translate 0.26s var(--spring);
+}
+
+/* The grab handle. Its row is the drag surface, which is why it is padded
+   generously rather than being a bare 4px bar. */
+.sheet-grip {
+  padding: 10px 0 4px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  touch-action: none;
+  cursor: grab;
+}
+
+.sheet-grip::after {
+  content: '';
+  width: 38px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--text3);
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 18px 14px;
+  border-bottom: 1px solid var(--card-border);
+  flex-shrink: 0;
+}
+
+.sheet-title {
+  font-size: 17px;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sheet-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  /* Scrolling the sheet's contents must not chain into the page behind it. */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sheet-footer {
+  display: flex;
+  gap: 10px;
+  padding: 12px 18px calc(12px + var(--safe-bottom));
+  border-top: 1px solid var(--card-border);
+  background: var(--bg2);
+  flex-shrink: 0;
+}
+
+.sheet-footer > .btn {
+  flex: 1;
+}
+
+@keyframes sheet-fade {
+  from { opacity: 0; }
+}
+
+@keyframes sheet-rise {
+  from { translate: 0 100%; }
+}
+
+/* ─── Action sheet (quick add) ────────────────────────────────────────────── */
+.actionsheet {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* Sits inside .sheet-body, which already supplies the horizontal padding;
+     only the home-indicator clearance has to be added back. */
+  padding-bottom: var(--safe-bottom);
+}
+
+.actionsheet-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  /* A <button> resolves `width: auto` to shrink-to-fit even as a flex
+     container, so the width is stated rather than inherited from the parent. */
+  width: 100%;
+  min-height: 60px;
+  padding: 0 16px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  text-align: left;
+  transition: scale 0.14s var(--spring), border-color var(--transition);
+}
+
+.actionsheet-item:active {
+  scale: 0.97;
+  border-color: var(--green);
+}
+
+.actionsheet-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.actionsheet-label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.actionsheet-hint {
+  font-size: 12px;
+  color: var(--text2);
+}
+
+/* ─── Toast ───────────────────────────────────────────────────────────────── */
+/* Toasts sit above the tab bar, not at the bottom edge, so a confirmation
+   never lands under the thumb that just triggered it. */
+.toast-region {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 12px);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-inline: var(--gutter);
+  max-width: 560px;
+  margin-inline: auto;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 15px;
+  border-radius: 13px;
+  background: var(--bg3);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-md);
+  font-size: 14px;
+  pointer-events: auto;
+  animation: toast-in 0.26s var(--spring) both;
+}
+
+.toast-success { border-left: 3px solid var(--green); }
+.toast-error { border-left: 3px solid var(--red); }
+.toast-info { border-left: 3px solid var(--blue); }
+
+@keyframes toast-in {
+  from { opacity: 0; translate: 0 16px; scale: 0.96; }
+}
+
+/* ─── Empty / loading / error states ──────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 30px 14px;
+  text-align: center;
+  color: var(--text2);
+}
+
+.empty-state-icon {
+  font-size: 32px;
+  opacity: 0.6;
+}
+
+.empty-state-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.empty-state-text {
+  font-size: var(--fs-label);
+  max-width: 32ch;
+  line-height: 1.55;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--card-border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.spinner-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text2);
+  font-size: var(--fs-label);
+}
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+/* Skeletons rather than spinners wherever the final layout is known: the
+   screen keeps its shape while loading instead of jumping when data lands. */
+.skeleton {
+  background: linear-gradient(90deg, var(--card2) 25%, var(--bg3) 50%, var(--card2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.3s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+
+.error-banner {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ffb4b4;
+  font-size: var(--fs-label);
+  line-height: 1.5;
+}
+
+/* ─── Auth screens ────────────────────────────────────────────────────────── */
+.auth {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  max-width: 560px;
+  margin-inline: auto;
+  padding: calc(var(--safe-top) + 28px) calc(var(--gutter) + var(--safe-right))
+    calc(var(--safe-bottom) + 20px) calc(var(--gutter) + var(--safe-left));
+  background: radial-gradient(ellipse at top, rgba(0, 229, 160, 0.09), transparent 58%), var(--bg);
+}
+
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.auth-mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--green), var(--green-dim));
+  color: #062018;
+  box-shadow: var(--shadow-green);
+}
+
+.auth-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+.auth-subtitle {
+  font-size: var(--fs-label);
+  color: var(--text2);
+  line-height: 1.55;
+  max-width: 34ch;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+/* The submit button pins to the bottom of the screen rather than floating
+   after the last field — on a phone that is where the thumb already is. */
+.auth-actions {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-footer {
+  text-align: center;
+  font-size: var(--fs-label);
+  color: var(--text2);
+}
+
+/* ─── Step indicator (registration wizard) ────────────────────────────────── */
+.steps {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.steps-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--bg3);
+  overflow: hidden;
+}
+
+/* Both are <span>s, so the inner one needs blockifying explicitly — an inline
+   box ignores width and height, which is exactly enough to make the fill
+   silently never appear. */
+.steps-bar-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: var(--green);
+  transition: width 0.4s var(--spring);
+}
+
+.steps-bar.is-done .steps-bar-fill {
+  width: 100%;
+}
+
+/* ─── Calorie ring ────────────────────────────────────────────────────────── */
+.ring {
+  display: grid;
+  place-items: center;
+  position: relative;
+  padding: 4px 0;
+}
+
+.ring-svg {
+  rotate: -90deg;
+  width: min(200px, 58vw);
+  height: auto;
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--bg3);
+  stroke-width: 13;
+}
+
+.ring-value {
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 13;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s var(--spring), stroke var(--transition);
+}
+
+.ring-center {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ring-number {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ring-caption {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.ring-legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+  width: 100%;
+}
+
+.ring-legend-item {
+  text-align: center;
+  min-width: 0;
+}
+
+.ring-legend-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ring-legend-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+/* ─── Macro bars ──────────────────────────────────────────────────────────── */
+.macro-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.macro-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.macro-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 500;
+  min-width: 0;
+}
+
+.macro-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.macro-amount {
+  color: var(--text2);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ─── Charts ──────────────────────────────────────────────────────────────── */
+.chart-frame {
+  position: relative;
+  width: 100%;
+  height: 210px;
+}
+
+.chart-frame-sm {
+  height: 172px;
+}
+
+/* ─── Search ──────────────────────────────────────────────────────────────── */
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.search-result-name {
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-macros {
+  font-size: 11px;
+  color: var(--text2);
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+
+/* ─── More screen ─────────────────────────────────────────────────────────── */
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--green-glow), transparent 70%), var(--card);
+  border: 1px solid var(--card-border);
+}
+
+.profile-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--green), var(--blue));
+  color: #062018;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-size: 17px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-email {
+  font-size: 12px;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--bg3);
+  font-size: 17px;
+  flex-shrink: 0;
+}

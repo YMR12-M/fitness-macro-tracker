@@ -1,1 +1,40 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# build output
+client/dist/
+mobile/dist/
+server/dist/
+
+# Locally-generated HTTPS certificates for testing the mobile client on a real
+# device. Machine- and network-specific, and one of them is a private key.
+mobile/.certs/
+*.tsbuildinfo
+
+# environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# logs
+logs/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# editors / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# deploy
 .vercel
+.netlify
+
+# test / coverage
+coverage/
+.nyc_output/

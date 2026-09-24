@@ -1,0 +1,30 @@
+{
+  "name": "@fittrack/server",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=../.env src/index.js",
+    "start": "node --env-file-if-exists=../.env src/index.js",
+    "migrate": "node --env-file-if-exists=../.env src/db/migrate.js up",
+    "migrate:reset": "node --env-file-if-exists=../.env src/db/migrate.js reset",
+    "migrate:status": "node --env-file-if-exists=../.env src/db/migrate.js status",
+    "seed": "node --env-file-if-exists=../.env src/db/seed.js",
+    "test": "node --test --env-file-if-exists=../.env",
+    "test:watch": "node --test --watch --env-file-if-exists=../.env"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.5",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.12.0",
+    "zod": "^3.24.1"
+  }
+}

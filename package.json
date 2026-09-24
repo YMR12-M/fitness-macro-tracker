@@ -1,0 +1,41 @@
+{
+  "name": "fittrack-pro",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Fitness & macro tracker \u2014 React desktop and mobile clients, Express + MySQL API, USDA FoodData Central nutrition data.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "server",
+    "client",
+    "mobile"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:all": "concurrently -n api,web,mobile -c cyan,magenta,green \"npm:dev:server\" \"npm:dev:client\" \"npm:dev:mobile\"",
+    "dev:mobile": "npm run dev --workspace mobile",
+    "dev:server": "npm run dev --workspace server",
+    "dev:client": "npm run dev --workspace client",
+    "build": "npm run build:client && npm run build:mobile",
+    "build:client": "npm run build --workspace client",
+    "build:mobile": "npm run build --workspace mobile",
+    "start": "npm run start --workspace server",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run migrate --workspace server",
+    "db:seed": "npm run seed --workspace server",
+    "db:reset": "npm run migrate:reset --workspace server",
+    "lint": "eslint .",
+    "test": "npm run test --workspace server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "eslint": "^9.18.0"
+  },
+  "overrides": {
+    "qs": "^6.16.0"
+  }
+}
