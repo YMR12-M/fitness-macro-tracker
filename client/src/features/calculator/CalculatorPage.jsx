@@ -96,7 +96,7 @@ export function CalculatorPage() {
     <div className="page">
       <div className="grid grid-2">
         <Card title="Your details" subtitle="Mifflin-St Jeor equation">
-          <div className="list">
+          <div className="stack">
             <div className="form-row">
               <SelectField label="Sex" options={SEX_OPTIONS} value={form.sex} onChange={update('sex')} />
               <TextField label="Age" type="number" min="13" max="120" value={form.age} onChange={update('age')} />
@@ -135,7 +135,7 @@ export function CalculatorPage() {
 
         <Card title="Your numbers" subtitle={isFetching ? 'Calculating…' : 'Daily energy and macro targets'}>
           {!complete ? (
-            <EmptyState icon="🧮" title="Fill in your details">
+            <EmptyState icon="calculator" title="Fill in your details">
               Enter your age, weight and height and the calculation runs automatically.
             </EmptyState>
           ) : error ? (
@@ -174,7 +174,7 @@ export function CalculatorPage() {
       </div>
 
       <Card title="How this is calculated">
-        <div className="list">
+        <div className="stack">
           <p className="empty-state-text" style={{ maxWidth: 'none', textAlign: 'left' }}>
             <strong>BMR</strong> uses the Mifflin-St Jeor equation — the resting rate with the best validated
             accuracy across body compositions:{' '}

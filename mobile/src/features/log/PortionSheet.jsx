@@ -86,10 +86,10 @@ export function PortionSheet({ food, date, onClose, onSubmit, submitting }) {
         label="Meal"
         value={mealType}
         onChange={setMealType}
-        options={MEAL_TYPES.map((t) => ({ value: t.value, label: `${t.icon} ${t.label}` }))}
+        options={MEAL_TYPES.map((t) => ({ value: t.value, label: t.label }))}
       />
 
-      <div className="card" style={{ background: 'var(--card2)' }}>
+      <div className="card" style={{ background: 'var(--sunken)' }}>
         <div className="grid-2" style={{ rowGap: 14 }}>
           <Stat label="Calories" value={formatNumber(scaled.calories)} unit="kcal" />
           <Stat label="Protein" value={formatNumber(scaled.protein_g, 1)} unit="g" />

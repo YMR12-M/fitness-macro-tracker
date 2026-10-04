@@ -82,17 +82,17 @@ export function TrainScreen() {
         title="Today's session"
         subtitle={session?.program ? session.day_label ?? 'Rest day' : 'Pick a program below'}
         action={
-          session?.logged_today ? <span className="badge badge-green">Logged</span> : null
+          session?.logged_today ? <span className="badge badge-solid">Logged</span> : null
         }
       >
         {todayQuery.isPending ? (
           <SkeletonList count={3} />
         ) : !session?.program ? (
-          <EmptyState icon="🏋️" title="Choose a program">
+          <EmptyState icon="train" title="Choose a program">
             Once you pick a program, the exercises prescribed for each day appear here automatically.
           </EmptyState>
         ) : session.exercises.length === 0 ? (
-          <EmptyState icon="😌" title="Rest day">
+          <EmptyState icon="moon" title="Rest day">
             Nothing is prescribed today. Log something anyway if you trained off-plan.
           </EmptyState>
         ) : (
@@ -125,27 +125,24 @@ export function TrainScreen() {
             <button
               key={program.id}
               type="button"
-              className="card card-tappable"
-              style={program.is_active ? { borderColor: program.accent } : undefined}
+              className="card program-tile"
               onClick={() => selectProgram.mutate(program.id)}
               disabled={selectProgram.isPending}
               aria-pressed={Boolean(program.is_active)}
             >
               <div className="row-between">
-                <span className="row">
-                  <span style={{ fontSize: 24 }} aria-hidden="true">{program.emoji}</span>
-                  <span className="card-title">{program.name}</span>
+                <span className="program-days">
+                  <b>{program.days_per_week}</b>days / week
                 </span>
                 {program.is_active ? (
-                  <span className="badge badge-green">Active</span>
+                  <span className="badge badge-accent">Active</span>
                 ) : (
                   <span className="badge">{program.level}</span>
                 )}
               </div>
-              <p className="card-subtitle" style={{ marginTop: 8 }}>{program.description}</p>
-              <p className="list-row-meta" style={{ marginTop: 8 }}>
-                {program.days_per_week} days / week · {program.exercise_count} exercises
-              </p>
+              <div className="card-title">{program.name}</div>
+              <p className="card-subtitle">{program.description}</p>
+              <p className="list-row-meta">{program.exercise_count} exercises</p>
             </button>
           ))}
         </div>
@@ -158,11 +155,12 @@ export function TrainScreen() {
         <SkeletonList count={3} />
       ) : workouts.length === 0 ? (
         <Card>
-          <EmptyState icon="📋" title="No workouts logged yet">
+          <EmptyState icon="log" title="No workouts logged yet">
             Log your first session and your volume and streak stats start building.
           </EmptyState>
         </Card>
       ) : (
+        <Card>
         <div className="list">
           {workouts.map((workout) => (
             <SwipeRow
@@ -189,6 +187,7 @@ export function TrainScreen() {
             </SwipeRow>
           ))}
         </div>
+        </Card>
       )}
 
       {/* Mounted only while open, so each session starts from today's date and

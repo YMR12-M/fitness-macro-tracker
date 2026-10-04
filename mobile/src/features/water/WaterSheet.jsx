@@ -3,7 +3,8 @@
 // and its total is shown on Today.
 import { useQuery } from '@tanstack/react-query';
 import { water as waterApi } from '../../api/endpoints.js';
-import { Progress, Stat } from '../../components/ui/Card.jsx';
+import { Stat } from '../../components/ui/Card.jsx';
+import { PlateMeter } from '../../components/data/Plates.jsx';
 import { Sheet } from '../../components/ui/Sheet.jsx';
 import { Spinner } from '../../components/ui/Spinner.jsx';
 import { useToast } from '../../components/ui/toast-context.js';
@@ -12,10 +13,10 @@ import { formatNumber, todayISO } from '../../lib/format.js';
 
 /** The sizes people actually drink from, rather than an arbitrary slider. */
 const POURS = [
-  { amount: 200, label: 'Glass', emoji: '🥛' },
-  { amount: 330, label: 'Can', emoji: '🥤' },
-  { amount: 500, label: 'Bottle', emoji: '🍶' },
-  { amount: 750, label: 'Flask', emoji: '🧴' }
+  { amount: 200, label: 'Glass' },
+  { amount: 330, label: 'Can' },
+  { amount: 500, label: 'Bottle' },
+  { amount: 750, label: 'Flask' }
 ];
 
 export function WaterSheet({ open, onClose }) {
@@ -71,30 +72,30 @@ export function WaterSheet({ open, onClose }) {
         <>
           <div className="row-between">
             <Stat label="Today" value={formatNumber(data?.amount_ml ?? 0)} unit={`/ ${data?.goal_ml ?? 0} ml`} />
-            <span className="badge badge-blue">{data?.percent ?? 0}%</span>
+            <span className="badge">{data?.percent ?? 0}%</span>
           </div>
-          <Progress value={data?.amount_ml ?? 0} max={data?.goal_ml ?? 1} color="var(--blue)" />
+          <PlateMeter
+            value={data?.amount_ml ?? 0}
+            max={data?.goal_ml ?? 1}
+            color="var(--water)"
+            plates={Math.max(4, Math.round((data?.goal_ml ?? 2500) / 250))}
+            label="Water today"
+          />
 
           <div className="grid-2">
             {POURS.map((pour) => (
               <button
                 key={pour.amount}
                 type="button"
-                className="actionsheet-item"
+                className="pour"
                 disabled={busy}
                 onClick={() => add.mutate(pour.amount)}
               >
-                <span
-                  className="actionsheet-icon"
-                  style={{ background: 'rgba(74, 158, 255, 0.16)' }}
-                  aria-hidden="true"
-                >
-                  {pour.emoji}
+                <span className="pour-amount">
+                  {pour.amount}
+                  <small>ml</small>
                 </span>
-                <span>
-                  <span className="actionsheet-label">{pour.label}</span>
-                  <span className="actionsheet-hint">{pour.amount} ml</span>
-                </span>
+                <span className="pour-label">{pour.label}</span>
               </button>
             ))}
           </div>

@@ -124,7 +124,7 @@ export function LogScreen() {
                 value={formatNumber(totals.calories.eaten)}
                 unit={`/ ${formatNumber(totals.calories.goal)}`}
               />
-              <span className={`badge ${totals.calories.remaining < 0 ? 'badge-orange' : 'badge-green'}`}>
+              <span className={`badge ${totals.calories.remaining < 0 ? 'badge-accent' : 'badge-solid'}`}>
                 {totals.calories.remaining < 0
                   ? `${formatNumber(Math.abs(totals.calories.remaining))} over`
                   : `${formatNumber(totals.calories.remaining)} left`}
@@ -147,7 +147,7 @@ export function LogScreen() {
       </Card>
 
       <button type="button" className="btn btn-primary btn-block" onClick={() => setSearchOpen(true)}>
-        <Icon name="search" size={18} /> Add food
+        <Icon name="search" size={20} /> Add food
       </button>
 
       {/* ── Repeat something ────────────────────────────────────────────── */}
@@ -163,8 +163,10 @@ export function LogScreen() {
                 disabled={logMeal.isPending}
                 onClick={() => logAgain(meal)}
               >
-                <div style={{ fontSize: 22 }} aria-hidden="true">{meal.emoji ?? '🍽️'}</div>
-                <div className="list-row-title" style={{ marginTop: 6 }}>{meal.name}</div>
+                <span className="sticker" aria-hidden="true">
+                  {meal.emoji ?? <Icon name="plate" size={20} />}
+                </span>
+                <div className="list-row-title" style={{ marginTop: 10 }}>{meal.name}</div>
                 <div className="list-row-meta">
                   {formatNumber(meal.calories)} kcal · {mealTypeLabel(meal.meal_type)}
                 </div>
@@ -185,7 +187,7 @@ export function LogScreen() {
         <ErrorBanner error={dayQuery.error} />
       ) : meals.length === 0 ? (
         <Card>
-          <EmptyState icon="🍽️" title="Nothing logged for this day">
+          <EmptyState icon="plate" title="Nothing logged for this day">
             Tap “Add food” to search the catalog, or repeat something you eat often.
           </EmptyState>
         </Card>
@@ -194,14 +196,17 @@ export function LogScreen() {
           {grouped.map((group) => (
             <div key={group.value}>
               <div className="row-between" style={{ marginBottom: 8 }}>
-                <span className="screen-section-title" style={{ marginTop: 0 }}>
-                  {group.icon} {group.label}
+                <span className="screen-section-title row" style={{ marginTop: 0, gap: 8 }}>
+                  <Icon name={group.icon} size={20} />
+                  {group.label}
                 </span>
-                <span className="badge badge-green numeric">
-                  {formatNumber(group.entries.reduce((sum, meal) => sum + Number(meal.calories), 0))} kcal
+                <span className="row-figure">
+                  <b>{formatNumber(group.entries.reduce((sum, meal) => sum + Number(meal.calories), 0))}</b>
+                  <small>kcal</small>
                 </span>
               </div>
 
+              <Card>
               <div className="list">
                 {group.entries.map((meal) => (
                   <SwipeRow
@@ -211,8 +216,8 @@ export function LogScreen() {
                     disabled={deleteMeal.isPending}
                   >
                     <div className="list-row">
-                      <span className="list-row-emoji" aria-hidden="true">
-                        {meal.emoji ?? mealTypeIcon(meal.meal_type)}
+                      <span className="sticker" aria-hidden="true">
+                        {meal.emoji ?? <Icon name={mealTypeIcon(meal.meal_type)} size={20} />}
                       </span>
                       <div className="list-row-body">
                         <div className="list-row-title">{meal.name}</div>
@@ -222,7 +227,9 @@ export function LogScreen() {
                           {formatNumber(meal.fat_g, 1)}F
                         </div>
                       </div>
-                      <span className="badge numeric">{formatNumber(meal.calories)}</span>
+                      <span className="row-figure">
+                        <b>{formatNumber(meal.calories)}</b>
+                      </span>
                       <DeleteButton
                         label={`Remove ${meal.name}`}
                         onClick={() => deleteMeal.mutate(meal.id)}
@@ -232,6 +239,7 @@ export function LogScreen() {
                   </SwipeRow>
                 ))}
               </div>
+              </Card>
             </div>
           ))}
         </div>

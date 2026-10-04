@@ -38,7 +38,7 @@ export function TabBar({ onQuickAdd, quickAddOpen }) {
           aria-expanded={quickAddOpen}
           aria-label="Quick add"
         >
-          <Icon name="plus" size={24} strokeWidth={2.4} className="tab-fab-icon" />
+          <Icon name="plus" size={26} strokeWidth={2.8} className="tab-fab-icon" />
         </button>
       </div>
 
@@ -58,7 +58,7 @@ function Tab({ to, label, icon, end }) {
     >
       {({ isActive }) => (
         <>
-          <Icon name={icon} size={23} strokeWidth={isActive ? 2.1 : 1.75} className="tab-icon" />
+          <Icon name={icon} size={24} strokeWidth={isActive ? 2.4 : 2} className="tab-icon" />
           <span>{label}</span>
         </>
       )}

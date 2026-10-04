@@ -1,44 +1,62 @@
-/* Line icons for the app's own chrome — tab bar, app bar, chevrons, sheet
- * actions.
+/* The app's own icon set.
  *
- * Emoji stay where the glyph is content rather than chrome: meal types,
- * program badges and goal icons all come from the database and are the user's
- * or the catalogue's choice. Chrome is different — emoji render at a different
- * weight and colour on every platform, so a tab bar built from them cannot
- * follow the theme or sit on the brand green. These do both: they inherit
- * `currentColor` and scale with the box they are given.
+ * Emoji stay where the glyph is content — a food's sticker, a goal's badge,
+ * both chosen by the catalogue or the user. Chrome is different: emoji render
+ * at a different weight and colour on every platform and cannot follow the
+ * theme, so navigation, actions and empty states use these instead.
  *
- * Drawn on a 24×24 grid with a 1.75 stroke, which is the weight that stays
- * legible at the 23px the tab bar renders them at. */
+ * Drawn on a 24×24 grid with square caps and mitred joins at a 2px stroke —
+ * deliberately blunt, to sit next to the condensed display type rather than
+ * the soft round-capped line icons every UI kit ships. They inherit
+ * `currentColor` and scale with the box they are given. */
 
 const PATHS = {
-  today: 'M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
-  log: 'M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zM8 12h8M8 16h5',
-  train: 'M4 9v6M20 9v6M7 6v12M17 6v12M7 12h10',
-  progress: 'M4 19h16M6 16V9M11 16V5M16 16v-6',
-  more: 'M4 7h16M4 12h16M4 17h10',
-  plus: 'M12 5v14M5 12h14',
-  back: 'm14 6-6 6 6 6',
-  chevron: 'm9 6 6 6-6 6',
-  close: 'M6 6l12 12M18 6 6 18',
-  search: 'M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zM20 20l-4-4',
-  trash: 'M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13',
-  calendar: 'M4 6h16v14H4zM4 10h16M9 3v4M15 3v4',
-  water: 'M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z',
-  scale: 'M5 8h14l2 12H3zM12 4v4M9 13h6',
-  flame: 'M12 3c3 4 5 6 5 9a5 5 0 0 1-10 0c0-1.6.7-3 2-4 .2 1.4.9 2 1.7 2 .9 0 1.3-.8 1.3-2.2 0-1.4-.3-2.6 0-4.8z',
-  target: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM12 11.5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z',
-  calculator: 'M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01',
-  settings:
-    'M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-3-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-3l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 2.9-1.2V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 3 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.6 1z',
-  logout: 'M15 17l5-5-5-5M20 12H9M12 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h7',
-  download: 'M12 4v11M8 11l4 4 4-4M4 19h16',
-  refresh: 'M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5',
-  check: 'm5 12 5 5 9-10',
-  lock: 'M6 10h12v10H6zM9 10V7a3 3 0 0 1 6 0v3'
+  // Navigation
+  today: 'M3 3h8v10H3zM13 3h8v6h-8zM13 11h8v10h-8zM3 15h8v6H3z',
+  log: 'M5 3h14v18H5zM9 8h6M9 12h6M9 16h4',
+  train: 'M3 9v6M6 6v12M18 6v12M21 9v6M6 12h12',
+  progress: 'M3 18l6-6 4 4 8-9M15 7h6v6',
+  goals:
+    'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 1v3M12 20v3M1 12h3M20 12h3',
+  calculator: 'M5 3h14v18H5zM8 6h8v4H8zM8 14h2M14 14h2M8 18h2M14 18h2',
+  settings: 'M3 7h11M18 7h3M14 4h4v6h-4zM3 17h3M10 17h11M6 14h4v6H6z',
+  more: 'M3 6h18M3 12h18M3 18h12',
+  user: 'M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21a8 8 0 0 1 16 0',
+
+  // Actions
+  plus: 'M12 4v16M4 12h16',
+  minus: 'M4 12h16',
+  back: 'M15 4l-8 8 8 8',
+  chevron: 'M9 4l8 8-8 8',
+  close: 'M5 5l14 14M19 5L5 19',
+  search: 'M10.5 3a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15zM16 16l5 5',
+  trash: 'M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7',
+  check: 'M4 12l5 5 11-12',
+  refresh: 'M20 12a8 8 0 1 1-2.5-5.8M20 3v5h-5',
+  download: 'M12 3v13M6 11l6 6 6-6M4 21h16',
+  logout: 'M10 4H4v16h6M15 8l5 4-5 4M20 12H9',
+  lock: 'M5 10h14v11H5zM8 10V7a4 4 0 0 1 8 0v3',
+  calendar: 'M3 5h18v16H3zM3 10h18M8 2v5M16 2v5',
+  up: 'M12 20V5M5 12l7-7 7 7',
+  down: 'M12 4v15M5 12l7 7 7-7',
+  warn: 'M12 3L2 21h20zM12 10v5M12 18v.5',
+  info: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v6M12 7.5v.5',
+
+  // Things the app tracks
+  water: 'M12 2.5c4.5 5.2 7 8.4 7 12a7 7 0 0 1-14 0c0-3.6 2.5-6.8 7-12z',
+  scale: 'M3 4h18v16H3zM7 12a5 5 0 0 1 10 0M12 12l2.5-3.5',
+  flame: 'M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-2.5 1-4 2.5-5.5C9 10 10 11 11 11c0-3-1-5 1-9z',
+  plate: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z',
+  clock: 'M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM12 8v4.5l3 2M9 1h6',
+
+  // Meals, by time of day
+  sunrise: 'M3 19h18M7 19a5 5 0 0 1 10 0M12 7v4M4.5 12l2 2M19.5 12l-2 2',
+  sun: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1',
+  moon: 'M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z',
+  snack: 'M12 3a9 9 0 1 0 9 9 4 4 0 0 1-4-4 4 4 0 0 1-5-5zM8 14v.5M13 16v.5M9 9.5v.5'
 };
 
-export function Icon({ name, size = 22, className = '', strokeWidth = 1.75, ...rest }) {
+export function Icon({ name, size = 20, className = '', strokeWidth = 2, ...rest }) {
   const path = PATHS[name];
   if (!path) return null;
 
@@ -51,8 +69,8 @@ export function Icon({ name, size = 22, className = '', strokeWidth = 1.75, ...r
       fill="none"
       stroke="currentColor"
       strokeWidth={strokeWidth}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      strokeLinecap="square"
+      strokeLinejoin="miter"
       aria-hidden="true"
       focusable="false"
       {...rest}
@@ -61,3 +79,7 @@ export function Icon({ name, size = 22, className = '', strokeWidth = 1.75, ...r
     </svg>
   );
 }
+
+/** True when `name` is one of the drawn icons — lets a prop accept either an
+ *  icon name or a literal glyph (a food's emoji) without guessing. */
+export const hasIcon = (name) => Object.hasOwn(PATHS, name);

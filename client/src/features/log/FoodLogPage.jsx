@@ -8,7 +8,8 @@ import { Spinner } from '../../components/Spinner.jsx';
 import { useToast } from '../../components/toast-context.js';
 import { useMutationWithRefresh } from '../../hooks/useMutationWithRefresh.js';
 import { FoodSearch } from './FoodSearch.jsx';
-import { MEAL_TYPES, formatNumber, mealTypeIcon, mealTypeLabel, todayISO } from '../../lib/format.js';
+import { MEAL_TYPES, formatLongDate, formatNumber, mealTypeIcon, mealTypeLabel, todayISO } from '../../lib/format.js';
+import { Icon } from '../../components/Icon.jsx';
 
 const UNIT_OPTIONS = ['g', 'ml', 'piece', 'scoop', 'cup', 'tbsp', 'tsp'].map((u) => ({ value: u, label: u }));
 
@@ -71,11 +72,12 @@ export function FoodLogPage() {
           <FoodSearch onSelect={setSelectedFood} />
 
           <button type="button" className="btn btn-ghost btn-block" style={{ marginTop: 12 }} onClick={() => setCustomOpen(true)}>
-            + Add a custom food
+            <Icon name="plus" size={16} strokeWidth={2.5} />
+            Add a custom food
           </button>
         </Card>
 
-        <Card title="Day totals" subtitle={date}>
+        <Card title="Day totals" subtitle={formatLongDate(date)}>
           {totalsQuery.isPending ? (
             <Spinner label="Loading totals" />
           ) : totals ? (
@@ -90,12 +92,12 @@ export function FoodLogPage() {
               {frequentQuery.data?.meals?.length > 0 && (
                 <>
                   <p className="page-section-title" style={{ marginTop: 18, marginBottom: 8 }}>Log again</p>
-                  <div className="segmented">
+                  <div className="chips">
                     {frequentQuery.data.meals.slice(0, 6).map((meal) => (
                       <button
                         key={`${meal.name}-${meal.meal_type}`}
                         type="button"
-                        className="segmented-option"
+                        className="chip"
                         disabled={logMeal.isPending}
                         onClick={() =>
                           logMeal.mutate({
@@ -113,7 +115,8 @@ export function FoodLogPage() {
                           })
                         }
                       >
-                        {meal.emoji ?? '🍽️'} {meal.name} · {formatNumber(meal.calories)} kcal
+                        {meal.emoji && <span aria-hidden="true">{meal.emoji}</span>}
+                        {meal.name} · {formatNumber(meal.calories)} kcal
                       </button>
                     ))}
                   </div>
@@ -132,14 +135,16 @@ export function FoodLogPage() {
         ) : dayQuery.error ? (
           <ErrorBanner error={dayQuery.error} />
         ) : meals.length === 0 ? (
-          <EmptyState icon="🍽️" title="Nothing logged for this day">
+          <EmptyState icon="plate" title="Nothing logged for this day">
             Search for a food above to add your first entry.
           </EmptyState>
         ) : (
           <div className="list">
             {meals.map((meal) => (
               <div className="list-row" key={meal.id}>
-                <span className="list-row-emoji" aria-hidden="true">{meal.emoji ?? mealTypeIcon(meal.meal_type)}</span>
+                <span className="sticker" aria-hidden="true">
+                  {meal.emoji ?? <Icon name={mealTypeIcon(meal.meal_type)} size={20} />}
+                </span>
                 <div className="list-row-body">
                   <div className="list-row-title">{meal.name}</div>
                   <div className="list-row-meta">
@@ -148,7 +153,10 @@ export function FoodLogPage() {
                     {formatNumber(meal.fat_g, 1)}F
                   </div>
                 </div>
-                <span className="badge badge-green numeric">{formatNumber(meal.calories)} kcal</span>
+                <span className="row-figure">
+                  <b>{formatNumber(meal.calories)}</b>
+                  <small>kcal</small>
+                </span>
                 <button
                   type="button"
                   className="btn-icon"
@@ -156,7 +164,7 @@ export function FoodLogPage() {
                   onClick={() => deleteMeal.mutate(meal.id)}
                   disabled={deleteMeal.isPending}
                 >
-                  🗑️
+                  <Icon name="trash" size={18} />
                 </button>
               </div>
             ))}
@@ -253,7 +261,7 @@ function PortionModal({ food, date, onClose, onSubmit, submitting }) {
         label="Meal"
         value={mealType}
         onChange={setMealType}
-        options={MEAL_TYPES.map((t) => ({ value: t.value, label: `${t.icon} ${t.label}` }))}
+        options={MEAL_TYPES.map((t) => ({ value: t.value, label: t.label }))}
       />
 
       <div className="grid grid-4" style={{ marginTop: 4 }}>

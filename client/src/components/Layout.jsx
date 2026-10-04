@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/auth-context.js';
-import { formatLongDate } from '../lib/format.js';
+import { formatMastheadDate } from '../lib/format.js';
 import { BrandMark } from './BrandMark.jsx';
+import { Icon } from './Icon.jsx';
 
+// The navigation reads as a table of contents: numbered entries, no icons.
 const NAV_ITEMS = [
-  { to: '/', label: 'Dashboard', icon: '📊', end: true },
-  { to: '/log', label: 'Food log', icon: '🍽️' },
-  { to: '/workouts', label: 'Training', icon: '🏋️' },
-  { to: '/progress', label: 'Progress', icon: '📈' },
-  { to: '/goals', label: 'Goals', icon: '🎯' },
-  { to: '/calculator', label: 'TDEE calculator', icon: '🧮' },
-  { to: '/settings', label: 'Settings', icon: '⚙️' }
+  { to: '/', label: 'Dashboard', end: true },
+  { to: '/log', label: 'Food log' },
+  { to: '/workouts', label: 'Training' },
+  { to: '/progress', label: 'Progress' },
+  { to: '/goals', label: 'Goals' },
+  { to: '/calculator', label: 'TDEE calculator' },
+  { to: '/settings', label: 'Settings' }
 ];
 
 const PAGE_TITLES = {
@@ -41,13 +43,13 @@ export function Layout() {
     .map((part) => part[0].toUpperCase())
     .join('');
 
+  const today = formatMastheadDate(new Date());
+
   return (
     <div className="app-shell">
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`} id="sidebar">
         <div className="sidebar-brand">
-          <span className="sidebar-brand-mark">
-            <BrandMark size={22} />
-          </span>
+          <BrandMark size={46} tone="plates" />
           <div>
             <div className="sidebar-brand-name">FitTrack</div>
             <div className="sidebar-brand-sub">Pro</div>
@@ -55,14 +57,14 @@ export function Layout() {
         </div>
 
         <nav className="sidebar-nav" aria-label="Main">
-          {NAV_ITEMS.map((item) => (
+          {NAV_ITEMS.map((item, index) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={item.end}
               className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
             >
-              <span className="nav-item-icon" aria-hidden="true">{item.icon}</span>
+              <span className="nav-item-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               <span>{item.label}</span>
             </NavLink>
           ))}
@@ -77,6 +79,7 @@ export function Layout() {
             </div>
           </div>
           <button type="button" className="btn btn-ghost btn-sm btn-block" onClick={logout}>
+            <Icon name="logout" size={16} />
             Sign out
           </button>
         </div>
@@ -92,22 +95,24 @@ export function Layout() {
       )}
 
       <div className="app-main">
-        <header className="topbar">
-          <button
-            type="button"
-            className="menu-btn"
-            onClick={() => setSidebarOpen((open) => !open)}
-            aria-expanded={sidebarOpen}
-            aria-controls="sidebar"
-            aria-label="Toggle navigation"
-          >
-            ☰
-          </button>
-          <div>
-            <h1 className="topbar-title">{PAGE_TITLES[location.pathname] ?? 'FitTrack'}</h1>
-            <p className="topbar-date">{formatLongDate(new Date())}</p>
+        <header className="masthead">
+          <div className="masthead-inner">
+            <button
+              type="button"
+              className="menu-btn"
+              onClick={() => setSidebarOpen((open) => !open)}
+              aria-expanded={sidebarOpen}
+              aria-controls="sidebar"
+              aria-label="Toggle navigation"
+            >
+              <Icon name="more" size={22} />
+            </button>
+            <h1 className="masthead-title">{PAGE_TITLES[location.pathname] ?? 'FitTrack'}</h1>
+            <p className="masthead-date">
+              <span>{today.weekday}</span>
+              <b>{today.date}</b>
+            </p>
           </div>
-          <div className="topbar-spacer" />
         </header>
 
         <Outlet />

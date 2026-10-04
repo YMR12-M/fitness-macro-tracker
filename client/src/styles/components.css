@@ -1,70 +1,77 @@
-/* ─── Card ────────────────────────────────────────────────────────────────── */
+/* ─── Sheet (card) ────────────────────────────────────────────────────────────
+   A block opens with the thick cap a nutrition label uses to open a section.
+   No rounded corners, no glass, no glow: the weight of the rule does the work
+   a border-radius and a shadow do in a template. */
 .card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 18px;
-  transition: border-color var(--transition);
+  position: relative;
   min-width: 0;
-}
-
-.card:hover {
-  border-color: var(--card-border-hover);
+  padding: 18px 22px 22px;
+  background: var(--surface);
+  border-top: var(--rule-heavy) solid var(--line);
+  box-shadow: inset 0 0 0 1px var(--line-faint);
 }
 
 .card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .card-title {
-  font-size: 14px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: 0.012em;
+  text-transform: uppercase;
 }
 
 .card-subtitle {
-  font-size: 12px;
-  color: var(--text2);
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-2);
 }
 
-/* ─── Stat tile ───────────────────────────────────────────────────────────── */
+/* ─── Stat ────────────────────────────────────────────────────────────────── */
 .stat {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .stat-label {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text2);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
 }
 
 .stat-value {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 30px;
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.005em;
 }
 
 .stat-unit {
-  font-size: 13px;
-  color: var(--text2);
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink-2);
 }
 
 .stat-delta {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
 }
-.stat-delta.up { color: var(--green); }
-.stat-delta.down { color: var(--orange); }
-.stat-delta.flat { color: var(--text2); }
+.stat-delta.up { color: var(--good); }
+.stat-delta.down { color: var(--accent-ink); }
+.stat-delta.flat { color: var(--ink-2); }
 
 /* ─── Buttons ─────────────────────────────────────────────────────────────── */
 .btn {
@@ -72,61 +79,80 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 600;
-  transition: var(--transition);
-  border: 1px solid transparent;
+  min-height: 40px;
+  padding: 0 18px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-decoration: none;
   white-space: nowrap;
+  border: var(--rule) solid transparent;
+  border-radius: var(--radius);
+  transition: background var(--transition), color var(--transition), border-color var(--transition),
+    transform 0.08s var(--ease);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .btn-primary {
-  background: var(--green);
-  color: #062018;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--green-dim);
-  box-shadow: var(--shadow-green);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
 }
 
 .btn-ghost {
-  background: var(--card2);
-  border-color: var(--card-border);
-  color: var(--text);
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
 }
 .btn-ghost:hover:not(:disabled) {
-  border-color: var(--card-border-hover);
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .btn-danger {
   background: transparent;
-  border-color: var(--red);
-  color: var(--red);
+  border-color: var(--bad);
+  color: var(--bad);
 }
 .btn-danger:hover:not(:disabled) {
-  background: var(--red);
-  color: #fff;
+  background: var(--bad);
+  color: var(--bg);
 }
 
 .btn-sm {
-  padding: 6px 11px;
-  font-size: 12px;
-}
-
-.btn-icon {
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  color: var(--text2);
-  transition: var(--transition);
-}
-.btn-icon:hover {
-  background: var(--card2);
-  color: var(--text);
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 16px;
 }
 
 .btn-block {
   width: 100%;
+}
+
+.btn-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  color: var(--ink-2);
+  transition: background var(--transition), color var(--transition);
+}
+.btn-icon:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--bg);
 }
 
 /* ─── Forms ───────────────────────────────────────────────────────────────── */
@@ -134,57 +160,75 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .field-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text2);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
 }
 
+/* A form field is a line you write on: sunken well, ink underline. */
 .input,
 .select,
 .textarea {
   width: 100%;
-  padding: 10px 12px;
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  transition: var(--transition);
+  min-height: 42px;
+  padding: 9px 12px;
+  background: var(--sunken);
+  border: 0;
+  border-bottom: var(--rule) solid var(--line);
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: 15px;
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  /* Chevron drawn in CSS so it follows the theme. */
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 50%, calc(100% - 14px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus {
-  outline: none;
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px var(--green-glow);
+  background-color: var(--surface-2);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 
 .input[aria-invalid='true'],
 .select[aria-invalid='true'] {
-  border-color: var(--red);
+  border-bottom-color: var(--bad);
+  box-shadow: inset 0 -3px 0 var(--bad);
 }
 
 .input::placeholder {
-  color: var(--text3);
+  color: var(--ink-2);
+  opacity: 0.7;
 }
 
 .field-error {
-  font-size: 12px;
-  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bad);
 }
 
 .field-hint {
-  font-size: 11px;
-  color: var(--text2);
+  font-size: 12px;
+  color: var(--ink-2);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 14px;
 }
 
 @media (max-width: 520px) {
@@ -193,70 +237,141 @@
   }
 }
 
-/* Segmented choice used for meal type, intensity, goal direction */
+/* Segmented choice (meal type, intensity, time window): one bar, hard dividers,
+   the chosen option inverted — the way a gym timer's mode switch reads. */
 .segmented {
-  display: flex;
-  gap: 6px;
+  display: inline-flex;
   flex-wrap: wrap;
+  width: fit-content;
+  max-width: 100%;
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  border-radius: var(--radius);
 }
 
 .segmented-option {
-  padding: 8px 13px;
-  border-radius: var(--radius-sm);
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text2);
-  transition: var(--transition);
+  min-height: 36px;
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-right: var(--rule) solid var(--line);
+  transition: background var(--transition), color var(--transition);
 }
-
+.segmented-option:last-child {
+  border-right: 0;
+}
+.segmented-option:hover:not(:disabled):not([aria-pressed='true']) {
+  background: var(--sunken);
+}
 .segmented-option[aria-pressed='true'] {
-  background: var(--green-glow);
-  border-color: var(--green);
-  color: var(--green);
+  background: var(--ink);
+  color: var(--bg);
 }
 
-/* ─── Progress ────────────────────────────────────────────────────────────── */
+/* Free-flowing option set: chips that wrap (quick re-log, icon pickers). */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  border-radius: var(--radius);
+  transition: background var(--transition), color var(--transition);
+}
+.chip:hover:not(:disabled) {
+  background: var(--sunken);
+}
+.chip[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* ─── Progress: a ruler, not a pill ──────────────────────────────────────────
+   Ten segments. The notches are cut through the fill so a bar reads as
+   "7 of 10" at a glance, the way a gauge on gym equipment does. */
 .progress {
-  height: 7px;
-  border-radius: 999px;
-  background: var(--bg3);
-  overflow: hidden;
+  position: relative;
+  height: 14px;
+  background: var(--sunken);
+  border: 1.5px solid var(--line);
 }
 
 .progress-fill {
   height: 100%;
-  border-radius: 999px;
-  background: var(--green);
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--ink);
+  transition: width 0.6s var(--ease);
 }
 
-/* ─── Lists ───────────────────────────────────────────────────────────────── */
+.progress::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(10% - 2px),
+    var(--surface) calc(10% - 2px),
+    var(--surface) 10%
+  );
+  pointer-events: none;
+}
+
+/* ─── Stacks and lists ────────────────────────────────────────────────────── */
+/* A vertical run of fields or paragraphs; rows that belong to a ledger use .list. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .list-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 11px 13px;
-  background: var(--card2);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: var(--hair) solid var(--line-soft);
+}
+.list-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.list-row:first-child {
+  padding-top: 0;
 }
 
-.list-row:hover {
-  border-color: var(--card-border-hover);
-}
-
-.list-row-emoji {
-  font-size: 20px;
+/* A food's emoji, set like a produce sticker rather than floated bare. */
+.list-row-emoji,
+.sticker {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
+  font-size: 20px;
+  line-height: 1;
+  background: var(--sunken);
+  border: var(--hair) solid var(--line-soft);
+  border-radius: var(--radius);
 }
 
 .list-row-body {
@@ -265,92 +380,114 @@
 }
 
 .list-row-title {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .list-row-meta {
-  font-size: 12px;
-  color: var(--text2);
+  font-size: 13px;
+  color: var(--ink-2);
 }
 
-/* ─── Badges ──────────────────────────────────────────────────────────────── */
+/* The amount column of a ledger line: big condensed figure, small unit. */
+.row-figure {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-variant-numeric: tabular-nums lining-nums;
+  white-space: nowrap;
+}
+.row-figure b {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+.row-figure small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* ─── Stamps (badges) ─────────────────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-  background: var(--bg3);
-  color: var(--text2);
+  padding: 3px 8px 2px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1.5px solid currentColor;
+  border-radius: var(--radius);
   white-space: nowrap;
 }
 
-.badge-green { background: var(--green-glow); color: var(--green); }
-.badge-orange { background: rgba(255, 107, 53, 0.14); color: var(--orange); }
-.badge-blue { background: rgba(74, 158, 255, 0.14); color: var(--blue); }
-.badge-red { background: rgba(239, 68, 68, 0.14); color: var(--red); }
+.badge-solid { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.badge-accent { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.badge-info { color: var(--info); }
+.badge-bad { color: var(--bad); }
 
 /* ─── Modal ───────────────────────────────────────────────────────────────── */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(4px);
+  z-index: 100;
   display: grid;
   place-items: center;
   padding: 18px;
-  z-index: 100;
-  animation: fade-in 0.16s ease;
+  background: var(--scrim);
+  animation: fade-in 0.14s ease;
 }
 
 .modal {
-  width: min(520px, 100%);
-  max-height: min(86dvh, 760px);
+  width: min(540px, 100%);
+  max-height: min(88dvh, 780px);
   overflow-y: auto;
-  background: var(--bg2);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  animation: modal-in 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  border-top: 10px solid var(--accent);
+  animation: modal-in 0.22s var(--ease);
 }
 
 .modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--card-border);
-  position: sticky;
-  top: 0;
-  background: var(--bg2);
-  z-index: 1;
+  padding: 16px 22px 14px;
+  background: var(--surface);
+  border-bottom: var(--rule) solid var(--line);
 }
 
 .modal-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 30px;
+  line-height: 1;
 }
 
 .modal-body {
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  padding: 22px;
 }
 
 .modal-footer {
-  padding: 14px 20px;
-  border-top: 1px solid var(--card-border);
   display: flex;
-  gap: 10px;
   justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 22px;
+  border-top: var(--hair) solid var(--line-soft);
 }
 
 @keyframes fade-in {
@@ -358,40 +495,38 @@
 }
 
 @keyframes modal-in {
-  from { opacity: 0; translate: 0 12px; scale: 0.98; }
+  from { opacity: 0; translate: 0 14px; }
 }
 
-/* ─── Toast ───────────────────────────────────────────────────────────────── */
+/* ─── Toast: an inverted slip, edged in the colour of its meaning ─────────── */
 .toast-region {
   position: fixed;
-  bottom: 20px;
+  bottom: 22px;
   left: 50%;
   translate: -50% 0;
+  z-index: 200;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  z-index: 200;
+  width: min(440px, calc(100vw - 32px));
   pointer-events: none;
-  width: min(420px, calc(100vw - 32px));
 }
 
 .toast {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 15px;
-  border-radius: var(--radius-sm);
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
-  box-shadow: var(--shadow-md);
+  gap: 12px;
+  padding: 12px 16px;
   font-size: 14px;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--ink);
+  border-left: 8px solid var(--good);
   pointer-events: auto;
-  animation: toast-in 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: toast-in 0.24s var(--ease);
 }
-
-.toast-success { border-left: 3px solid var(--green); }
-.toast-error { border-left: 3px solid var(--red); }
-.toast-info { border-left: 3px solid var(--blue); }
+.toast-error { border-left-color: var(--bad); }
+.toast-info { border-left-color: var(--info); }
 
 @keyframes toast-in {
   from { opacity: 0; translate: 0 14px; }
@@ -402,36 +537,60 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 34px 18px;
+  gap: 10px;
+  padding: 30px 18px;
   text-align: center;
-  color: var(--text2);
+  color: var(--ink-2);
+  border: 2px dashed var(--line-soft);
 }
 
 .empty-state-icon {
-  font-size: 34px;
-  opacity: 0.55;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 4px;
+  font-size: 26px;
+  color: var(--ink);
+  border: var(--rule) solid var(--line);
 }
 
 .empty-state-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 .empty-state-text {
-  font-size: 13px;
-  max-width: 40ch;
+  max-width: 42ch;
+  font-size: 14px;
   line-height: 1.55;
 }
 
+/* Three plates being loaded: the spinner, and the only moving thing on a
+   loading screen. */
 .spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--card-border);
-  border-top-color: var(--green);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  width: 22px;
+  height: 18px;
+  vertical-align: middle;
+  color: var(--accent);
+  background:
+    linear-gradient(currentColor 0 0) 0 100% / 5px 40% no-repeat,
+    linear-gradient(currentColor 0 0) 50% 100% / 5px 40% no-repeat,
+    linear-gradient(currentColor 0 0) 100% 100% / 5px 40% no-repeat;
+  animation: plates 0.9s ease-in-out infinite;
+}
+
+@keyframes plates {
+  0%   { background-size: 5px 40%, 5px 100%, 5px 65%; }
+  33%  { background-size: 5px 100%, 5px 65%, 5px 40%; }
+  66%  { background-size: 5px 65%, 5px 40%, 5px 100%; }
+  100% { background-size: 5px 40%, 5px 100%, 5px 65%; }
 }
 
 .spinner-page {
@@ -440,236 +599,753 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  color: var(--text2);
-  font-size: 13px;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
 }
 
-@keyframes spin {
-  to { rotate: 360deg; }
+.spinner-page .spinner {
+  width: 36px;
+  height: 30px;
+  background-size: 8px 40%, 8px 40%, 8px 40%;
 }
 
 .skeleton {
-  background: linear-gradient(90deg, var(--card2) 25%, var(--bg3) 50%, var(--card2) 75%);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--sunken) 0 10px,
+    var(--surface-2) 10px 20px
+  );
   background-size: 200% 100%;
-  animation: shimmer 1.3s infinite;
-  border-radius: var(--radius-sm);
+  animation: hatch 1.2s linear infinite;
 }
 
-@keyframes shimmer {
-  to { background-position: -200% 0; }
+@keyframes hatch {
+  to { background-position: 28px 0; }
 }
 
 .error-banner {
   padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ffb4b4;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bad);
+  background: var(--surface);
+  border: var(--rule) solid var(--bad);
+  border-left-width: 8px;
 }
 
-/* ─── Auth screens ────────────────────────────────────────────────────────── */
+/* ─── Hazard tape: "over target", "check this" ────────────────────────────── */
+.hazard {
+  height: 10px;
+  background: repeating-linear-gradient(-45deg, var(--ink) 0 8px, var(--hazard) 8px 16px);
+}
+
+/* ─── Auth ────────────────────────────────────────────────────────────────── */
 .auth-screen {
   min-height: 100dvh;
   display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+}
+
+.auth-poster {
+  /* Pinned to the viewport so a long form (sign-up) scrolls past a poster that
+     stays put rather than stretching it. */
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 44px 52px 40px;
+  overflow: hidden;
+  color: var(--on-spine);
+  background: var(--spine) var(--grain);
+}
+
+.auth-lockup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.auth-wordmark {
+  text-transform: uppercase;
+  font-family: var(--font-stencil);
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+}
+
+.auth-headline {
+  font-family: var(--font-stencil);
+  font-size: clamp(64px, 9.4vw, 148px);
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.auth-headline em {
+  font-style: normal;
+  color: var(--spine-accent);
+}
+
+.auth-poster-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 460px;
+}
+
+.auth-poster-note {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--on-spine-2);
+}
+
+.auth-panel {
+  display: grid;
   place-items: center;
-  padding: 22px;
-  background: radial-gradient(ellipse at top, rgba(0, 229, 160, 0.08), transparent 60%), var(--bg);
+  padding: 40px 32px;
 }
 
 .auth-card {
-  width: min(430px, 100%);
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 30px;
-  box-shadow: var(--shadow-md);
+  width: min(440px, 100%);
 }
 
 .auth-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
-  text-align: center;
+  margin-bottom: 26px;
 }
 
 .auth-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-size: 56px;
+  line-height: 0.88;
 }
 
 .auth-subtitle {
-  font-size: 13px;
-  color: var(--text2);
+  margin-top: 10px;
+  font-size: 15px;
   line-height: 1.55;
+  color: var(--ink-2);
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .auth-footer {
-  margin-top: 18px;
-  text-align: center;
-  font-size: 13px;
-  color: var(--text2);
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--ink-2);
 }
 
 .auth-divider {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 6px 0;
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  gap: 12px;
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text3);
 }
-
-.auth-divider::before,
 .auth-divider::after {
   content: '';
   flex: 1;
-  height: 1px;
-  background: var(--card-border);
+  height: var(--rule);
+  background: var(--line);
+}
+
+@media (max-width: 900px) {
+  .auth-screen {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .auth-poster {
+    position: static;
+    height: auto;
+    gap: 22px;
+    padding: 26px 22px 24px;
+  }
+  .auth-headline {
+    font-size: clamp(48px, 15vw, 84px);
+  }
+  .auth-poster-foot {
+    display: none;
+  }
+  .auth-panel {
+    padding: 30px 22px 44px;
+  }
 }
 
 /* ─── Charts ──────────────────────────────────────────────────────────────── */
 .chart-frame {
   position: relative;
   width: 100%;
-  height: 260px;
+  height: 270px;
 }
 
 .chart-frame-sm {
-  height: 190px;
+  height: 200px;
 }
 
-/* ─── Calorie ring ────────────────────────────────────────────────────────── */
-.ring-wrap {
-  display: grid;
-  place-items: center;
+/* ─── The dial: calories as a precision gauge ────────────────────────────────
+   72 ticks like the bezel of a stopwatch. Ticks fill clockwise as the day's
+   calories are eaten; the ring inside it is the split of what has been eaten
+   into protein / carbs / fat, outlined so the yellow holds up on paper. */
+.dial {
   position: relative;
-  padding: 8px 0;
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  margin-inline: auto;
 }
 
-.ring-svg {
-  transform: rotate(-90deg);
+.dial-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.ring-track {
+.dial-tick {
+  stroke: var(--line-soft);
+  stroke-width: 3;
+}
+.dial-tick.is-major { stroke: var(--ink-3); }
+/* Lit ticks sweep on one after another as an animation rather than a
+   transition, so switching the theme recolours them at once instead of
+   rippling round the dial. */
+.dial-tick.is-on {
+  stroke: var(--ink);
+  animation: tick-on 0.3s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 11ms);
+}
+.dial.is-over .dial-tick.is-on { stroke: var(--accent); }
+
+@keyframes tick-on {
+  from { stroke: var(--line-soft); }
+}
+
+.dial-needle {
+  fill: var(--accent);
+}
+
+.dial-track {
   fill: none;
-  stroke: var(--bg3);
-  stroke-width: 14;
+  stroke: var(--line-soft);
+  stroke-width: 11;
 }
 
-.ring-value {
+.dial-edge {
   fill: none;
-  stroke: var(--green);
-  stroke-width: 14;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  stroke: var(--plate-edge);
+  stroke-width: 15;
 }
 
-.ring-center {
+.dial-arc {
+  fill: none;
+  stroke-width: 11;
+  transition: stroke-dasharray 0.7s var(--ease);
+}
+
+.dial-center {
   position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.dial-percent {
+  font-family: var(--font-display);
+  font-size: clamp(54px, 7vw, 78px);
+  font-weight: 900;
+  line-height: 0.82;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.dial-percent small {
+  font-size: 0.45em;
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+.dial-caption {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* ─── Plate meter: macros as plates loaded on a bar ──────────────────────────
+   Ten slots, ten percent each. Empty slots are outlines; loaded ones are
+   solid plate colour. Past 100% the extras stay off the bar and the "over"
+   stamp does the talking, because a bar that quietly stops at full hides the
+   very day you most need to see. */
+.plates {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
+  height: 42px;
 }
 
-.ring-number {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 42px;
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+.plates::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  background: var(--line);
 }
 
-.ring-caption {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text2);
+.plate {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--plate-edge);
+  border-radius: 1px;
+}
+.plate.is-part {
+  height: 78%;
+  background: var(--c);
+  border-color: var(--plate-edge-on);
+  opacity: 0.55;
+}
+/* Plates drop onto the bar in order — an animation, so a theme change or a
+   re-render does not replay it, but a plate newly loaded does. */
+.plate.is-on,
+.plate.is-part {
+  animation: plate-load 0.45s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+.plate.is-on {
+  height: 100%;
+  background: var(--c);
+  border-color: var(--plate-edge-on);
 }
 
-/* ─── Macro bars ──────────────────────────────────────────────────────────── */
-.macro-row {
+@keyframes plate-load {
+  from {
+    height: 50%;
+    background: var(--surface);
+    border-color: var(--plate-edge);
+  }
+}
+
+/* The four columns under the hero: protein, carbs, fat, water. */
+.quad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.quad-cell {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+  min-width: 0;
+  padding: 0 22px;
+  border-left: var(--hair) solid var(--line-soft);
+}
+.quad-cell:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.quad-cell:last-child {
+  padding-right: 0;
 }
 
 .macro-head {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: baseline;
-  font-size: 13px;
+  gap: 10px;
 }
 
 .macro-name {
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-weight: 500;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 0;
 }
 
-.macro-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+/* The macro's initial on its own plate colour — the legend lives on the data. */
+.macro-chip {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--on-c, var(--bg));
+  background: var(--c);
+  border: 1.5px solid var(--plate-edge-on);
 }
 
-.macro-amount {
-  color: var(--text2);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
+.macro-figure {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.macro-figure b {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 0.9;
+}
+.macro-figure span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* ─── Hero: the answer to "what can I still eat today?" ───────────────────── */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 24px 48px;
+  padding: 26px 30px 30px;
+  background: var(--surface);
+  border-top: var(--rule-heavy) solid var(--line);
+  box-shadow: inset 0 0 0 1px var(--line-faint);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.hero-number {
+  margin: 8px 0 0 -6px;
+  font-family: var(--font-display);
+  font-size: clamp(120px, 14.5vw, 212px);
+  font-weight: 900;
+  line-height: 0.78;
+  letter-spacing: -0.012em;
+}
+.hero.is-over .hero-number {
+  color: var(--accent-ink);
+}
+
+.hero-label {
+  margin-top: 26px;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.hero-over {
+  margin-top: 14px;
+  max-width: 360px;
+}
+
+/* Three figures on a ruled line — a ledger footer. */
+.ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 28px;
+  border-top: var(--rule) solid var(--line);
+}
+.ledger > div {
+  padding: 12px 18px 0;
+  border-left: var(--hair) solid var(--line-soft);
+}
+.ledger > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.ledger dt {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.ledger dd {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.ledger dd small {
+  margin-left: 4px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* ─── Scoreboard: four figures side by side, ruled rather than boxed ──────── */
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: var(--surface);
+  border-top: var(--rule-heavy) solid var(--line);
+  box-shadow: inset 0 0 0 1px var(--line-faint);
+}
+
+.scoreboard-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 18px 22px 20px;
+  border-left: var(--hair) solid var(--line-soft);
+}
+.scoreboard-cell:first-child {
+  border-left: 0;
+}
+
+/* ─── Tally: a streak the way it is kept on a gym wall ────────────────────── */
+.tally {
+  display: block;
+  max-width: 100%;
+  height: 26px;
+  color: var(--ink);
+}
+.tally line {
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: square;
+}
+.tally .strike {
+  stroke: var(--accent);
 }
 
 /* ─── Search results ──────────────────────────────────────────────────────── */
 .search-results {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  max-height: 320px;
+  max-height: 340px;
   overflow-y: auto;
+  border-top: var(--rule) solid var(--line);
 }
 
 .search-result {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
   width: 100%;
   padding: 10px 12px;
-  background: var(--card2);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
   text-align: left;
-  transition: var(--transition);
+  border-bottom: var(--hair) solid var(--line-soft);
+  transition: background var(--transition), color var(--transition);
 }
-
 .search-result:hover {
-  border-color: var(--green);
-  background: var(--bg3);
+  background: var(--ink);
+  color: var(--bg);
+}
+.search-result:hover .search-result-macros {
+  color: inherit;
+  opacity: 0.8;
+}
+.search-result:hover .list-row-emoji {
+  background: var(--surface);
 }
 
 .search-result-name {
-  font-size: 13px;
-  font-weight: 500;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .search-result-macros {
-  font-size: 11px;
-  color: var(--text2);
+  display: block;
+  font-size: 12px;
+  color: var(--ink-2);
   font-variant-numeric: tabular-nums;
+}
+
+/* ─── Program + goal tiles ────────────────────────────────────────────────── */
+.program-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.program-tile:hover:not(:disabled):not([aria-pressed='true']) {
+  background: var(--surface-2);
+}
+.program-tile[aria-pressed='true'] {
+  color: var(--bg);
+  background: var(--ink);
+  border-top-color: var(--accent);
+}
+.program-tile[aria-pressed='true'] .card-subtitle,
+.program-tile[aria-pressed='true'] .list-row-meta {
+  color: var(--bg);
+  opacity: 0.78;
+}
+
+.program-days {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.program-days b {
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: 0;
+}
+
+.goal-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px 18px;
+  background: var(--sunken);
+  border-top: 3px solid var(--line);
+}
+
+.goal-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Section label inside a card ─────────────────────────────────────────── */
+.page-section-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ─── Entrance: sections rise in, a beat apart ────────────────────────────── */
+.page > * {
+  animation: rise 0.5s var(--ease) both;
+}
+.page > :nth-child(2) { animation-delay: 0.05s; }
+.page > :nth-child(3) { animation-delay: 0.1s; }
+.page > :nth-child(4) { animation-delay: 0.15s; }
+.page > :nth-child(5) { animation-delay: 0.2s; }
+.page > :nth-child(n + 6) { animation-delay: 0.25s; }
+
+@keyframes rise {
+  from { opacity: 0; translate: 0 10px; }
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1180px) {
+  .hero {
+    gap: 24px 28px;
+  }
+  .dial {
+    width: min(100%, 260px);
+  }
+  .quad {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 26px;
+  }
+  .quad-cell:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .quad-cell:nth-child(even) {
+    padding-right: 0;
+  }
+  .scoreboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .scoreboard-cell:nth-child(odd) {
+    border-left: 0;
+  }
+  .scoreboard-cell:nth-child(n + 3) {
+    border-top: var(--hair) solid var(--line-soft);
+  }
+}
+
+/* Below this the hero stacks: number first, dial under it. */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .quad {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .quad-cell,
+  .quad-cell:nth-child(even) {
+    padding: 0;
+    border-left: 0;
+  }
+  .ledger dd,
+  .macro-figure b {
+    font-size: 36px;
+  }
+  .scoreboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .scoreboard-cell {
+    border-left: 0;
+  }
+  .scoreboard-cell:nth-child(n + 2) {
+    border-top: var(--hair) solid var(--line-soft);
+  }
+  .card {
+    padding: 16px 16px 18px;
+  }
+  .hero {
+    padding: 20px 18px 22px;
+  }
+}
+
+/* ─── Goal rows (dashboard) ───────────────────────────────────────────────── */
+.goal-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: var(--hair) solid var(--line-soft);
+}
+.goal-row:first-child {
+  padding-top: 0;
+}
+.goal-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.goal-row-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }

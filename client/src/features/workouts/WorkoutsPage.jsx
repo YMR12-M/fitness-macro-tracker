@@ -11,6 +11,7 @@ import { Spinner } from '../../components/Spinner.jsx';
 import { useToast } from '../../components/toast-context.js';
 import { useMutationWithRefresh } from '../../hooks/useMutationWithRefresh.js';
 import { formatNumber, formatShortDate, todayISO } from '../../lib/format.js';
+import { Icon } from '../../components/Icon.jsx';
 
 const INTENSITY_OPTIONS = [
   { value: 'low', label: 'Low' },
@@ -76,7 +77,7 @@ export function WorkoutsPage() {
         {todayQuery.isPending ? (
           <Spinner label="Loading session" />
         ) : !session?.program ? (
-          <EmptyState icon="🏋️" title="Choose a program below">
+          <EmptyState icon="train" title="Choose a program below">
             Once you pick a program, the exercises prescribed for each day appear here automatically.
           </EmptyState>
         ) : (
@@ -105,29 +106,24 @@ export function WorkoutsPage() {
               <button
                 key={program.id}
                 type="button"
-                className="card"
-                style={{
-                  textAlign: 'left',
-                  borderColor: program.is_active ? program.accent : undefined,
-                  cursor: 'pointer'
-                }}
+                className="card program-tile"
                 onClick={() => selectProgram.mutate(program.id)}
                 disabled={selectProgram.isPending}
                 aria-pressed={Boolean(program.is_active)}
               >
-                <div className="card-header">
-                  <span style={{ fontSize: 24 }} aria-hidden="true">{program.emoji}</span>
+                <div className="card-header" style={{ marginBottom: 0 }}>
+                  <span className="program-days">
+                    <b>{program.days_per_week}</b>days / week
+                  </span>
                   {program.is_active ? (
-                    <span className="badge badge-green">Active</span>
+                    <span className="badge badge-accent">Active</span>
                   ) : (
                     <span className="badge">{program.level}</span>
                   )}
                 </div>
                 <div className="card-title">{program.name}</div>
-                <p className="card-subtitle" style={{ marginTop: 6, lineHeight: 1.5 }}>{program.description}</p>
-                <p className="list-row-meta" style={{ marginTop: 8 }}>
-                  {program.days_per_week} days / week · {program.exercise_count} exercises
-                </p>
+                <p className="card-subtitle">{program.description}</p>
+                <p className="list-row-meta">{program.exercise_count} exercises</p>
               </button>
             ))}
           </div>
@@ -138,7 +134,7 @@ export function WorkoutsPage() {
         {historyQuery.isPending ? (
           <Spinner label="Loading history" />
         ) : (historyQuery.data?.workouts ?? []).length === 0 ? (
-          <EmptyState icon="📋" title="No workouts logged yet">
+          <EmptyState icon="log" title="No workouts logged yet">
             Log your first session and your volume and streak stats start building.
           </EmptyState>
         ) : (
@@ -160,7 +156,7 @@ export function WorkoutsPage() {
                   onClick={() => deleteWorkout.mutate(workout.id)}
                   disabled={deleteWorkout.isPending}
                 >
-                  🗑️
+                  <Icon name="trash" size={18} />
                 </button>
               </div>
             ))}

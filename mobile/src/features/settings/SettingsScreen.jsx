@@ -33,8 +33,8 @@ const SEX_OPTIONS = [
 ];
 
 const THEME_OPTIONS = [
-  { value: 'dark', label: '🌙 Dark' },
-  { value: 'light', label: '☀️ Light' }
+  { value: 'dark', label: 'Dark' },
+  { value: 'light', label: 'Light' }
 ];
 
 export function SettingsScreen() {

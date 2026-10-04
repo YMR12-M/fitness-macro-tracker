@@ -2,6 +2,7 @@
 // screen readers get the same confirmation sighted users see.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ToastContext } from './toast-context.js';
+import { Icon } from './Icon.jsx';
 
 const DISMISS_AFTER_MS = 3200;
 
@@ -54,7 +55,7 @@ export function ToastProvider({ children }) {
       <div className="toast-region" role="status" aria-live="polite">
         {toasts.map((toast) => (
           <div key={toast.id} className={`toast toast-${toast.tone}`}>
-            <span aria-hidden="true">{toast.tone === 'error' ? '⚠️' : toast.tone === 'info' ? 'ℹ️' : '✅'}</span>
+            <Icon name={toast.tone === 'error' ? 'warn' : toast.tone === 'info' ? 'info' : 'check'} size={20} />
             <span>{toast.message}</span>
           </div>
         ))}

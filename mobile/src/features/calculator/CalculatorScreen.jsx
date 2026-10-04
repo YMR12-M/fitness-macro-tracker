@@ -138,7 +138,7 @@ export function CalculatorScreen() {
 
       <Card title="Your numbers" subtitle={isFetching ? 'Calculating…' : 'Daily energy and macro targets'}>
         {!complete ? (
-          <EmptyState icon="🧮" title="Fill in your details">
+          <EmptyState icon="calculator" title="Fill in your details">
             Enter your age, weight and height and the calculation runs automatically.
           </EmptyState>
         ) : error ? (

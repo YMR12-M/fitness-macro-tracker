@@ -31,8 +31,8 @@ const SEX_OPTIONS = [
 ];
 
 const THEME_OPTIONS = [
-  { value: 'dark', label: '🌙 Dark' },
-  { value: 'light', label: '☀️ Light' }
+  { value: 'dark', label: 'Dark' },
+  { value: 'light', label: 'Light' }
 ];
 
 export function SettingsPage() {
@@ -140,7 +140,7 @@ export function SettingsPage() {
       {error && <ErrorBanner error={error} />}
 
       <Card title="Profile">
-        <div className="list">
+        <div className="stack">
           <TextField label="Name" value={form.name} onChange={update('name')} error={fieldError('name')} />
           <TextField label="Email" value={user?.email ?? ''} disabled hint="Contact support to change your email." />
 
@@ -210,7 +210,7 @@ export function SettingsPage() {
       </Card>
 
       <Card title="Your data">
-        <div className="list">
+        <div className="stack">
           <p className="empty-state-text" style={{ maxWidth: 'none', textAlign: 'left' }}>
             Export everything this account holds — meals, workouts, weights, goals and custom foods — as a JSON file.
           </p>
@@ -221,7 +221,7 @@ export function SettingsPage() {
       </Card>
 
       <Card title="Account">
-        <div className="list">
+        <div className="stack">
           <button type="button" className="btn btn-ghost" onClick={() => setPasswordOpen(true)}>
             Change password
           </button>

@@ -1,28 +1,34 @@
 /* Touch-first components. Every interactive element clears --tap (44px) and
  * answers a press with a transform, because on a phone there is no hover to
- * confirm that the finger landed on the right thing. */
+ * confirm that the finger landed on the right thing.
+ *
+ * The visual language is the desktop client's (see client/src/styles/): ruled
+ * sheets instead of rounded cards, condensed numerals, plate colours for data
+ * and ink for everything else. */
 
-/* ─── Card ────────────────────────────────────────────────────────────────── */
+/* ─── Sheet (card) ────────────────────────────────────────────────────────── */
 .card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 16px;
+  position: relative;
   min-width: 0;
+  padding: 16px 16px 18px;
+  background: var(--surface);
+  border-top: 4px solid var(--line);
+  box-shadow: inset 0 0 0 1px var(--line-faint);
 }
 
 .card-flush {
   padding: 14px 0 0;
   background: none;
-  border: none;
+  border-top: 0;
+  box-shadow: none;
 }
 
 .card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .card-heading {
@@ -30,14 +36,19 @@
 }
 
 .card-title {
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: 0.012em;
+  text-transform: uppercase;
 }
 
 .card-subtitle {
+  margin-top: 5px;
   font-size: var(--fs-label);
-  color: var(--text2);
   line-height: 1.45;
+  color: var(--ink-2);
 }
 
 /* A card that is itself a link or a button. */
@@ -45,59 +56,65 @@
   display: block;
   width: 100%;
   text-align: left;
-  transition: scale 0.14s var(--spring), border-color var(--transition);
+  transition: transform 0.14s var(--spring), background var(--transition);
 }
-
 .card-tappable:active {
-  scale: 0.985;
-  border-color: var(--card-border-hover);
+  transform: scale(0.985);
+  background: var(--surface-2);
 }
 
 /* ─── Stat ────────────────────────────────────────────────────────────────── */
 .stat {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   min-width: 0;
 }
 
 .stat-label {
-  font-size: var(--fs-micro);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text2);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--ink-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .stat-value {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.005em;
 }
 
 .stat-unit {
-  font-size: 12px;
-  color: var(--text2);
+  font-family: var(--font-body);
+  font-size: 13px;
   font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+/* Three stats abreast get a smaller figure so a value and its unit share a line. */
+.grid-3 .stat-value {
+  font-size: 34px;
 }
 
 .stat-delta {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
 }
-.stat-delta.up { color: var(--green); }
-.stat-delta.down { color: var(--orange); }
-.stat-delta.flat { color: var(--text2); }
+.stat-delta.up { color: var(--good); }
+.stat-delta.down { color: var(--accent-ink); }
+.stat-delta.flat { color: var(--ink-2); }
 
 /* ─── Layout helpers ──────────────────────────────────────────────────────── */
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 /* Self-sufficient rather than modifiers on .stack: used alone they would
@@ -110,7 +127,7 @@
 }
 
 .stack-sm { gap: 8px; }
-.stack-lg { gap: 18px; }
+.stack-lg { gap: 20px; }
 
 .row {
   display: flex;
@@ -128,38 +145,13 @@
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-/* Stat tiles that scroll sideways under the thumb instead of wrapping into a
-   grid that pushes everything below the fold. Snap keeps them aligned. */
-.rail {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(140px, 46%);
-  gap: 10px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  overscroll-behavior-x: contain;
-  /* Bleed to the screen edges so the row reads as scrollable. */
-  margin-inline: calc(var(--gutter) * -1);
-  padding-inline: var(--gutter);
-  padding-bottom: 2px;
-  scrollbar-width: none;
-}
-
-.rail::-webkit-scrollbar {
-  display: none;
-}
-
-.rail > * {
-  scroll-snap-align: start;
+  gap: 12px;
 }
 
 /* ─── Buttons ─────────────────────────────────────────────────────────────── */
@@ -169,42 +161,55 @@
   justify-content: center;
   gap: 8px;
   min-height: var(--tap);
-  padding: 0 18px;
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  font-weight: 600;
-  border: 1px solid transparent;
+  padding: 0 20px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-decoration: none;
   white-space: nowrap;
-  transition: scale 0.14s var(--spring), background var(--transition),
+  border: var(--rule) solid transparent;
+  border-radius: var(--radius);
+  transition: transform 0.14s var(--spring), background var(--transition), color var(--transition),
     border-color var(--transition);
 }
 
 .btn:active:not(:disabled) {
-  scale: 0.96;
+  transform: scale(0.97);
 }
 
 .btn-primary {
-  background: var(--green);
-  color: #062018;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }
 
 .btn-ghost {
-  background: var(--card2);
-  border-color: var(--card-border);
-  color: var(--text);
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+.btn-ghost:active:not(:disabled) {
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .btn-danger {
-  background: rgba(239, 68, 68, 0.12);
-  border-color: rgba(239, 68, 68, 0.4);
-  color: var(--red);
+  background: transparent;
+  border-color: var(--bad);
+  color: var(--bad);
+}
+.btn-danger:active:not(:disabled) {
+  background: var(--bad);
+  color: var(--bg);
 }
 
 .btn-sm {
-  min-height: 36px;
-  padding: 0 13px;
-  font-size: var(--fs-label);
-  border-radius: var(--radius-xs);
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 17px;
 }
 
 .btn-block {
@@ -218,15 +223,15 @@
   height: var(--tap);
   display: grid;
   place-items: center;
-  border-radius: var(--radius-sm);
-  color: var(--text2);
   flex-shrink: 0;
-  transition: background var(--transition), scale 0.14s var(--spring);
+  color: var(--ink-2);
+  border-radius: var(--radius);
+  transition: background var(--transition), color var(--transition), transform 0.14s var(--spring);
 }
-
 .btn-icon:active {
-  background: var(--card2);
-  scale: 0.9;
+  background: var(--ink);
+  color: var(--bg);
+  transform: scale(0.92);
 }
 
 /* ─── Fields ──────────────────────────────────────────────────────────────── */
@@ -240,18 +245,20 @@
 .field-label {
   font-size: var(--fs-label);
   font-weight: 600;
-  color: var(--text2);
+  color: var(--ink-2);
 }
 
+/* A line you write on: sunken well, ink underline. */
 .input,
 .select {
   width: 100%;
-  min-height: var(--tap);
+  min-height: 48px;
   padding: 11px 14px;
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  background: var(--sunken);
+  border: 0;
+  border-bottom: var(--rule) solid var(--line);
+  border-radius: var(--radius) var(--radius) 0 0;
+  transition: background var(--transition), box-shadow var(--transition);
   /* Safari renders date and search inputs at a different intrinsic height
      unless the platform appearance is dropped first. */
   appearance: none;
@@ -260,88 +267,96 @@
 
 .select {
   /* Chevron drawn in CSS so the control matches the theme in both schemes. */
-  background-image: linear-gradient(45deg, transparent 50%, var(--text2) 50%),
-    linear-gradient(135deg, var(--text2) 50%, transparent 50%);
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
   background-position: calc(100% - 19px) 50%, calc(100% - 14px) 50%;
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
-  padding-right: 38px;
+  padding-right: 40px;
 }
 
 .input:focus,
 .select:focus {
-  outline: none;
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px var(--green-glow);
+  background-color: var(--surface-2);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 
 .input[aria-invalid='true'],
 .select[aria-invalid='true'] {
-  border-color: var(--red);
+  border-bottom-color: var(--bad);
+  box-shadow: inset 0 -3px 0 var(--bad);
 }
 
 .input::placeholder {
-  color: var(--text3);
+  color: var(--ink-2);
+  opacity: 0.7;
 }
 
 .field-error {
-  font-size: 12px;
-  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bad);
 }
 
 .field-hint {
-  font-size: 12px;
-  color: var(--text2);
+  font-size: 12.5px;
   line-height: 1.45;
+  color: var(--ink-2);
 }
 
 .field-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 /* ─── Stepper ─────────────────────────────────────────────────────────────── */
 .stepper {
   display: flex;
   align-items: center;
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
+  background: var(--sunken);
+  border-bottom: var(--rule) solid var(--line);
+  border-radius: var(--radius) var(--radius) 0 0;
   overflow: hidden;
 }
 
 .stepper:focus-within {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px var(--green-glow);
+  background: var(--surface-2);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 
 .stepper-btn {
   width: var(--tap);
-  height: var(--tap);
+  height: 48px;
   display: grid;
   place-items: center;
-  font-size: 21px;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--green);
   flex-shrink: 0;
-  transition: background var(--transition);
+  color: var(--ink);
+  transition: background var(--transition), color var(--transition);
+}
+.stepper-btn:first-child {
+  border-right: var(--hair) solid var(--line-soft);
+}
+.stepper-btn:last-child {
+  border-left: var(--hair) solid var(--line-soft);
 }
 
 .stepper-btn:active:not(:disabled) {
-  background: var(--green-glow);
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .stepper-input {
   flex: 1;
   min-width: 0;
-  height: var(--tap);
+  height: 48px;
   border: none;
   background: none;
   text-align: center;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 .stepper-input:focus {
@@ -351,17 +366,16 @@
 .stepper-suffix {
   padding-right: 12px;
   font-size: var(--fs-label);
-  color: var(--text2);
+  font-weight: 600;
+  color: var(--ink-2);
 }
 
 /* ─── Segmented control ───────────────────────────────────────────────────── */
 .segmented {
   display: flex;
-  gap: 4px;
-  padding: 4px;
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  border-radius: var(--radius);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -372,133 +386,154 @@
 
 .segmented-option {
   flex: 1 0 auto;
-  min-height: 36px;
-  padding: 0 14px;
-  border-radius: 9px;
-  font-size: var(--fs-label);
-  font-weight: 600;
-  color: var(--text2);
+  min-height: 42px;
+  padding: 0 10px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink);
   white-space: nowrap;
-  transition: background var(--transition), color var(--transition),
-    scale 0.14s var(--spring);
+  border-right: var(--rule) solid var(--line);
+  transition: background var(--transition), color var(--transition);
+}
+.segmented-option:last-child {
+  border-right: 0;
 }
 
 .segmented-option[aria-pressed='true'] {
-  background: var(--green-glow);
-  color: var(--green);
-  box-shadow: inset 0 0 0 1px var(--green);
+  background: var(--ink);
+  color: var(--bg);
 }
 
-.segmented-option:active {
-  scale: 0.95;
-}
-
-/* Free-flowing variant for emoji pickers and other wrapping option sets. */
+/* Free-flowing variant for pickers and other wrapping option sets. */
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 8px;
 }
 
 .chip {
-  min-height: 40px;
+  min-height: 42px;
   padding: 0 14px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border-radius: 999px;
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
+  gap: 8px;
   font-size: var(--fs-label);
   font-weight: 600;
-  color: var(--text2);
-  transition: scale 0.14s var(--spring), background var(--transition);
+  color: var(--ink);
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  border-radius: var(--radius);
+  transition: transform 0.14s var(--spring), background var(--transition), color var(--transition);
 }
 
 .chip[aria-pressed='true'] {
-  background: var(--green-glow);
-  border-color: var(--green);
-  color: var(--green);
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .chip:active {
-  scale: 0.94;
+  transform: scale(0.95);
 }
 
-/* ─── Progress ────────────────────────────────────────────────────────────── */
+/* ─── Progress: a ruler, not a pill ───────────────────────────────────────── */
 .progress {
-  height: 8px;
-  border-radius: 999px;
-  background: var(--bg3);
-  overflow: hidden;
+  position: relative;
+  height: 14px;
+  background: var(--sunken);
+  border: 1.5px solid var(--line);
 }
 
 .progress-fill {
   height: 100%;
-  border-radius: 999px;
-  background: var(--green);
-  transition: width 0.55s var(--spring);
+  background: var(--ink);
+  transition: width 0.6s var(--spring);
 }
 
-/* ─── Badges ──────────────────────────────────────────────────────────────── */
+.progress::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(10% - 2px),
+    var(--surface) calc(10% - 2px),
+    var(--surface) 10%
+  );
+  pointer-events: none;
+}
+
+/* ─── Stamps (badges) ─────────────────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: var(--fs-micro);
-  font-weight: 700;
-  background: var(--bg3);
-  color: var(--text2);
+  padding: 4px 8px 3px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1.5px solid currentColor;
+  border-radius: var(--radius);
   white-space: nowrap;
 }
 
-.badge-green { background: var(--green-glow); color: var(--green); }
-.badge-orange { background: rgba(255, 107, 53, 0.14); color: var(--orange); }
-.badge-blue { background: rgba(74, 158, 255, 0.14); color: var(--blue); }
-.badge-red { background: rgba(239, 68, 68, 0.14); color: var(--red); }
+.badge-solid { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.badge-accent { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.badge-info { color: var(--info); }
+.badge-bad { color: var(--bad); }
 
 /* ─── Lists ───────────────────────────────────────────────────────────────── */
 .list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .list-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 56px;
-  padding: 11px 13px;
-  background: var(--card2);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
+  gap: 14px;
+  min-height: 60px;
+  padding: 12px 0;
   width: 100%;
   text-align: left;
+  border-bottom: var(--hair) solid var(--line-soft);
   /* Rows are also rendered as <a> (the More screen's navigation), where the
-     global link colour would otherwise turn every title brand-green and
-     underline it on tap. */
-  color: var(--text);
+     global link style would otherwise underline every title on tap. */
+  color: var(--ink);
   text-decoration: none;
+}
+.list-row:last-child {
+  border-bottom: 0;
 }
 
 /* When the whole row is the tap target (navigation, food results). */
 .list-row-tappable {
-  transition: scale 0.14s var(--spring), background var(--transition);
+  transition: transform 0.14s var(--spring), background var(--transition);
 }
-
 .list-row-tappable:active {
-  scale: 0.985;
-  background: var(--bg3);
+  background: var(--sunken);
 }
 
-.list-row-emoji {
-  font-size: 21px;
-  width: 30px;
-  text-align: center;
+/* A food's emoji, set like a produce sticker rather than floated bare. */
+.list-row-emoji,
+.sticker {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
+  font-size: 21px;
+  line-height: 1;
+  background: var(--sunken);
+  border: var(--hair) solid var(--line-soft);
+  border-radius: var(--radius);
 }
 
 .list-row-body {
@@ -510,8 +545,8 @@
    here is what stops a title and its hint running together on one line. */
 .list-row-title {
   display: block;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 15.5px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -519,14 +554,34 @@
 
 .list-row-meta {
   display: block;
-  font-size: 12px;
-  color: var(--text2);
+  font-size: 12.5px;
   line-height: 1.45;
+  color: var(--ink-2);
 }
 
 .list-row-chevron {
-  color: var(--text3);
+  color: var(--ink-2);
   flex-shrink: 0;
+}
+
+/* The amount column of a ledger line: big condensed figure, small unit. */
+.row-figure {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-variant-numeric: tabular-nums lining-nums;
+  white-space: nowrap;
+}
+.row-figure b {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+}
+.row-figure small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
 }
 
 /* ─── Swipe to delete ─────────────────────────────────────────────────────── */
@@ -536,7 +591,6 @@
    way to delete anything. */
 .swipe {
   position: relative;
-  border-radius: 12px;
   overflow: hidden;
   touch-action: pan-y;
 }
@@ -551,9 +605,8 @@
   align-items: center;
   justify-content: flex-end;
   padding-right: 22px;
-  background: var(--red);
-  color: #fff;
-  font-size: 19px;
+  background: var(--bad);
+  color: var(--bg);
   opacity: 0;
 }
 
@@ -563,8 +616,7 @@
 
 .swipe-surface {
   position: relative;
-  background: var(--bg);
-  border-radius: 12px;
+  background: var(--surface);
   will-change: transform;
 }
 
@@ -577,7 +629,7 @@
    stays available behind the calendar button for dates further back. */
 .datestrip {
   display: flex;
-  gap: 7px;
+  gap: 6px;
   overflow-x: auto;
   scroll-snap-type: x proximity;
   overscroll-behavior-x: contain;
@@ -592,59 +644,59 @@
 
 .datestrip-day {
   flex: 0 0 auto;
-  width: 52px;
+  width: 54px;
   padding: 8px 0 9px;
-  border-radius: 13px;
-  background: var(--card2);
-  border: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
+  color: var(--ink);
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
   scroll-snap-align: center;
-  transition: scale 0.14s var(--spring), background var(--transition);
+  transition: transform 0.14s var(--spring), background var(--transition), color var(--transition);
 }
 
 .datestrip-day:active {
-  scale: 0.93;
+  transform: scale(0.94);
 }
 
 .datestrip-day[aria-pressed='true'] {
-  background: var(--green-glow);
-  border-color: var(--green);
+  color: var(--bg);
+  background: var(--ink);
 }
 
 .datestrip-weekday {
-  font-size: 10px;
+  font-family: var(--font-display);
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text2);
+  color: var(--ink-2);
 }
 
 .datestrip-date {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
-.datestrip-day[aria-pressed='true'] .datestrip-weekday,
-.datestrip-day[aria-pressed='true'] .datestrip-date {
-  color: var(--green);
+.datestrip-day[aria-pressed='true'] .datestrip-weekday {
+  color: inherit;
+  opacity: 0.75;
 }
 
-/* A filled dot under a day that already has entries. */
+/* A square under a day that already has entries. */
 .datestrip-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--text3);
+  width: 6px;
+  height: 6px;
+  background: var(--line-soft);
 }
 
 .datestrip-dot.is-logged {
-  background: var(--green);
+  background: var(--accent);
 }
 
 /* ─── Bottom sheet ────────────────────────────────────────────────────────── */
@@ -652,9 +704,7 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: var(--scrim);
   animation: sheet-fade 0.2s ease both;
 }
 
@@ -671,11 +721,8 @@
   /* Never taller than the visible viewport, and never so tall that the sheet
      covers the whole screen with no backdrop left to tap. */
   max-height: 92dvh;
-  background: var(--bg2);
-  border: 1px solid var(--card-border);
-  border-bottom: none;
-  border-radius: var(--sheet-radius) var(--sheet-radius) 0 0;
-  box-shadow: var(--shadow-md);
+  background: var(--surface);
+  border-top: 8px solid var(--accent);
   animation: sheet-rise 0.32s var(--spring) both;
   will-change: transform;
 }
@@ -692,7 +739,7 @@
 /* The grab handle. Its row is the drag surface, which is why it is padded
    generously rather than being a bare 4px bar. */
 .sheet-grip {
-  padding: 10px 0 4px;
+  padding: 10px 0 2px;
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -702,10 +749,9 @@
 
 .sheet-grip::after {
   content: '';
-  width: 38px;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--text3);
+  width: 44px;
+  height: 5px;
+  background: var(--ink-3);
 }
 
 .sheet-header {
@@ -713,25 +759,25 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 4px 18px 14px;
-  border-bottom: 1px solid var(--card-border);
+  padding: 2px 16px 12px 18px;
+  border-bottom: var(--rule) solid var(--line);
   flex-shrink: 0;
 }
 
 .sheet-title {
-  font-size: 17px;
-  font-weight: 600;
   min-width: 0;
+  font-size: 32px;
+  line-height: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .sheet-body {
-  padding: 16px 18px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   overflow-y: auto;
   /* Scrolling the sheet's contents must not chain into the page behind it. */
   overscroll-behavior: contain;
@@ -742,8 +788,8 @@
   display: flex;
   gap: 10px;
   padding: 12px 18px calc(12px + var(--safe-bottom));
-  border-top: 1px solid var(--card-border);
-  background: var(--bg2);
+  border-top: var(--hair) solid var(--line-soft);
+  background: var(--surface);
   flex-shrink: 0;
 }
 
@@ -763,7 +809,7 @@
 .actionsheet {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   /* Sits inside .sheet-body, which already supplies the horizontal padding;
      only the home-indicator clearance has to be added back. */
   padding-bottom: var(--safe-bottom);
@@ -772,52 +818,66 @@
 .actionsheet-item {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   /* A <button> resolves `width: auto` to shrink-to-fit even as a flex
      container, so the width is stated rather than inherited from the parent. */
   width: 100%;
-  min-height: 60px;
-  padding: 0 16px;
-  border-radius: 14px;
-  background: var(--card);
-  border: 1px solid var(--card-border);
+  min-height: 64px;
+  padding: 0 16px 0 10px;
   text-align: left;
-  transition: scale 0.14s var(--spring), border-color var(--transition);
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  transition: transform 0.14s var(--spring), background var(--transition), color var(--transition);
 }
 
 .actionsheet-item:active {
-  scale: 0.97;
-  border-color: var(--green);
+  transform: scale(0.98);
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .actionsheet-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  font-size: 19px;
   flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--bg);
+  background: var(--ink);
+}
+.actionsheet-item:active .actionsheet-icon {
+  color: var(--ink);
+  background: var(--bg);
 }
 
 .actionsheet-label {
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .actionsheet-hint {
-  font-size: 12px;
-  color: var(--text2);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.actionsheet-item:active .actionsheet-hint {
+  color: inherit;
 }
 
-/* ─── Toast ───────────────────────────────────────────────────────────────── */
+/* ─── Toast: an inverted slip, edged in the colour of its meaning ─────────── */
 /* Toasts sit above the tab bar, not at the bottom edge, so a confirmation
    never lands under the thumb that just triggered it. */
 .toast-region {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 12px);
+  bottom: calc(var(--tabbar-h) + var(--safe-bottom) + 24px);
   z-index: 200;
   display: flex;
   flex-direction: column;
@@ -831,23 +891,22 @@
 .toast {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 13px 15px;
-  border-radius: 13px;
-  background: var(--bg3);
-  border: 1px solid var(--card-border);
-  box-shadow: var(--shadow-md);
-  font-size: 14px;
+  gap: 12px;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--bg);
+  background: var(--ink);
+  border-left: 8px solid var(--good);
   pointer-events: auto;
   animation: toast-in 0.26s var(--spring) both;
 }
-
-.toast-success { border-left: 3px solid var(--green); }
-.toast-error { border-left: 3px solid var(--red); }
-.toast-info { border-left: 3px solid var(--blue); }
+.toast-error { border-left-color: var(--bad); }
+.toast-info { border-left-color: var(--info); }
 
 @keyframes toast-in {
-  from { opacity: 0; translate: 0 16px; scale: 0.96; }
+  from { opacity: 0; translate: 0 16px; }
 }
 
 /* ─── Empty / loading / error states ──────────────────────────────────────── */
@@ -855,37 +914,61 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 30px 14px;
+  gap: 10px;
+  padding: 28px 14px;
   text-align: center;
-  color: var(--text2);
+  color: var(--ink-2);
+  border: 2px dashed var(--line-soft);
 }
 
 .empty-state-icon {
-  font-size: 32px;
-  opacity: 0.6;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 4px;
+  font-size: 26px;
+  color: var(--ink);
+  border: var(--rule) solid var(--line);
 }
 
 .empty-state-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 .empty-state-text {
+  max-width: 34ch;
   font-size: var(--fs-label);
-  max-width: 32ch;
   line-height: 1.55;
 }
 
+/* Three plates being loaded: the spinner, and the only moving thing on a
+   loading screen. */
 .spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--card-border);
-  border-top-color: var(--green);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  width: 22px;
+  height: 18px;
   flex-shrink: 0;
+  vertical-align: middle;
+  color: var(--accent);
+  background:
+    linear-gradient(currentColor 0 0) 0 100% / 5px 40% no-repeat,
+    linear-gradient(currentColor 0 0) 50% 100% / 5px 40% no-repeat,
+    linear-gradient(currentColor 0 0) 100% 100% / 5px 40% no-repeat;
+  animation: plates 0.9s ease-in-out infinite;
+}
+
+@keyframes plates {
+  0%   { background-size: 5px 40%, 5px 100%, 5px 65%; }
+  33%  { background-size: 5px 100%, 5px 65%, 5px 40%; }
+  66%  { background-size: 5px 65%, 5px 40%, 5px 100%; }
+  100% { background-size: 5px 40%, 5px 100%, 5px 65%; }
 }
 
 .spinner-page {
@@ -894,38 +977,50 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   padding: 24px;
   text-align: center;
-  color: var(--text2);
-  font-size: var(--fs-label);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
 }
 
-@keyframes spin {
-  to { rotate: 360deg; }
+.spinner-page .spinner {
+  width: 36px;
+  height: 30px;
+  background-size: 8px 40%, 8px 40%, 8px 40%;
 }
 
 /* Skeletons rather than spinners wherever the final layout is known: the
    screen keeps its shape while loading instead of jumping when data lands. */
 .skeleton {
-  background: linear-gradient(90deg, var(--card2) 25%, var(--bg3) 50%, var(--card2) 75%);
+  background: repeating-linear-gradient(-45deg, var(--sunken) 0 10px, var(--surface-2) 10px 20px);
   background-size: 200% 100%;
-  animation: shimmer 1.3s infinite;
-  border-radius: var(--radius-sm);
+  animation: hatch 1.2s linear infinite;
 }
 
-@keyframes shimmer {
-  to { background-position: -200% 0; }
+@keyframes hatch {
+  to { background-position: 28px 0; }
 }
 
 .error-banner {
   padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ffb4b4;
   font-size: var(--fs-label);
+  font-weight: 600;
   line-height: 1.5;
+  color: var(--bad);
+  background: var(--surface);
+  border: var(--rule) solid var(--bad);
+  border-left-width: 8px;
+}
+
+/* ─── Hazard tape: "over target", "check this" ────────────────────────────── */
+.hazard {
+  height: 10px;
+  background: repeating-linear-gradient(-45deg, var(--ink) 0 8px, var(--hazard) 8px 16px);
 }
 
 /* ─── Auth screens ────────────────────────────────────────────────────────── */
@@ -935,51 +1030,76 @@
   flex-direction: column;
   max-width: 560px;
   margin-inline: auto;
-  padding: calc(var(--safe-top) + 28px) calc(var(--gutter) + var(--safe-right))
-    calc(var(--safe-bottom) + 20px) calc(var(--gutter) + var(--safe-left));
-  background: radial-gradient(ellipse at top, rgba(0, 229, 160, 0.09), transparent 58%), var(--bg);
 }
 
-.auth-brand {
+/* The poster: ink block, stencil headline, a bar being loaded. */
+.auth-poster {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
-  margin-bottom: 26px;
+  gap: 22px;
+  padding: calc(var(--safe-top) + 26px) calc(var(--gutter) + var(--safe-right)) 26px
+    calc(var(--gutter) + var(--safe-left));
+  color: var(--on-poster);
+  background: var(--poster) var(--grain);
 }
 
-.auth-mark {
-  width: 56px;
-  height: 56px;
-  display: grid;
-  place-items: center;
-  border-radius: 18px;
-  background: linear-gradient(135deg, var(--green), var(--green-dim));
-  color: #062018;
-  box-shadow: var(--shadow-green);
+.auth-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-wordmark {
+  font-family: var(--font-stencil);
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.auth-headline {
+  font-family: var(--font-stencil);
+  font-size: clamp(54px, 17vw, 88px);
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.auth-headline em {
+  font-style: normal;
+  color: var(--poster-accent);
+}
+
+.auth-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px calc(var(--gutter) + var(--safe-right)) calc(var(--safe-bottom) + 20px)
+    calc(var(--gutter) + var(--safe-left));
 }
 
 .auth-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  line-height: 1.05;
+  font-size: 46px;
+  line-height: 0.88;
 }
 
 .auth-subtitle {
-  font-size: var(--fs-label);
-  color: var(--text2);
+  margin-top: 8px;
+  font-size: 15px;
   line-height: 1.55;
-  max-width: 34ch;
+  color: var(--ink-2);
+  max-width: 38ch;
+}
+
+.auth-brand {
+  margin-bottom: 22px;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   flex: 1;
 }
 
@@ -996,21 +1116,21 @@
 .auth-footer {
   text-align: center;
   font-size: var(--fs-label);
-  color: var(--text2);
+  color: var(--ink-2);
 }
 
 /* ─── Step indicator (registration wizard) ────────────────────────────────── */
 .steps {
   display: flex;
   gap: 6px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .steps-bar {
   flex: 1;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--bg3);
+  height: 8px;
+  background: var(--sunken);
+  border: 1.5px solid var(--line);
   overflow: hidden;
 }
 
@@ -1021,8 +1141,7 @@
   display: block;
   height: 100%;
   width: 0;
-  border-radius: 999px;
-  background: var(--green);
+  background: var(--accent);
   transition: width 0.4s var(--spring);
 }
 
@@ -1030,143 +1149,361 @@
   width: 100%;
 }
 
-/* ─── Calorie ring ────────────────────────────────────────────────────────── */
-.ring {
-  display: grid;
-  place-items: center;
+/* ─── The dial: calories as a precision gauge ─────────────────────────────── */
+.dial {
   position: relative;
-  padding: 4px 0;
-}
-
-.ring-svg {
-  rotate: -90deg;
-  width: min(200px, 58vw);
-  height: auto;
-}
-
-.ring-track {
-  fill: none;
-  stroke: var(--bg3);
-  stroke-width: 13;
-}
-
-.ring-value {
-  fill: none;
-  stroke: var(--green);
-  stroke-width: 13;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.8s var(--spring), stroke var(--transition);
-}
-
-.ring-center {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.ring-number {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: var(--fs-display);
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-.ring-caption {
-  font-size: var(--fs-micro);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text2);
-}
-
-.ring-legend {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 14px;
   width: 100%;
+  aspect-ratio: 1;
 }
 
-.ring-legend-item {
+.dial-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.dial-tick {
+  stroke: var(--line-soft);
+  stroke-width: 4;
+}
+.dial-tick.is-major { stroke: var(--ink-3); }
+/* Lit ticks sweep on one after another as an animation rather than a
+   transition, so switching the theme recolours them at once instead of
+   rippling round the dial. */
+.dial-tick.is-on {
+  stroke: var(--ink);
+  animation: tick-on 0.3s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 11ms);
+}
+.dial.is-over .dial-tick.is-on { stroke: var(--accent); }
+
+@keyframes tick-on {
+  from { stroke: var(--line-soft); }
+}
+
+.dial-needle {
+  fill: var(--accent);
+}
+
+.dial-track {
+  fill: none;
+  stroke: var(--line-soft);
+  stroke-width: 11;
+}
+
+.dial-edge {
+  fill: none;
+  stroke: var(--plate-edge);
+  stroke-width: 16;
+}
+
+.dial-arc {
+  fill: none;
+  stroke-width: 11;
+}
+
+.dial-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
   text-align: center;
+}
+
+.dial-percent {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 9vw, 40px);
+  font-weight: 900;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.dial-percent small {
+  font-size: 0.5em;
+  font-weight: 800;
+  margin-left: 1px;
+}
+
+.dial-caption {
+  display: none;
+}
+
+/* ─── Plate meter: macros as plates loaded on a bar ───────────────────────── */
+.plates {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+}
+
+.plates::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  background: var(--line);
+}
+
+.plate {
+  position: relative;
+  flex: 1 1 0;
   min-width: 0;
+  height: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--plate-edge);
+  border-radius: 1px;
+}
+.plate.is-part {
+  height: 78%;
+  background: var(--c);
+  border-color: var(--plate-edge-on);
+  opacity: 0.55;
+}
+.plate.is-on,
+.plate.is-part {
+  animation: plate-load 0.45s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+.plate.is-on {
+  height: 100%;
+  background: var(--c);
+  border-color: var(--plate-edge-on);
 }
 
-.ring-legend-value {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
+@keyframes plate-load {
+  from {
+    height: 50%;
+    background: var(--surface);
+    border-color: var(--plate-edge);
+  }
 }
 
-.ring-legend-label {
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text2);
+/* The day's four plates: protein and carbs over fat and water. */
+.quad {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: 22px;
 }
 
-/* ─── Macro bars ──────────────────────────────────────────────────────────── */
-.macro-row {
+.quad-cell {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+  min-width: 0;
+  padding: 0 14px;
+  border-left: var(--hair) solid var(--line-soft);
+}
+.quad-cell:nth-child(odd) {
+  padding-left: 0;
+  border-left: 0;
+}
+.quad-cell:nth-child(even) {
+  padding-right: 0;
+}
+.quad-cell:nth-child(n + 3) {
+  padding-top: 20px;
+  border-top: var(--hair) solid var(--line-soft);
 }
 
 .macro-head {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 10px;
-  font-size: 14px;
+  gap: 8px;
 }
 
 .macro-name {
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-weight: 500;
+  gap: 8px;
   min-width: 0;
+  font-size: 13.5px;
+  font-weight: 700;
 }
 
-.macro-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
+/* The macro's initial on its own plate colour — the legend lives on the data. */
+.macro-chip {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--on-c, var(--bg));
+  background: var(--c);
+  border: 1.5px solid var(--plate-edge-on);
 }
 
-.macro-amount {
-  color: var(--text2);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+.macro-figure {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.macro-figure b {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 0.9;
+}
+.macro-figure span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* ─── Hero: the answer to "what can I still eat today?" ───────────────────── */
+.hero {
+  padding: 18px 16px 20px;
+  background: var(--surface);
+  border-top: 5px solid var(--line);
+  box-shadow: inset 0 0 0 1px var(--line-faint);
+}
+
+.hero-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-dial {
+  width: clamp(92px, 30vw, 140px);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.hero-number {
+  margin: 8px 0 0 -4px;
+  font-family: var(--font-display);
+  /* Sized so the widest figures ("2,888") still clear the dial beside them on
+     a 320px phone. */
+  font-size: clamp(64px, 22vw, 116px);
+  font-weight: 900;
+  line-height: 0.78;
+  letter-spacing: -0.012em;
+}
+.hero.is-over .hero-number {
+  color: var(--accent-ink);
+}
+
+.hero-label {
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.hero-over {
+  margin-top: 12px;
+}
+
+/* Three figures on a ruled line — a ledger footer. */
+.ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 20px;
+  border-top: var(--rule) solid var(--line);
+}
+.ledger > div {
+  padding: 10px 12px 0;
+  border-left: var(--hair) solid var(--line-soft);
+}
+.ledger > div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.ledger dt {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.ledger dd {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* ─── Scoreboard: figures side by side, ruled rather than boxed ───────────── */
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  background: var(--surface);
+  border-top: 5px solid var(--line);
+  box-shadow: inset 0 0 0 1px var(--line-faint);
+}
+
+.scoreboard-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px 16px 18px;
+}
+.scoreboard-cell:nth-child(even) {
+  border-left: var(--hair) solid var(--line-soft);
+}
+.scoreboard-cell:nth-child(n + 3) {
+  border-top: var(--hair) solid var(--line-soft);
+}
+
+/* ─── Tally: a streak the way it is kept on a gym wall ────────────────────── */
+.tally {
+  display: block;
+  max-width: 100%;
+  height: 26px;
+  color: var(--ink);
+}
+.tally line {
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: square;
+}
+.tally .strike {
+  stroke: var(--accent);
 }
 
 /* ─── Charts ──────────────────────────────────────────────────────────────── */
 .chart-frame {
   position: relative;
   width: 100%;
-  height: 210px;
+  height: 230px;
 }
 
 .chart-frame-sm {
-  height: 172px;
+  height: 180px;
 }
 
 /* ─── Search ──────────────────────────────────────────────────────────────── */
 .search-results {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  border-top: var(--rule) solid var(--line);
 }
 
 .search-result-name {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 14.5px;
+  font-weight: 600;
   display: block;
   white-space: nowrap;
   overflow: hidden;
@@ -1174,10 +1511,88 @@
 }
 
 .search-result-macros {
-  font-size: 11px;
-  color: var(--text2);
+  font-size: 12px;
+  color: var(--ink-2);
   font-variant-numeric: tabular-nums;
   display: block;
+}
+
+/* ─── Program + goal tiles ────────────────────────────────────────────────── */
+.program-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  transition: transform 0.14s var(--spring), background var(--transition), color var(--transition);
+}
+.program-tile:active:not(:disabled) {
+  transform: scale(0.985);
+}
+.program-tile[aria-pressed='true'] {
+  color: var(--bg);
+  background: var(--ink);
+  border-top-color: var(--accent);
+}
+.program-tile[aria-pressed='true'] .card-subtitle,
+.program-tile[aria-pressed='true'] .list-row-meta {
+  color: var(--bg);
+  opacity: 0.78;
+}
+
+.program-days {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.program-days b {
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: 0;
+}
+
+.goal-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 14px 16px;
+  background: var(--sunken);
+  border-top: 3px solid var(--line);
+}
+
+.goal-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.goal-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: var(--hair) solid var(--line-soft);
+}
+.goal-row:first-child {
+  padding-top: 0;
+}
+.goal-row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.goal-row-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 /* ─── More screen ─────────────────────────────────────────────────────────── */
@@ -1186,47 +1601,141 @@
   align-items: center;
   gap: 14px;
   padding: 16px;
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--green-glow), transparent 70%), var(--card);
-  border: 1px solid var(--card-border);
+  color: var(--bg);
+  background: var(--ink);
+  border-top: 5px solid var(--accent);
 }
 
 .profile-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--green), var(--blue));
-  color: #062018;
-  font-weight: 700;
-  font-size: 18px;
   flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: var(--bg);
 }
 
 .profile-name {
-  font-size: 17px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .profile-email {
-  font-size: 12px;
-  color: var(--text2);
+  font-size: 12.5px;
+  opacity: 0.72;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .menu-icon {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
-  border-radius: 11px;
-  background: var(--bg3);
-  font-size: 17px;
   flex-shrink: 0;
+  color: var(--ink);
+  border: var(--rule) solid var(--line);
+}
+
+/* A chosen option in a list of big buttons (the sign-up goal picker). */
+.actionsheet-item[aria-pressed='true'] {
+  color: var(--bg);
+  background: var(--ink);
+}
+.actionsheet-item[aria-pressed='true'] .actionsheet-icon {
+  color: var(--ink);
+  background: var(--bg);
+}
+.actionsheet-item[aria-pressed='true'] .actionsheet-hint {
+  color: inherit;
+  opacity: 0.8;
+}
+
+/* The poster's strip of plates, drawn on ink. */
+.auth-poster .plates {
+  height: 30px;
+}
+.auth-poster .plates::before {
+  background: var(--on-poster);
+  opacity: 0.5;
+}
+
+/* Stat tiles that scroll sideways under the thumb instead of wrapping into a
+   grid that pushes everything below the fold. Snap keeps them aligned. */
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(150px, 46%);
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  /* Bleed to the screen edges so the row reads as scrollable. */
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.rail > * {
+  scroll-snap-align: start;
+}
+
+/* A drink size in the water sheet: the number is the whole point. */
+.pour {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 88px;
+  padding: 12px 14px;
+  text-align: left;
+  color: var(--ink);
+  background: var(--surface);
+  border: var(--rule) solid var(--line);
+  transition: transform 0.14s var(--spring), background var(--transition), color var(--transition);
+}
+.pour:active:not(:disabled) {
+  transform: scale(0.97);
+  color: var(--bg);
+  background: var(--ink);
+}
+.pour-amount {
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.pour-amount small {
+  margin-left: 4px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+.pour-label {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }

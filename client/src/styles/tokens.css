@@ -1,68 +1,163 @@
-/* Design tokens. Every colour, radius and timing in the app resolves to one of
-   these — components never hardcode a hex value. */
+/* Design tokens — "Paper & Plate".
+ *
+ * The look is borrowed from the two printed objects every lifter already owns:
+ * the training logbook and the nutrition label. Both are black ink on paper,
+ * separated by rules rather than boxed in rounded cards, and both put the
+ * numbers first. The colour comes from the one place a gym has it — the
+ * competition plates on the bar: red, blue, yellow.
+ *
+ *   protein  red plate      carbs  blue plate      fat  yellow plate
+ *
+ * Chrome stays monochrome (ink on paper) so colour only ever means data.
+ * There is deliberately no glow, no gradient and no translucent glass.
+ *
+ * Two themes share every token name:
+ *   Iron  — the default (warm black, bone-white ink), for a gym at night.
+ *   Paper — `data-theme="light"`, applied to <html> from the profile setting.
+ *
+ * Components never hardcode a colour, a radius or a font: they use these. */
 
 :root {
-  /* Brand */
-  --green: #00e5a0;
-  --green-dim: #00c48a;
-  --green-glow: rgba(0, 229, 160, 0.15);
-  --orange: #ff6b35;
-  --purple: #8b5cf6;
-  --blue: #4a9eff;
-  --gold: #f59e0b;
-  --red: #ef4444;
-  --pink: #ec4899;
+  /* ─── Type ─────────────────────────────────────────────────────────────── */
+  --font-display: 'Big Shoulders Display', 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+  --font-stencil: 'Big Shoulders Stencil Display', var(--font-display);
+  --font-body: 'Libre Franklin', 'Helvetica Neue', Arial, system-ui, sans-serif;
 
-  /* Macro colours, fixed so protein is the same hue on every chart and bar */
-  --protein: #00e5a0;
-  --carbs: #4a9eff;
-  --fat: #f59e0b;
+  /* ─── Shape ────────────────────────────────────────────────────────────── */
+  /* Printed things have corners. Softness is kept for round things that are
+     genuinely round: dials, plates, avatars. */
+  --radius: 2px;
+  --radius-lg: 4px;
 
-  /* Surfaces */
-  --bg: #080808;
-  --bg2: #0f0f0f;
-  --bg3: #141414;
-  --card: #111111;
-  --card2: #161616;
-  --card-border: rgba(255, 255, 255, 0.06);
-  --card-border-hover: rgba(255, 255, 255, 0.12);
+  /* Rules, in the order a nutrition label uses them: the thick cap that opens
+     a block, the medium rule between sections, the hairline between rows. */
+  --rule-heavy: 5px;
+  --rule: 2px;
+  --hair: 1px;
 
-  /* Text */
-  --text: #ebebeb;
-  --text2: #777777;
-  --text3: #444444;
+  /* ─── Layout ───────────────────────────────────────────────────────────── */
+  --sidebar-w: 248px;
 
-  /* Layout */
-  --sidebar-w: 240px;
-  --topbar-h: 64px;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-xs: 6px;
-  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* ─── Motion ───────────────────────────────────────────────────────────── */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition: 0.16s var(--ease);
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-green: 0 0 24px rgba(0, 229, 160, 0.18);
+  /* ─── Hazard tape: the "over target" and "attention" pattern ───────────── */
+  --hazard: #f2b50c;
+
+  /* ─── Iron (dark, default) ─────────────────────────────────────────────── */
+  --bg: #11100d;
+  --surface: #1a1915;
+  --surface-2: #23211c;
+  --sunken: #0b0a08;
+
+  --ink: #f0eadb;
+  --ink-2: #ada591;
+  --ink-3: #726b5a;
+
+  --line: #f0eadb;
+  --line-soft: rgba(240, 234, 219, 0.18);
+  --line-faint: rgba(240, 234, 219, 0.09);
+
+  --accent: #ff4b2b;
+  --accent-ink: #ff6b4f; /* the accent when it has to be small text */
+  --on-accent: #11100d;
+  --accent-soft: rgba(255, 75, 43, 0.14);
+
+  --protein: #ff5a3c;
+  --carbs: #6f8fff;
+  --fat: #ffc31f;
+  --water: #8cc4e4;
+  --protein-ink: #ff6b4f;
+  --carbs-ink: #8ca6ff;
+  --fat-ink: #ffc31f;
+  --water-ink: #8cc4e4;
+  /* What sits on a macro colour. Dark on the bright plates. */
+  --on-protein: #11100d;
+  --on-carbs: #11100d;
+  --on-fat: #11100d;
+  --on-water: #11100d;
+
+  /* The outline of a plate: faint when it is empty, near-black when it is
+     loaded, so a full plate reads as a solid object on a dark page. */
+  --plate-edge: rgba(240, 234, 219, 0.34);
+  --plate-edge-on: rgba(0, 0, 0, 0.6);
+
+  /* The spine: the fixed column the navigation lives in. */
+  --spine: #0b0a08;
+  --on-spine: #f0eadb;
+  --on-spine-2: #a39b87;
+  --on-spine-3: #6c6656;
+  --spine-hover: rgba(240, 234, 219, 0.07);
+  --spine-line: rgba(240, 234, 219, 0.16);
+  --spine-accent: #ff5a3c;
+
+  --good: #4fd18b;
+  --bad: #ff6b5e;
+  --info: #8ca6ff;
+
+  --scrim: rgba(5, 4, 3, 0.66);
+  --shadow-sheet: 0 -6px 0 0 rgba(0, 0, 0, 0.35);
+  /* Paper fibre. A 180px tile of fine speckle, rasterised once by the browser
+     and tiled — it costs nothing to scroll over. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .94 0 0 0 0 .91 0 0 0 0 .84 .8 0 0 0 -.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");
 
   color-scheme: dark;
 }
 
-/* Light theme is opt-in via the profile setting, applied to <html>. */
+/* ─── Paper (light) ──────────────────────────────────────────────────────── */
 :root[data-theme='light'] {
-  --bg: #f6f7f9;
-  --bg2: #ffffff;
-  --bg3: #f0f2f5;
-  --card: #ffffff;
-  --card2: #f7f8fa;
-  --card-border: rgba(0, 0, 0, 0.08);
-  --card-border-hover: rgba(0, 0, 0, 0.16);
-  --text: #16181d;
-  --text2: #5f6673;
-  --text3: #9aa1ad;
-  --green-glow: rgba(0, 197, 138, 0.14);
-  --shadow-sm: 0 2px 8px rgba(15, 20, 30, 0.08);
-  --shadow-md: 0 8px 32px rgba(15, 20, 30, 0.12);
+  --bg: #ebe5d6;
+  --surface: #f5f1e7;
+  --surface-2: #fbf8f1;
+  --sunken: #e0d9c7;
+
+  --ink: #17150f;
+  --ink-2: #565040;
+  --ink-3: #857d69;
+
+  --line: #17150f;
+  --line-soft: rgba(23, 21, 15, 0.2);
+  --line-faint: rgba(23, 21, 15, 0.1);
+
+  --accent: #d93018;
+  --accent-ink: #b8240f;
+  --on-accent: #ffffff;
+  --accent-soft: rgba(217, 48, 24, 0.1);
+
+  --protein: #d93018;
+  --carbs: #2a4fcb;
+  --fat: #f2b50c;
+  --water: #6fafd3;
+  --protein-ink: #b8240f;
+  --carbs-ink: #2a4fcb;
+  --fat-ink: #7a5600;
+  --water-ink: #1f6a8f;
+  /* White reads on the red and blue plates; ink reads on yellow and water. */
+  --on-protein: #ffffff;
+  --on-carbs: #ffffff;
+  --on-fat: #17150f;
+  --on-water: #17150f;
+
+  --plate-edge: #17150f;
+  --plate-edge-on: #17150f;
+
+  /* In Paper the spine is the one block of solid ink on the page. */
+  --spine: #17150f;
+  --on-spine: #ebe5d6;
+  --on-spine-2: #b3ab97;
+  --on-spine-3: #7e7765;
+  --spine-hover: rgba(235, 229, 214, 0.08);
+  --spine-line: rgba(235, 229, 214, 0.18);
+  --spine-accent: #ff5a3c;
+
+  --good: #1d7a46;
+  --bad: #b3261e;
+  --info: #2a4fcb;
+
+  --scrim: rgba(23, 21, 15, 0.52);
+  --shadow-sheet: 0 -6px 0 0 rgba(23, 21, 15, 0.12);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .09 0 0 0 0 .08 0 0 0 0 .06 .8 0 0 0 -.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
 
   color-scheme: light;
 }
