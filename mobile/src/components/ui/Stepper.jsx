@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { Icon } from './Icon.jsx';
 import { haptic } from '../../lib/haptics.js';
 
 /**
@@ -42,7 +43,7 @@ export function Stepper({ label, value, onChange, step = 5, min = 0, max = 10000
           disabled={valid && current <= min}
           aria-label={`Decrease ${label ?? 'value'}`}
         >
-          −
+          <Icon name="minus" size={20} strokeWidth={2.5} />
         </button>
         <input
           id={id}
@@ -68,7 +69,7 @@ export function Stepper({ label, value, onChange, step = 5, min = 0, max = 10000
           disabled={valid && current >= max}
           aria-label={`Increase ${label ?? 'value'}`}
         >
-          +
+          <Icon name="plus" size={20} strokeWidth={2.5} />
         </button>
       </div>
       {error ? <span className="field-error">{error}</span> : hint && <span className="field-hint">{hint}</span>}

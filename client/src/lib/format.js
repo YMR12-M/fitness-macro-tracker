@@ -12,6 +12,21 @@ export const formatShortDate = (date) =>
     typeof date === 'string' ? new Date(`${date}T00:00:00`) : date
   );
 
+/** The masthead's two lines: "Sunday" over "4 Oct 2026". */
+export function formatMastheadDate(date) {
+  return {
+    weekday: new Intl.DateTimeFormat(LOCALE, { weekday: 'long' }).format(date),
+    date: new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'short', year: 'numeric' }).format(date)
+  };
+}
+
+/** "Morning, Karim." — the dashboard's opening line. */
+export function greeting(name, now = new Date()) {
+  const hour = now.getHours();
+  const part = hour < 5 ? 'Late night' : hour < 12 ? 'Morning' : hour < 18 ? 'Afternoon' : 'Evening';
+  return name ? `${part}, ${name}.` : `${part}.`;
+}
+
 export const formatWeekday = (date) =>
   new Intl.DateTimeFormat(LOCALE, { weekday: 'short' }).format(
     typeof date === 'string' ? new Date(`${date}T00:00:00`) : date
@@ -37,11 +52,11 @@ export function formatSigned(value, decimals = 1, unit = '') {
 export const todayISO = () => new Intl.DateTimeFormat('en-CA').format(new Date());
 
 export const MEAL_TYPES = [
-  { value: 'breakfast', label: 'Breakfast', icon: '🌅' },
-  { value: 'lunch', label: 'Lunch', icon: '☀️' },
-  { value: 'dinner', label: 'Dinner', icon: '🌙' },
-  { value: 'snack', label: 'Snack', icon: '🍿' }
+  { value: 'breakfast', label: 'Breakfast', icon: 'sunrise' },
+  { value: 'lunch', label: 'Lunch', icon: 'sun' },
+  { value: 'dinner', label: 'Dinner', icon: 'moon' },
+  { value: 'snack', label: 'Snack', icon: 'snack' }
 ];
 
 export const mealTypeLabel = (value) => MEAL_TYPES.find((t) => t.value === value)?.label ?? value;
-export const mealTypeIcon = (value) => MEAL_TYPES.find((t) => t.value === value)?.icon ?? '🍽️';
+export const mealTypeIcon = (value) => MEAL_TYPES.find((t) => t.value === value)?.icon ?? 'plate';

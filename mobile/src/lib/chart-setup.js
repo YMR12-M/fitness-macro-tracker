@@ -35,6 +35,38 @@ export function token(name, fallback) {
 }
 
 /**
+ * A diagonal hatch fill, for the "burned" bars. Hatching reads as a different
+ * *kind* of quantity from the solid "eaten" bars, so the two never depend on
+ * telling two similar colours apart.
+ */
+export function hatch(color) {
+  const size = 8;
+  const tile = document.createElement('canvas');
+  tile.width = size;
+  tile.height = size;
+  const ctx = tile.getContext('2d');
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  // The main stroke plus a stub in two corners so the pattern tiles unbroken.
+  for (const [x1, y1, x2, y2] of [
+    [-2, size + 2, size + 2, -2],
+    [-2, 2, 2, -2],
+    [size - 2, size + 2, size + 2, size - 2]
+  ]) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+  }
+  return ctx.createPattern(tile, 'repeat');
+}
+
+/** The face every chart label is drawn in: the same as the page's body text. */
+export function chartFont(extra = {}) {
+  return { family: token('--font-body', 'sans-serif'), size: 11, weight: 600, ...extra };
+}
+
+/**
  * Chart defaults tuned for a phone.
  *
  * Three differences from the desktop client's equivalent, all forced by a
@@ -43,14 +75,17 @@ export function token(name, fallback) {
  *  - `maxTicksLimit` on both axes. Chart.js will happily draw thirty x-labels
  *    into that width, at which point it rotates them 90° and the chart becomes
  *    a wall of vertical text.
- *  - Larger hit radius and `intersect: false`, because a fingertip is about
- *    8mm across and cannot land on a 3px point.
+ *  - `intersect: false` hover, because a fingertip is about 8mm across and
+ *    cannot land on a 3px point.
  *  - Legends and ticks a point smaller, with tighter padding, so the plot keeps
  *    the height rather than the chrome.
  */
 export function baseOptions({ maxXTicks = 7 } = {}) {
-  const grid = token('--card-border', 'rgba(255,255,255,0.06)');
-  const text = token('--text2', '#777');
+  const ink = token('--ink', '#f0eadb');
+  const paper = token('--bg', '#11100d');
+  const text = token('--ink-2', '#ada591');
+  const grid = token('--line-soft', 'rgba(240,234,219,0.18)');
+  const rule = token('--line', '#f0eadb');
 
   return {
     responsive: true,
@@ -63,45 +98,32 @@ export function baseOptions({ maxXTicks = 7 } = {}) {
       legend: {
         display: true,
         position: 'bottom',
-        labels: {
-          color: text,
-          boxWidth: 8,
-          boxHeight: 8,
-          usePointStyle: true,
-          padding: 12,
-          font: { size: 10 }
-        }
+        labels: { color: text, boxWidth: 10, boxHeight: 10, padding: 14, font: chartFont({ size: 11 }) }
       },
+      // An inverted slip: ink with paper type, square, no border.
       tooltip: {
-        backgroundColor: token('--bg3', '#141414'),
-        borderColor: grid,
-        borderWidth: 1,
-        padding: 10,
-        cornerRadius: 10,
-        titleColor: token('--text', '#ebebeb'),
-        bodyColor: text,
-        titleFont: { size: 12 },
-        bodyFont: { size: 12 },
-        displayColors: true,
-        usePointStyle: true
+        backgroundColor: ink,
+        titleColor: paper,
+        bodyColor: paper,
+        borderWidth: 0,
+        padding: 11,
+        cornerRadius: 0,
+        boxWidth: 10,
+        boxHeight: 10,
+        titleFont: chartFont({ family: token('--font-display', 'sans-serif'), size: 16, weight: 800 }),
+        bodyFont: chartFont({ size: 12 })
       }
     },
     scales: {
       x: {
         grid: { display: false },
-        ticks: {
-          color: text,
-          font: { size: 10 },
-          maxRotation: 0,
-          autoSkip: true,
-          maxTicksLimit: maxXTicks
-        },
-        border: { color: grid }
+        ticks: { color: text, font: chartFont({ size: 10 }), maxRotation: 0, autoSkip: true, maxTicksLimit: maxXTicks },
+        border: { color: rule, width: 2 }
       },
       y: {
         beginAtZero: true,
-        grid: { color: grid },
-        ticks: { color: text, font: { size: 10 }, maxTicksLimit: 5 },
+        grid: { color: grid, lineWidth: 1 },
+        ticks: { color: text, font: chartFont({ size: 10, weight: 500 }), padding: 6, maxTicksLimit: 5 },
         border: { display: false }
       }
     }

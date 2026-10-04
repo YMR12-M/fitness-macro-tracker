@@ -9,32 +9,49 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Paper under everything, fibre on top of the paper. */
+  background: var(--bg) var(--grain);
 }
 
 body {
-  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  font-feature-settings: 'lnum' 1;
+  color: var(--ink);
   min-height: 100dvh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 #root {
   min-height: 100dvh;
 }
 
-h1, h2, h3, h4 {
-  font-weight: 600;
-  line-height: 1.25;
+/* Headings are set the way a gym sign is: condensed, heavy, upper-case, tight.
+   Every other piece of text in the app is Libre Franklin. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: 0.012em;
+  text-transform: uppercase;
 }
 
+/* Links are ink with an accent underline — colour is reserved for data. */
 a {
-  color: var(--green);
-  text-decoration: none;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 a:hover {
-  text-decoration: underline;
+  text-decoration-color: var(--ink);
 }
 
 button,
@@ -52,23 +69,33 @@ button {
 }
 button:disabled {
   cursor: not-allowed;
-  opacity: 0.55;
+  opacity: 0.45;
 }
 
-/* A visible focus ring on keyboard navigation only. */
+code {
+  padding: 1px 6px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--sunken);
+}
+
+/* A visible focus ring on keyboard navigation only. Square, like everything. */
 :focus-visible {
-  outline: 2px solid var(--green);
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
-  border-radius: var(--radius-xs);
+  border-radius: 0;
 }
 
 ::selection {
-  background: var(--green-glow);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 /* Numeric readouts use tabular figures so values stop jittering as they change. */
-.numeric {
-  font-variant-numeric: tabular-nums;
+.numeric,
+.stat-value,
+.hero-number {
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 .visually-hidden {
@@ -81,13 +108,20 @@ button:disabled {
   white-space: nowrap;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-3) transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
 }

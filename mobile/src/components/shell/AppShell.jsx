@@ -23,10 +23,10 @@ export function AppShell() {
   const openOn = (path, kind) => navigate(path, { state: { quickAdd: kind } });
 
   const actions = [
-    { label: 'Food', hint: 'search the catalog', icon: '🍽️', tone: 'var(--green)', onSelect: () => openOn('/log', 'food') },
-    { label: 'Water', hint: 'a glass or a bottle', icon: '💧', tone: 'var(--blue)', onSelect: () => setWaterOpen(true) },
-    { label: 'Workout', hint: "today's session", icon: '🏋️', tone: 'var(--orange)', onSelect: () => openOn('/train', 'workout') },
-    { label: 'Weight', hint: 'a weigh-in', icon: '⚖️', tone: 'var(--purple)', onSelect: () => openOn('/progress', 'weight') }
+    { label: 'Food', hint: 'search the catalog', icon: 'plate', onSelect: () => openOn('/log', 'food') },
+    { label: 'Water', hint: 'a glass or a bottle', icon: 'water', onSelect: () => setWaterOpen(true) },
+    { label: 'Workout', hint: "today's session", icon: 'train', onSelect: () => openOn('/train', 'workout') },
+    { label: 'Weight', hint: 'a weigh-in', icon: 'scale', onSelect: () => openOn('/progress', 'weight') }
   ];
 
   return (

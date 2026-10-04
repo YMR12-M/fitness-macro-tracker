@@ -100,9 +100,10 @@ Water is the exception: it has no screen of its own, so its sheet lives there.
 ## Design tokens
 
 `src/styles/tokens.css` carries the brand half verbatim from
-`client/src/styles/tokens.css` — the same greens, the same fixed macro hues, the
-same surface and text ramps, the same light theme. A screenshot from either
-client should be recognisably the same product.
+`client/src/styles/tokens.css` — the same ink and paper, the same plate colours
+for protein / carbs / fat / water, the same type, the same Iron (dark) and Paper
+(light) themes. A screenshot from either client should be recognisably the same
+product; the README's *Design* section says what that product looks like and why.
 
 Below that are the tokens only a phone needs: `--safe-*` insets, `--appbar-h`,
 `--tabbar-h` and the `--tabbar-clearance` every screen pads by, `--tap` (44px,

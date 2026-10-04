@@ -38,7 +38,7 @@ export function GoalsScreen() {
     mutationFn: ({ id, patch }) => goalsApi.update(id, patch),
     invalidate,
     onSuccess: ({ goal }) => {
-      toast.success(goal.completed ? `${goal.title} — done! 🎉` : 'Progress updated');
+      toast.success(goal.completed ? `${goal.title} — done!` : 'Progress updated');
       setEditing(null);
     }
   });
@@ -78,7 +78,7 @@ export function GoalsScreen() {
       ) : allGoals.length === 0 ? (
         <Card>
           <EmptyState
-            icon="🎯"
+            icon="goals"
             title="No goals yet"
             action={
               <button type="button" className="btn btn-primary btn-sm" onClick={() => setNewOpen(true)}>
@@ -101,12 +101,12 @@ export function GoalsScreen() {
               <article className="card">
                 <div className="row-between">
                   <span className="row">
-                    <span style={{ fontSize: 22 }} aria-hidden="true">{goal.icon}</span>
+                    <span className="sticker" aria-hidden="true">{goal.icon}</span>
                     <span className="card-title">{goal.title}</span>
                   </span>
                   <span className="row" style={{ gap: 4 }}>
-                    {goal.completed && <span className="badge badge-green">Done</span>}
-                    {goal.overdue && <span className="badge badge-red">Overdue</span>}
+                    {goal.completed && <span className="badge badge-solid">Done</span>}
+                    {goal.overdue && <span className="badge badge-bad">Overdue</span>}
                     <DeleteButton
                       label={`Remove ${goal.title}`}
                       onClick={() => deleteGoal.mutate(goal.id)}
@@ -122,9 +122,15 @@ export function GoalsScreen() {
 
                 <Progress value={goal.progress_percent} max={100} />
 
+                <div className="goal-scale" style={{ marginTop: 6 }}>
+                  <span>{formatNumber(goal.start_value, 1)}</span>
+                  <span>{formatNumber(goal.target_value, 1)} {goal.unit}</span>
+                </div>
+
                 <div className="row-between" style={{ marginTop: 10 }}>
-                  <span className="macro-amount">
-                    Now {formatNumber(goal.current_value, 1)} {goal.unit} · {goal.progress_percent}%
+                  <span className="row-figure">
+                    <b>{goal.progress_percent}</b>
+                    <small>% · now {formatNumber(goal.current_value, 1)} {goal.unit}</small>
                   </span>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => setEditing(goal)}>
                     Update

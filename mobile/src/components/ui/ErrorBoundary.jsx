@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Icon } from './Icon.jsx';
 
 /** Stops one broken render from blanking the whole app. */
 export class ErrorBoundary extends Component {
@@ -17,7 +18,9 @@ export class ErrorBoundary extends Component {
 
     return (
       <div className="spinner-page">
-        <p className="empty-state-icon" aria-hidden="true">💥</p>
+        <span className="empty-state-icon" aria-hidden="true">
+          <Icon name="warn" size={28} />
+        </span>
         <p className="empty-state-title">This screen hit an error</p>
         <p className="empty-state-text">{this.state.error.message}</p>
         <button type="button" className="btn btn-ghost" onClick={() => window.location.reload()}>

@@ -1,14 +1,22 @@
 import { useMemo } from 'react';
 import { Chart } from 'react-chartjs-2';
-import { baseOptions, token } from '../../lib/chart-setup.js';
+import { baseOptions, hatch, token } from '../../lib/chart-setup.js';
 import { formatWeekday } from '../../lib/format.js';
 import { EmptyState } from '../ui/Card.jsx';
 
-/** Calories eaten vs burned per day, with the user's real goal as a reference line. */
+/** Calories eaten vs burned per day, with the user's real goal as a reference line.
+ *  Eaten is solid ink; burned is hatched, so the two are different *kinds* of bar
+ *  rather than two similar colours; a day more than 5% over its goal turns accent. */
 export function CaloriesChart({ days }) {
   const config = useMemo(() => {
-    const green = token('--green', '#00e5a0');
-    const orange = token('--orange', '#ff6b35');
+    const ink = token('--ink', '#f0eadb');
+    const muted = token('--ink-2', '#ada591');
+    const accent = token('--accent', '#ff4b2b');
+
+    const overGoal = (index) => {
+      const day = days[index];
+      return day && day.calorie_goal > 0 && day.calories_eaten > day.calorie_goal * 1.05;
+    };
 
     return {
       data: {
@@ -18,9 +26,9 @@ export function CaloriesChart({ days }) {
             type: 'bar',
             label: 'Eaten',
             data: days.map((d) => d.calories_eaten),
-            backgroundColor: `${green}cc`,
-            borderRadius: { topLeft: 5, topRight: 5 },
-            // Narrower than the desktop client's 28: two series across seven
+            backgroundColor: (ctx) => (overGoal(ctx.dataIndex) ? accent : ink),
+            borderWidth: 0,
+            // Narrower than the desktop client's 26: two series across seven
             // days on a phone otherwise leaves no gap between the pairs.
             maxBarThickness: 16,
             order: 2
@@ -29,8 +37,9 @@ export function CaloriesChart({ days }) {
             type: 'bar',
             label: 'Burned',
             data: days.map((d) => d.calories_burned),
-            backgroundColor: `${orange}8c`,
-            borderRadius: { topLeft: 5, topRight: 5 },
+            backgroundColor: hatch(muted),
+            borderColor: muted,
+            borderWidth: 1.5,
             maxBarThickness: 16,
             order: 2
           },
@@ -38,9 +47,9 @@ export function CaloriesChart({ days }) {
             type: 'line',
             label: 'Goal',
             data: days.map((d) => d.calorie_goal),
-            borderColor: token('--text3', '#444'),
-            borderWidth: 2,
-            borderDash: [5, 5],
+            borderColor: accent,
+            borderWidth: 3,
+            borderDash: [8, 5],
             pointRadius: 0,
             tension: 0,
             order: 1
@@ -52,7 +61,7 @@ export function CaloriesChart({ days }) {
   }, [days]);
 
   if (!days?.length) {
-    return <EmptyState icon="📊" title="Nothing logged yet">Log a meal and this chart fills in.</EmptyState>;
+    return <EmptyState icon="progress" title="Nothing logged yet">Log a meal and this chart fills in.</EmptyState>;
   }
 
   return (

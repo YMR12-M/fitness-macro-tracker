@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Icon } from './Icon.jsx';
+import { Icon, hasIcon } from './Icon.jsx';
 
 export function Card({ title, subtitle, action, children, className = '', ...rest }) {
   return (
@@ -40,10 +40,13 @@ export function StatTile(props) {
   );
 }
 
-export function EmptyState({ icon = '📭', title, children, action }) {
+/** `icon` is the name of one of the drawn icons, or a literal glyph. */
+export function EmptyState({ icon = 'plate', title, children, action }) {
   return (
     <div className="empty-state">
-      <span className="empty-state-icon" aria-hidden="true">{icon}</span>
+      <span className="empty-state-icon" aria-hidden="true">
+        {hasIcon(icon) ? <Icon name={icon} size={28} /> : icon}
+      </span>
       {title && <p className="empty-state-title">{title}</p>}
       {children && <p className="empty-state-text">{children}</p>}
       {action}
@@ -81,11 +84,11 @@ export function Progress({ value, max = 100, color }) {
  * browser-native behaviour (long-press, back/forward) that a click handler on
  * a div would throw away.
  */
-export function NavRow({ to, icon, iconTone = 'var(--text)', label, hint, trailing }) {
+export function NavRow({ to, icon, iconTone, label, hint, trailing }) {
   return (
     <Link to={to} className="list-row list-row-tappable">
       {icon && (
-        <span className="menu-icon" style={{ color: iconTone }} aria-hidden="true">
+        <span className="menu-icon" style={iconTone ? { color: iconTone } : undefined} aria-hidden="true">
           {typeof icon === 'string' ? <Icon name={icon} size={19} /> : icon}
         </span>
       )}

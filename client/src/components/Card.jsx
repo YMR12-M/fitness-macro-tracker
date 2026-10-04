@@ -1,3 +1,5 @@
+import { Icon, hasIcon } from './Icon.jsx';
+
 export function Card({ title, subtitle, action, children, className = '', ...rest }) {
   return (
     <section className={`card ${className}`} {...rest}>
@@ -28,10 +30,13 @@ export function Stat({ label, value, unit, delta, deltaTone = 'flat' }) {
   );
 }
 
-export function EmptyState({ icon = '📭', title, children, action }) {
+/** `icon` is the name of one of the drawn icons, or a literal glyph. */
+export function EmptyState({ icon = 'plate', title, children, action }) {
   return (
     <div className="empty-state">
-      <span className="empty-state-icon" aria-hidden="true">{icon}</span>
+      <span className="empty-state-icon" aria-hidden="true">
+        {hasIcon(icon) ? <Icon name={icon} size={28} /> : icon}
+      </span>
       {title && <p className="empty-state-title">{title}</p>}
       {children && <p className="empty-state-text">{children}</p>}
       {action}

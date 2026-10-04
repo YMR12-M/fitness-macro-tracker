@@ -12,7 +12,7 @@ import { useAuth } from '../../auth/auth-context.js';
 import { ChipGroup, SelectField, TextField } from '../../components/ui/Field.jsx';
 import { ErrorBanner } from '../../components/ui/Card.jsx';
 import { Spinner } from '../../components/ui/Spinner.jsx';
-import { BrandMark } from '../../components/BrandMark.jsx';
+import { AuthPoster } from '../../components/AuthPoster.jsx';
 import { Icon } from '../../components/ui/Icon.jsx';
 import { haptic } from '../../lib/haptics.js';
 
@@ -25,9 +25,9 @@ const ACTIVITY_OPTIONS = [
 ];
 
 const GOAL_OPTIONS = [
-  { value: 'cut', label: '🔥 Lose fat', hint: '−500 kcal a day, about 0.5 kg a week' },
-  { value: 'maintain', label: '⚖️ Maintain', hint: 'Eat at your daily energy expenditure' },
-  { value: 'bulk', label: '💪 Build muscle', hint: '+300 kcal a day, a lean surplus' }
+  { value: 'cut', label: 'Lose fat', icon: 'flame', hint: '−500 kcal a day, about 0.5 kg a week' },
+  { value: 'maintain', label: 'Maintain', icon: 'scale', hint: 'Eat at your daily energy expenditure' },
+  { value: 'bulk', label: 'Build muscle', icon: 'train', hint: '+300 kcal a day, a lean surplus' }
 ];
 
 const SEX_OPTIONS = [
@@ -111,178 +111,177 @@ export function RegisterScreen() {
 
   return (
     <main className="auth">
-      <div className="row" style={{ marginBottom: 10 }}>
-        <button type="button" className="appbar-btn" onClick={back} aria-label="Back">
-          <Icon name="back" size={22} />
-        </button>
-      </div>
+      <AuthPoster compact />
 
-      <div className="steps" role="group" aria-label={`Step ${step + 1} of ${STEPS.length}`}>
-        {STEPS.map((_, index) => (
-          <span key={index} className={`steps-bar${index <= step ? ' is-done' : ''}`}>
-            <span className="steps-bar-fill" />
-          </span>
-        ))}
-      </div>
-
-      <div className="auth-brand">
-        <span className="auth-mark">
-          <BrandMark size={30} />
-        </span>
-        <h1 className="auth-title">{current.title}</h1>
-        <p className="auth-subtitle">{current.subtitle}</p>
-      </div>
-
-      <form className="auth-form" onSubmit={handleSubmit} noValidate>
-        {error && <ErrorBanner error={error} />}
-
-        {step === 0 && (
-          <>
-            <TextField
-              label="Name"
-              name="name"
-              autoComplete="name"
-              autoCapitalize="words"
-              required
-              value={form.name}
-              onChange={update('name')}
-              error={fieldError('name')}
-            />
-            <TextField
-              label="Email"
-              type="email"
-              name="email"
-              inputMode="email"
-              autoComplete="email"
-              autoCapitalize="none"
-              autoCorrect="off"
-              spellCheck="false"
-              required
-              value={form.email}
-              onChange={update('email')}
-              error={fieldError('email')}
-              placeholder="you@example.com"
-            />
-            <TextField
-              label="Password"
-              type="password"
-              name="password"
-              autoComplete="new-password"
-              required
-              value={form.password}
-              onChange={update('password')}
-              error={fieldError('password')}
-              hint="At least 8 characters, including a letter and a number."
-            />
-          </>
-        )}
-
-        {step === 1 && (
-          <>
-            <ChipGroup
-              name="sex"
-              label="Sex"
-              value={form.sex}
-              onChange={setField('sex')}
-              options={SEX_OPTIONS}
-              multiline={false}
-            />
-            <TextField
-              label="Date of birth"
-              type="date"
-              value={form.birth_date}
-              onChange={update('birth_date')}
-              error={fieldError('birth_date')}
-            />
-            <div className="field-row">
-              <TextField
-                label="Height (cm)"
-                type="number"
-                inputMode="decimal"
-                step="0.1"
-                min="80"
-                max="260"
-                value={form.height_cm}
-                onChange={update('height_cm')}
-                error={fieldError('height_cm')}
-              />
-              <TextField
-                label="Weight (kg)"
-                type="number"
-                inputMode="decimal"
-                step="0.1"
-                min="25"
-                max="400"
-                value={form.weight_kg}
-                onChange={update('weight_kg')}
-                error={fieldError('weight_kg')}
-              />
-            </div>
-            <p className="field-hint">
-              Your weight is logged as your first entry, so the trend line starts from today. You can skip this and
-              fill it in from Settings later — your targets will just start from a default until you do.
-            </p>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <SelectField
-              label="Activity level"
-              options={ACTIVITY_OPTIONS}
-              value={form.activity_level}
-              onChange={update('activity_level')}
-              error={fieldError('activity_level')}
-            />
-
-            <div className="field">
-              <span className="field-label" id="goal-label">Goal</span>
-              <div className="stack-sm" role="group" aria-labelledby="goal-label">
-                {GOAL_OPTIONS.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    className="actionsheet-item"
-                    aria-pressed={form.goal_type === option.value}
-                    style={
-                      form.goal_type === option.value
-                        ? { borderColor: 'var(--green)', background: 'var(--green-glow)' }
-                        : undefined
-                    }
-                    onClick={() => {
-                      haptic('tap');
-                      setForm((f) => ({ ...f, goal_type: option.value }));
-                    }}
-                  >
-                    <span>
-                      <span className="actionsheet-label">{option.label}</span>
-                      <span className="actionsheet-hint" style={{ display: 'block' }}>{option.hint}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-
-        <div className="auth-actions">
-          <button type="submit" className="btn btn-primary btn-block" disabled={submitting || !canAdvance}>
-            {submitting ? (
-              <Spinner label="Creating account" />
-            ) : step < STEPS.length - 1 ? (
-              'Continue'
-            ) : (
-              'Create account'
-            )}
+      <div className="auth-body">
+        <div className="row" style={{ marginBottom: 10 }}>
+          <button type="button" className="appbar-btn" onClick={back} aria-label="Back">
+            <Icon name="back" size={22} />
           </button>
+        </div>
+
+        <div className="steps" role="group" aria-label={`Step ${step + 1} of ${STEPS.length}`}>
+          {STEPS.map((_, index) => (
+            <span key={index} className={`steps-bar${index <= step ? ' is-done' : ''}`}>
+              <span className="steps-bar-fill" />
+            </span>
+          ))}
+        </div>
+
+        <div className="auth-brand">
+          <h1 className="auth-title">{current.title}</h1>
+          <p className="auth-subtitle">{current.subtitle}</p>
+        </div>
+
+        <form className="auth-form" onSubmit={handleSubmit} noValidate>
+          {error && <ErrorBanner error={error} />}
 
           {step === 0 && (
-            <p className="auth-footer">
-              Already have an account? <Link to="/login">Sign in</Link>
-            </p>
+            <>
+              <TextField
+                label="Name"
+                name="name"
+                autoComplete="name"
+                autoCapitalize="words"
+                required
+                value={form.name}
+                onChange={update('name')}
+                error={fieldError('name')}
+              />
+              <TextField
+                label="Email"
+                type="email"
+                name="email"
+                inputMode="email"
+                autoComplete="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
+                required
+                value={form.email}
+                onChange={update('email')}
+                error={fieldError('email')}
+                placeholder="you@example.com"
+              />
+              <TextField
+                label="Password"
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                required
+                value={form.password}
+                onChange={update('password')}
+                error={fieldError('password')}
+                hint="At least 8 characters, including a letter and a number."
+              />
+            </>
           )}
-        </div>
-      </form>
+
+          {step === 1 && (
+            <>
+              <ChipGroup
+                name="sex"
+                label="Sex"
+                value={form.sex}
+                onChange={setField('sex')}
+                options={SEX_OPTIONS}
+                multiline={false}
+              />
+              <TextField
+                label="Date of birth"
+                type="date"
+                value={form.birth_date}
+                onChange={update('birth_date')}
+                error={fieldError('birth_date')}
+              />
+              <div className="field-row">
+                <TextField
+                  label="Height (cm)"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.1"
+                  min="80"
+                  max="260"
+                  value={form.height_cm}
+                  onChange={update('height_cm')}
+                  error={fieldError('height_cm')}
+                />
+                <TextField
+                  label="Weight (kg)"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.1"
+                  min="25"
+                  max="400"
+                  value={form.weight_kg}
+                  onChange={update('weight_kg')}
+                  error={fieldError('weight_kg')}
+                />
+              </div>
+              <p className="field-hint">
+                Your weight is logged as your first entry, so the trend line starts from today. You can skip this and
+                fill it in from Settings later — your targets will just start from a default until you do.
+              </p>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              <SelectField
+                label="Activity level"
+                options={ACTIVITY_OPTIONS}
+                value={form.activity_level}
+                onChange={update('activity_level')}
+                error={fieldError('activity_level')}
+              />
+
+              <div className="field">
+                <span className="field-label" id="goal-label">Goal</span>
+                <div className="stack-sm" role="group" aria-labelledby="goal-label">
+                  {GOAL_OPTIONS.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      className="actionsheet-item"
+                      aria-pressed={form.goal_type === option.value}
+                      onClick={() => {
+                        haptic('tap');
+                        setForm((f) => ({ ...f, goal_type: option.value }));
+                      }}
+                    >
+                      <span className="actionsheet-icon" aria-hidden="true">
+                        <Icon name={option.icon} size={24} />
+                      </span>
+                      <span>
+                        <span className="actionsheet-label">{option.label}</span>
+                        <span className="actionsheet-hint" style={{ display: 'block' }}>{option.hint}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          <div className="auth-actions">
+            <button type="submit" className="btn btn-primary btn-block" disabled={submitting || !canAdvance}>
+              {submitting ? (
+                <Spinner label="Creating account" />
+              ) : step < STEPS.length - 1 ? (
+                'Continue'
+              ) : (
+                'Create account'
+              )}
+            </button>
+
+            {step === 0 && (
+              <p className="auth-footer">
+                Already have an account? <Link to="/login">Sign in</Link>
+              </p>
+            )}
+          </div>
+        </form>
+      </div>
     </main>
   );
 }

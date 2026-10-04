@@ -2,6 +2,7 @@
 // dismisses, and Tab is trapped inside while it is open.
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { Icon } from './Icon.jsx';
 
 const FOCUSABLE =
   'a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])';
@@ -79,7 +80,7 @@ export function Modal({ open, onClose, title, children, footer }) {
         <header className="modal-header">
           <h2 className="modal-title">{title}</h2>
           <button type="button" className="btn-icon" onClick={onClose} aria-label="Close">
-            ✕
+            <Icon name="close" size={20} />
           </button>
         </header>
         <div className="modal-body">{children}</div>

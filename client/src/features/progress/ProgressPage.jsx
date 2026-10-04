@@ -13,6 +13,7 @@ import { WeightChart } from '../../components/charts/WeightChart.jsx';
 import { MacroHistoryChart } from '../../components/charts/MacroChart.jsx';
 import { CaloriesChart } from '../../components/charts/CaloriesChart.jsx';
 import { formatNumber, formatShortDate, formatSigned, todayISO } from '../../lib/format.js';
+import { Icon } from '../../components/Icon.jsx';
 
 const WINDOWS = [
   { value: 7, label: '7 days' },
@@ -124,7 +125,7 @@ export function ProgressPage() {
 
       <Card title="Weight entries">
         {!trend?.entries?.length ? (
-          <EmptyState icon="⚖️" title="No entries in this window">
+          <EmptyState icon="scale" title="No entries in this window">
             Log your weight regularly — the 7-day average is what shows a real trend.
           </EmptyState>
         ) : (
@@ -146,7 +147,7 @@ export function ProgressPage() {
                   onClick={() => deleteWeight.mutate(entry.id)}
                   disabled={deleteWeight.isPending}
                 >
-                  🗑️
+                  <Icon name="trash" size={18} />
                 </button>
               </div>
             ))}

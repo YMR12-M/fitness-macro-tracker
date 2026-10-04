@@ -8,6 +8,7 @@ import { Spinner } from '../../components/Spinner.jsx';
 import { useToast } from '../../components/toast-context.js';
 import { useMutationWithRefresh } from '../../hooks/useMutationWithRefresh.js';
 import { formatNumber, formatLongDate } from '../../lib/format.js';
+import { Icon } from '../../components/Icon.jsx';
 
 const ICONS = ['🎯', '⚖️', '💪', '🏃', '🔥', '🏋️', '🚴', '🧘', '📏', '⏱️'];
 
@@ -37,7 +38,7 @@ export function GoalsPage() {
     mutationFn: ({ id, patch }) => goalsApi.update(id, patch),
     invalidate,
     onSuccess: ({ goal }) => {
-      toast.success(goal.completed ? `${goal.title} — done! 🎉` : 'Progress updated');
+      toast.success(goal.completed ? `${goal.title} — done!` : 'Progress updated');
       setEditing(null);
     }
   });
@@ -73,18 +74,18 @@ export function GoalsPage() {
         ) : error ? (
           <ErrorBanner error={error} />
         ) : allGoals.length === 0 ? (
-          <EmptyState icon="🎯" title="No goals yet">
+          <EmptyState icon="goals" title="No goals yet">
             Set a target — a body weight, a lift, a distance — and track how far you've come toward it.
           </EmptyState>
         ) : (
           <div className="grid grid-2">
             {allGoals.map((goal) => (
-              <article className="card" key={goal.id} style={{ background: 'var(--card2)' }}>
-                <div className="card-header">
-                  <span style={{ fontSize: 22 }} aria-hidden="true">{goal.icon}</span>
+              <article className="goal-tile" key={goal.id}>
+                <div className="card-header" style={{ marginBottom: 0 }}>
+                  <span className="sticker" aria-hidden="true">{goal.icon}</span>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                    {goal.completed && <span className="badge badge-green">Done</span>}
-                    {goal.overdue && <span className="badge badge-red">Overdue</span>}
+                    {goal.completed && <span className="badge badge-solid">Done</span>}
+                    {goal.overdue && <span className="badge badge-bad">Overdue</span>}
                     <button
                       type="button"
                       className="btn-icon"
@@ -92,7 +93,7 @@ export function GoalsPage() {
                       onClick={() => deleteGoal.mutate(goal.id)}
                       disabled={deleteGoal.isPending}
                     >
-                      🗑️
+                      <Icon name="trash" size={18} />
                     </button>
                   </div>
                 </div>
@@ -105,9 +106,15 @@ export function GoalsPage() {
 
                 <Progress value={goal.progress_percent} max={100} />
 
-                <div className="macro-head" style={{ marginTop: 8 }}>
-                  <span className="macro-amount">
-                    Now {formatNumber(goal.current_value, 1)} {goal.unit} · {goal.progress_percent}%
+                <div className="goal-scale">
+                  <span>{formatNumber(goal.start_value, 1)}</span>
+                  <span>{formatNumber(goal.target_value, 1)} {goal.unit}</span>
+                </div>
+
+                <div className="macro-head">
+                  <span className="row-figure">
+                    <b>{goal.progress_percent}</b>
+                    <small>% · now {formatNumber(goal.current_value, 1)} {goal.unit}</small>
                   </span>
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => setEditing(goal)}>
                     Update
@@ -186,12 +193,12 @@ function GoalModal({ open, onClose, onSubmit, submitting, error }) {
 
       <div className="field">
         <span className="field-label" id="icon-label">Icon</span>
-        <div className="segmented" role="group" aria-labelledby="icon-label">
+        <div className="chips" role="group" aria-labelledby="icon-label">
           {ICONS.map((option) => (
             <button
               key={option}
               type="button"
-              className="segmented-option"
+              className="chip"
               aria-pressed={icon === option}
               aria-label={`Icon ${option}`}
               onClick={() => setIcon(option)}

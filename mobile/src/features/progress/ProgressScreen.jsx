@@ -125,11 +125,12 @@ export function ProgressScreen() {
 
       {!trend?.entries?.length ? (
         <Card>
-          <EmptyState icon="⚖️" title="No entries in this window">
+          <EmptyState icon="scale" title="No entries in this window">
             Log your weight regularly — the 7-day average is what shows a real trend.
           </EmptyState>
         </Card>
       ) : (
+        <Card>
         <div className="list">
           {[...trend.entries].reverse().map((entry) => (
             <SwipeRow
@@ -156,6 +157,7 @@ export function ProgressScreen() {
             </SwipeRow>
           ))}
         </div>
+        </Card>
       )}
 
       {/* Mounted only while open: the form seeds its fields from the latest

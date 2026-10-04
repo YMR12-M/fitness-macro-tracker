@@ -5,14 +5,16 @@ import { formatShortDate } from '../../lib/format.js';
 import { EmptyState } from '../Card.jsx';
 
 /**
- * Body weight over time. The 7-day moving average is drawn alongside the raw
- * readings because day-to-day weight swings on water, not fat — the average is
- * the line that actually shows a trend.
+ * Body weight over time. The 7-day moving average is the heavy accent line and
+ * the raw readings are the thin ink one with hollow square markers, because
+ * day-to-day weight swings on water, not fat — the average is the line that
+ * actually shows a trend, so it is the one that gets the weight.
  */
 export function WeightChart({ entries, movingAverage }) {
   const config = useMemo(() => {
-    const green = token('--green', '#00e5a0');
-    const blue = token('--blue', '#4a9eff');
+    const ink = token('--ink', '#f0eadb');
+    const paper = token('--surface', '#1a1915');
+    const accent = token('--accent', '#ff4b2b');
     const options = baseOptions();
 
     return {
@@ -22,25 +24,27 @@ export function WeightChart({ entries, movingAverage }) {
           {
             label: 'Weight',
             data: entries.map((e) => e.weight_kg),
-            borderColor: green,
-            backgroundColor: `${green}22`,
-            borderWidth: 2,
-            pointRadius: entries.length > 40 ? 0 : 3,
-            pointBackgroundColor: green,
-            fill: true,
-            tension: 0.3
+            borderColor: ink,
+            backgroundColor: paper,
+            borderWidth: 1.5,
+            pointStyle: 'rect',
+            pointRadius: entries.length > 40 ? 0 : 4,
+            pointBorderWidth: 2,
+            pointBorderColor: ink,
+            pointBackgroundColor: paper,
+            fill: false,
+            tension: 0
           },
           ...(movingAverage?.length > 1
             ? [
                 {
                   label: '7-day average',
                   data: movingAverage.map((e) => e.weight_kg),
-                  borderColor: blue,
-                  borderWidth: 2,
-                  borderDash: [5, 4],
+                  borderColor: accent,
+                  borderWidth: 4,
                   pointRadius: 0,
                   fill: false,
-                  tension: 0.35
+                  tension: 0.3
                 }
               ]
             : [])
@@ -58,7 +62,7 @@ export function WeightChart({ entries, movingAverage }) {
   }, [entries, movingAverage]);
 
   if (!entries?.length) {
-    return <EmptyState icon="⚖️" title="No weight entries">Log your weight to start a trend line.</EmptyState>;
+    return <EmptyState icon="scale" title="No weight entries">Log your weight to start a trend line.</EmptyState>;
   }
 
   return (

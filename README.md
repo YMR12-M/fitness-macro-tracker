@@ -175,6 +175,32 @@ in its header. Everything else is written for its own form factor.
 `mobile/README.md` covers the mobile shell, its design tokens and its
 accessibility rules in detail.
 
+## Design
+
+The look is **Paper & Plate**: a training logbook crossed with a nutrition label,
+coloured like the plates on a bar — and deliberately not a dark dashboard with a
+neon accent.
+
+- **Ink on paper.** Chrome is monochrome (ink on bone in the light theme, bone on
+  warm black in the dark one). Sections open with the thick rule a nutrition label
+  uses rather than sitting in rounded translucent cards. No gradients, glows or
+  glass.
+- **Colour means data.** Protein is the red plate, carbs the blue, fat the
+  yellow, water the pale blue — the same hue on every bar, chart and legend.
+- **Numbers first.** Figures and headings are Big Shoulders Display (condensed
+  Chicago signage), text is Libre Franklin. The dashboard's centrepiece is the
+  *dial* — 72 ticks that fill as the day is eaten, with the protein / carbs / fat
+  split inside it. Macros are *plates* loaded on a bar (`components/Plates.jsx`),
+  "over target" is hazard tape, and a logging streak is kept as tally marks.
+- **No emoji in the chrome.** Navigation, actions and empty states use the drawn
+  icon set in `components/Icon.jsx`. Emoji are kept only where they are content —
+  a food's sticker, a goal's badge.
+
+Everything is driven by `styles/tokens.css`, identical in both clients (the phone
+adds its touch-shell tokens below it): change a colour or a typeface there and
+both apps follow. Two themes share every token name — **Iron** (dark, the
+default) and **Paper** (`data-theme="light"`, set from the profile).
+
 ---
 
 Each `server/src/modules/<name>/` folder holds the same four files:

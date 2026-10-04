@@ -8,6 +8,7 @@ import { useDebounced } from '../../hooks/useDebounced.js';
 import { EmptyState } from '../../components/Card.jsx';
 import { Spinner } from '../../components/Spinner.jsx';
 import { formatNumber } from '../../lib/format.js';
+import { Icon } from '../../components/Icon.jsx';
 
 export function FoodSearch({ onSelect }) {
   const [term, setTerm] = useState('');
@@ -54,7 +55,7 @@ export function FoodSearch({ onSelect }) {
       {error && <p className="field-error">{error.message}</p>}
 
       {debouncedTerm && !isFetching && results.length === 0 && (
-        <EmptyState icon="🔍" title="No matches">
+        <EmptyState icon="search" title="No matches">
           Nothing in the catalog matches “{debouncedTerm}”. You can add it as a custom food instead.
         </EmptyState>
       )}
@@ -63,7 +64,7 @@ export function FoodSearch({ onSelect }) {
         <div className="search-results">
           {results.map((food) => (
             <button key={food.id} type="button" className="search-result" onClick={() => onSelect(food)}>
-              <span className="list-row-emoji" aria-hidden="true">{food.emoji ?? '🍽️'}</span>
+              <span className="list-row-emoji" aria-hidden="true">{food.emoji ?? <Icon name="plate" size={20} />}</span>
               <span className="list-row-body">
                 <span className="search-result-name">{food.name}</span>
                 <span className="search-result-macros">
@@ -75,7 +76,7 @@ export function FoodSearch({ onSelect }) {
                   {food.brand ? ` · ${food.brand}` : ''}
                 </span>
               </span>
-              <span className={`badge ${food.source === 'custom' ? 'badge-blue' : ''}`}>
+              <span className={`badge ${food.source === 'custom' ? 'badge-info' : ''}`}>
                 {food.source === 'custom' ? 'Yours' : 'USDA'}
               </span>
             </button>

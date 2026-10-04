@@ -3,6 +3,7 @@
 // that matches its tone — a phone confirms by feel as well as by sight.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ToastContext } from './toast-context.js';
+import { Icon } from './Icon.jsx';
 import { haptic } from '../../lib/haptics.js';
 
 const DISMISS_AFTER_MS = 3200;
@@ -65,7 +66,7 @@ export function ToastProvider({ children }) {
             // of the way without waiting.
             onClick={() => dismiss(toast.id)}
           >
-            <span aria-hidden="true">{toast.tone === 'error' ? '⚠️' : toast.tone === 'info' ? 'ℹ️' : '✅'}</span>
+            <Icon name={toast.tone === 'error' ? 'warn' : toast.tone === 'info' ? 'info' : 'check'} size={22} />
             <span>{toast.message}</span>
           </button>
         ))}

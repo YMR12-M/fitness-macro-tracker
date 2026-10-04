@@ -51,11 +51,10 @@ export function MoreScreen() {
 
       <p className="screen-section-title">Plan</p>
       <div className="list">
-        <NavRow to="/goals" icon="target" iconTone="var(--green)" label="Goals" hint="Targets and how far you've come" />
+        <NavRow to="/goals" icon="goals" label="Goals" hint="Targets and how far you've come" />
         <NavRow
           to="/calculator"
           icon="calculator"
-          iconTone="var(--blue)"
           label="TDEE calculator"
           hint="Recompute your energy and macro targets"
         />
@@ -66,14 +65,13 @@ export function MoreScreen() {
         <NavRow
           to="/settings"
           icon="settings"
-          iconTone="var(--text2)"
           label="Settings"
           hint="Profile, targets, appearance"
         />
 
         <a className="list-row list-row-tappable" href={usersApi.exportUrl()} download>
-          <span className="menu-icon" style={{ color: 'var(--text2)' }} aria-hidden="true">
-            <Icon name="download" size={19} />
+          <span className="menu-icon" aria-hidden="true">
+            <Icon name="download" size={20} />
           </span>
           <span className="list-row-body">
             <span className="list-row-title">Export my data</span>
@@ -83,8 +81,8 @@ export function MoreScreen() {
         </a>
 
         <button type="button" className="list-row list-row-tappable" onClick={logout}>
-          <span className="menu-icon" style={{ color: 'var(--red)' }} aria-hidden="true">
-            <Icon name="logout" size={19} />
+          <span className="menu-icon" style={{ color: 'var(--bad)', borderColor: 'var(--bad)' }} aria-hidden="true">
+            <Icon name="logout" size={20} />
           </span>
           <span className="list-row-body">
             <span className="list-row-title">Sign out</span>
@@ -96,10 +94,10 @@ export function MoreScreen() {
       <Card className="card-flush">
         <div
           className="empty-state"
-          style={{ paddingTop: 10, paddingBottom: 0, color: 'var(--text3)', gap: 6 }}
+          style={{ paddingTop: 10, paddingBottom: 0, color: 'var(--ink-2)', gap: 6, border: 0 }}
         >
-          <span style={{ color: 'var(--green)' }}>
-            <BrandMark size={26} />
+          <span style={{ color: 'var(--ink)' }}>
+            <BrandMark size={34} tone="plates" />
           </span>
           <p style={{ fontSize: 12 }}>FitTrack Pro — mobile</p>
           <p style={{ fontSize: 11 }}>

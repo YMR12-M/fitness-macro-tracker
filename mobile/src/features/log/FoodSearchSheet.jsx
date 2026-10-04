@@ -17,6 +17,7 @@ import { Sheet } from '../../components/ui/Sheet.jsx';
 import { Spinner } from '../../components/ui/Spinner.jsx';
 import { SkeletonList } from '../../components/ui/Skeleton.jsx';
 import { formatNumber } from '../../lib/format.js';
+import { Icon } from '../../components/ui/Icon.jsx';
 
 export function FoodSearchSheet({ open, onClose, onSelect, onCreateCustom }) {
   const [term, setTerm] = useState('');
@@ -91,7 +92,7 @@ export function FoodSearchSheet({ open, onClose, onSelect, onCreateCustom }) {
       {error && <p className="field-error">{error.message}</p>}
 
       {!debouncedTerm && (
-        <EmptyState icon="🔍" title="Search the catalog">
+        <EmptyState icon="search" title="Search the catalog">
           Start typing and results appear as you go — from your own foods first, then USDA FoodData Central.
         </EmptyState>
       )}
@@ -99,7 +100,7 @@ export function FoodSearchSheet({ open, onClose, onSelect, onCreateCustom }) {
       {searching && results.length === 0 && <SkeletonList count={5} />}
 
       {debouncedTerm && !searching && results.length === 0 && (
-        <EmptyState icon="🔍" title="No matches">
+        <EmptyState icon="search" title="No matches">
           Nothing matches “{debouncedTerm}”. You can add it as a custom food instead.
         </EmptyState>
       )}
@@ -113,7 +114,7 @@ export function FoodSearchSheet({ open, onClose, onSelect, onCreateCustom }) {
               className="list-row list-row-tappable"
               onClick={() => onSelect(food)}
             >
-              <span className="list-row-emoji" aria-hidden="true">{food.emoji ?? '🍽️'}</span>
+              <span className="list-row-emoji" aria-hidden="true">{food.emoji ?? <Icon name="plate" size={20} />}</span>
               <span className="list-row-body">
                 <span className="search-result-name">{food.name}</span>
                 <span className="search-result-macros">
@@ -124,7 +125,7 @@ export function FoodSearchSheet({ open, onClose, onSelect, onCreateCustom }) {
                   {food.brand ? ` · ${food.brand}` : ''}
                 </span>
               </span>
-              <span className={`badge ${food.source === 'custom' ? 'badge-blue' : ''}`}>
+              <span className={`badge ${food.source === 'custom' ? 'badge-info' : ''}`}>
                 {food.source === 'custom' ? 'Yours' : 'USDA'}
               </span>
             </button>
